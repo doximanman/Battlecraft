@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 
@@ -67,11 +68,11 @@ public class PlayerControl : MonoBehaviour
         {
 
             // check if collision is from below - if so, enable jump
-            ContactPoint2D collisionPoint = collision.GetContact(0);
+            var collisionNormal = collision.GetContact(0).normal;
 
             // dot product of collision normal and (0,1) returns 1 if collision normal
             // has a "up" component.
-            if (Vector2.Dot(collisionPoint.normal, Vector2.up) > 0.5)
+            if (collisionNormal.y>0)
             {
                 EnableJump();
             }
