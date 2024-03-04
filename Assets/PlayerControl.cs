@@ -26,6 +26,17 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+
+            EnableJump();
+
+
+        }
+    }
+
     public void MoveRight()
     {
         playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
@@ -45,11 +56,12 @@ public class PlayerControl : MonoBehaviour
 
     public void Jump()
     {
-        if (allowJump) {
-            playerBody.AddForce(jumpStrength * Vector2.up,ForceMode2D.Impulse);
+        if (allowJump)
+        {
+            playerBody.AddForce(jumpStrength * Vector2.up, ForceMode2D.Impulse);
             DisableJump();
         }
-        
+
     }
 
     public void EnableJump()
@@ -62,23 +74,6 @@ public class PlayerControl : MonoBehaviour
         allowJump = false;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
 
-            // check if collision is from below - if so, enable jump
-            var collisionNormal = collision.GetContact(0).normal;
-
-            // dot product of collision normal and (0,1) returns 1 if collision normal
-            // has a "up" component.
-            if (collisionNormal.y>0)
-            {
-                EnableJump();
-            }
-
-            
-        }
-    }
 
 }
