@@ -14,7 +14,6 @@ public class PlayerControl : MonoBehaviour
     public bool allowJump = true;
 
 
-
     // Start is called before the first frame update
     void Start()
     { 
@@ -24,7 +23,6 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)

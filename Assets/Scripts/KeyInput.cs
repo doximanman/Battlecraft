@@ -12,9 +12,13 @@ public class KeyInput : MonoBehaviour
     public List<KeyCode> moveLeft = new List<KeyCode>();
     public List<KeyCode> jump = new List<KeyCode>();
 
+    private bool keysDisabled = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        player= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+
         moveRight.Add(KeyCode.D);
         moveRight.Add(KeyCode.RightArrow);
         moveLeft.Add(KeyCode.A);
@@ -25,6 +29,8 @@ public class KeyInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(keysDisabled) return;
+
         if (AnyKeyIsPressed(moveRight)) 
         {
             player.MoveRight();
@@ -42,6 +48,16 @@ public class KeyInput : MonoBehaviour
         {
             player.Jump();
         }
+    }
+
+    public void disableKeys()
+    {
+        keysDisabled = true;
+    }
+
+    public void enableKeys()
+    {
+        keysDisabled = false;
     }
 
     private bool AnyKeyIsPressed(List<KeyCode> keys)
