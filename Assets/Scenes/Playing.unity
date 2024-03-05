@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 1826195898}
-  smoothTime: 0.01
+  smoothTime: 0
 --- !u!1001 &754536188
 PrefabInstance:
   m_ObjectHideFlags: 0
