@@ -18,8 +18,8 @@ public class PlayerControl : MonoBehaviour
     private BoxCollider2D playerCollider;
     private float previousYVelocity;
     private float epsilon = 0.01f;
-    private float originalGravityScale=0;
-    
+    private float originalGravityScale = 0;
+
 
 
     // Start is called before the first frame update
@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour
         playerBody = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
-        originalGravityScale= playerBody.gravityScale; 
+        originalGravityScale = playerBody.gravityScale;
 
         playerBody.freezeRotation = true;
         previousYVelocity = playerBody.velocity.y;
@@ -49,26 +49,15 @@ public class PlayerControl : MonoBehaviour
 
     public void MoveRight()
     {
-        //playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
 
-        if (playerBody.velocity.x < velocity)
-        {
-            float difference = velocity - playerBody.velocity.x;
-            playerBody.AddForce(difference * Vector2.right, ForceMode2D.Impulse);
-        }
+        playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
 
         playerSprite.flipX = false;
     }
 
     public void MoveLeft()
     {
-        //playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.left;
-
-        if (playerBody.velocity.x > -velocity)
-        {
-            float difference = velocity + playerBody.velocity.x;
-            playerBody.AddForce(difference * Vector2.left, ForceMode2D.Impulse);
-        }
+        playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.left;
 
         playerSprite.flipX = true;
     }
@@ -105,19 +94,28 @@ public class PlayerControl : MonoBehaviour
         Vector2 boxPosition = new(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
         Vector2 boxSize = new(playerCollider.size.x * playerBody.transform.lossyScale.x, collisionDetection);
 
-        var Colliders=Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
+        var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
 
         return Colliders.Any(collider => collider.CompareTag("Ground"));
     }
 
     private void OnDrawGizmos()
     {
-        if(playerCollider == null ) return;
+        if (playerCollider == null) return;
         Vector2 boxPosition = new(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
-        Vector2 boxSize = new(playerCollider.size.x*playerBody.transform.lossyScale.x, collisionDetection);
+        Vector2 boxSize = new(playerCollider.size.x * playerBody.transform.lossyScale.x, collisionDetection);
 
-        Gizmos.color= Color.yellow;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawCube(boxPosition, boxSize);
+
+
+        Vector2 newVelocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
+        if (Mathf.Abs(playerBody.velocity.y) < epsilon) newVelocity = velocity * Vector2.right;
+        Vector2 centerBottom = new Vector2(playerCollider.bounds.max.x, playerCollider.bounds.min.y);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(centerBottom, newVelocity.normalized*epsilon*10);
     }
+
 
 }
