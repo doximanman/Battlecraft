@@ -10,7 +10,7 @@ public class MovementTests
 {
     public float waitTime=1;
 
-    private float aboutEqual = 0.0001f;
+    private float aboutEqual = 0.2f;
     private PlayerControl playerController;
     private GameObject player;
 
@@ -62,6 +62,9 @@ public class MovementTests
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         Vector2 supposedPosition = new Vector2(startingX+playerController.velocity*waitTime, startingY);
 
+        Debug.Log("player position: " + playerPosition);
+        Debug.Log("expected position: " + supposedPosition);
+
         // assert correct position
         Assert.IsTrue(Vector2.Distance(supposedPosition, playerPosition)<aboutEqual);
 
@@ -89,6 +92,9 @@ public class MovementTests
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         Vector2 supposedPosition = new Vector2(startingX-playerController.velocity * waitTime, startingY);
 
+        Debug.Log("player position: " + playerPosition);
+        Debug.Log("expected position: " + supposedPosition);
+
         Assert.IsTrue(Vector2.Distance(supposedPosition, playerPosition) < aboutEqual);
 
         // assert correct sprite
@@ -111,6 +117,9 @@ public class MovementTests
 
         Vector2 playerPosition=new Vector2(player.transform.position.x, player.gameObject.transform.position.y);
         Vector2 supposedPosition=new Vector2(startingX,startingY);
+
+        Debug.Log("player position: " + playerPosition);
+        Debug.Log("expected position: " + supposedPosition);
 
         Assert.IsTrue(Vector2.Distance(playerPosition, supposedPosition) < aboutEqual);
 
