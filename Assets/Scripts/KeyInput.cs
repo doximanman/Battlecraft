@@ -13,7 +13,6 @@ public class KeyInput : MonoBehaviour
     public List<KeyCode> jump = new List<KeyCode>();
 
     private bool keysDisabled = false;
-    private bool toggle = true;
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +28,6 @@ public class KeyInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!toggle)
-        {
-            toggle = true;
-            return;
-        }
 
         if (keysDisabled) return;
 
@@ -54,8 +48,6 @@ public class KeyInput : MonoBehaviour
         {
             player.Jump();
         }
-
-        toggle = false;
     }
 
 
