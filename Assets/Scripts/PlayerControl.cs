@@ -11,7 +11,9 @@ public class PlayerControl : MonoBehaviour
     public float velocity = 10;
     public float jumpHeight = 10;
     public float jumpDuration = 1f;
+    public float leniency = 0.05f;
 
+    private Logic logic;
     private GameObject player;
     private Rigidbody2D playerBody;
     private SpriteRenderer playerSprite;
@@ -30,6 +32,7 @@ public class PlayerControl : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
         originalGravityScale = playerBody.gravityScale;
+        logic=GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
         playerBody.freezeRotation = true;
         previousYVelocity = playerBody.velocity.y;
@@ -88,22 +91,34 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    private Vector2 BoxPosition()
+    {
+        return new(playerCollider.bounds.center.x, playerCollider.bounds.min.y - collisionDetection / 2);
+    }
+
+    private Vector2 BoxSize()
+    {
+        return new(playerCollider.size.x * playerBody.transform.lossyScale.x-2*leniency, collisionDetection);
+    }
+
     public bool IsGrounded()
     {
         // create a box to see if there is ground below the player.
-        Vector2 boxPosition = new(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
-        Vector2 boxSize = new(playerCollider.size.x * playerBody.transform.lossyScale.x, collisionDetection);
+        Vector2 boxPosition = BoxPosition();
+        Vector2 boxSize = BoxSize();
 
         var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
 
-        return Colliders.Any(collider => collider.CompareTag("Ground"));
+        return Colliders.Any(collider => logic.canJumpOn(collider.tag));
     }
+
+
 
     private void OnDrawGizmos()
     {
         if (playerCollider == null) return;
-        Vector2 boxPosition = new(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
-        Vector2 boxSize = new(playerCollider.size.x * playerBody.transform.lossyScale.x, collisionDetection);
+        Vector2 boxPosition = BoxPosition();
+        Vector2 boxSize = BoxSize() ;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(boxPosition, boxSize);
