@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Keys
   - Logic
+  - Obsticles
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1784456227
+    locked: 0
+  - name: Player
+    uniqueID: 3066587565
+    locked: 0
+  - name: Entity
+    uniqueID: 1765435647
+    locked: 0
+  - name: Environment
+    uniqueID: 1030804897
+    locked: 0
+  - name: Background
+    uniqueID: 1511872187
     locked: 0
