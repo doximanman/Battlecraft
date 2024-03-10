@@ -7,7 +7,7 @@ public class Logic : MonoBehaviour
     private float maxX;
     private float maxY;
 
-    private List<string> canJumpFrom=new List<string>();
+    public List<string> canJumpFrom=new List<string>();
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +25,22 @@ public class Logic : MonoBehaviour
 
     }
 
+    // preferably use canJumpOn(collider)
     public bool canJumpOn(string tag)
     {
         return canJumpFrom.Contains(tag);
+    }
+
+    public bool canJumpOn(Collider2D collider)
+    {
+        return canJumpFrom.Contains(collider.tag) || canJumpOn(collider.transform.parent);
+    }
+
+    private bool canJumpOn(Transform transform)
+    {
+        if (transform == null) return false;
+
+        return canJumpFrom.Contains(transform.tag) || canJumpOn(transform.parent);
     }
 
     public float GetMaxX()
