@@ -109,7 +109,9 @@ public class PlayerControl : MonoBehaviour
 
         var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
 
-        return Colliders.Any(collider => logic.canJumpOn(collider.tag));
+        
+
+        return Colliders.Any(collider => logic.canJumpOn(collider));
     }
 
 

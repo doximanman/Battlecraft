@@ -9,6 +9,11 @@ TagManager:
   - Keys
   - Logic
   - Obsticles
+  - Interactable
+  - Tree
+  - OrangeBush
+  - Lavendar
+  - Rock
   layers:
   - Default
   - TransparentFX
