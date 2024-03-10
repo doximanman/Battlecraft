@@ -4,17 +4,39 @@ using UnityEngine;
 
 public class Logic : MonoBehaviour
 {
-    private float maxX;
-    private float maxY;
+    // constant variables for biome names
+    // so that if someone needs a biome's name
+    // they don't have to use a hardcoded string
+    public const string plainsBiome = "plains";
+    public const string iceBiome = "ice";
+    public const string desertBiome = "desert";
 
-    public List<string> canJumpFrom=new List<string>();
+    private string startBiome=plainsBiome;
+    private float maxX=135;
+    private float maxY=3.5f;
+    private List<string> canJumpFrom=new();
+
+    // biome change event - game objects can listen to.
+    private List<IBiomeListener> biomeListeners= new();
+
+
+    private string biome;
+    public string Biome { get
+        {
+            return biome;
+        } set
+        {
+            biome = value;
+            foreach(var listener in biomeListeners)
+            {
+                listener.OnBiomeChange(biome);
+            }
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        maxX = 135;
-        maxY = 3.5f;
-
         canJumpFrom.Add("Ground");
         canJumpFrom.Add("Obsticles");
     }
@@ -23,6 +45,11 @@ public class Logic : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void registerBiomeListener(IBiomeListener listener)
+    {
+        biomeListeners.Add(listener);
     }
 
     // preferably use canJumpOn(collider)
@@ -51,5 +78,10 @@ public class Logic : MonoBehaviour
     public float GetMaxY()
     {
         return maxY;
+    }
+
+    public string GetStartBiome()
+    {
+        return startBiome;
     }
 }
