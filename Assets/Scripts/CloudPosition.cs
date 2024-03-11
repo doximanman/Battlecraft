@@ -13,18 +13,19 @@ public class CloudPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // get logic for maximum x position to know where to place
-        // cloud particle start point
-        logic=GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
-
+        // where to place
+        // cloud particle start point and how far the clouds
+        // need to travel
         float yPos=Camera.main.ViewportToWorldPoint(new Vector3(0, yOffset, 0)).y;
-        transform.position = new Vector3(logic.GetMaxX() + 10,yPos,zOffset);
+        transform.position = new Vector3(Logic.maxX + 10,yPos,zOffset);
 
         // set startLifetime such that the clouds appear
         // all over the map.
         ParticleSystem particles=GetComponent<ParticleSystem>();
         particleControl = particles.main;
-        particleControl.startLifetime = 10 * logic.GetMaxX();
+
+        float xBounds = Logic.maxX - Logic.minX;
+        particleControl.startLifetime = 10 * xBounds;
 
         // 'prewarm' so clouds already appear everywhere.
         particles.Simulate(particleControl.duration);

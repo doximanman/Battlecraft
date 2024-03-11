@@ -11,23 +11,31 @@ public class Logic : MonoBehaviour
     public const string iceBiome = "ice";
     public const string desertBiome = "desert";
 
-    private string startBiome=plainsBiome;
-    private float maxX=135;
-    private float maxY=3.5f;
-    private List<string> canJumpFrom=new();
+    // map bounds
+    public const float minX = -470;
+    public const float minY = -20;
+    public const float maxX = 470;
+    public const float maxY = 20;
+
+    private string startBiome = plainsBiome;
+
+    private List<string> canJumpFrom = new();
 
     // biome change event - game objects can listen to.
-    private List<IBiomeListener> biomeListeners= new();
+    private List<IBiomeListener> biomeListeners = new();
 
 
     private string biome;
-    public string Biome { get
+    public string Biome
+    {
+        get
         {
             return biome;
-        } set
+        }
+        set
         {
             biome = value;
-            foreach(var listener in biomeListeners)
+            foreach (var listener in biomeListeners)
             {
                 listener.OnBiomeChange(biome);
             }
@@ -68,16 +76,6 @@ public class Logic : MonoBehaviour
         if (transform == null) return false;
 
         return canJumpFrom.Contains(transform.tag) || canJumpOn(transform.parent);
-    }
-
-    public float GetMaxX()
-    {
-        return maxX;
-    }
-
-    public float GetMaxY()
-    {
-        return maxY;
     }
 
     public string GetStartBiome()
