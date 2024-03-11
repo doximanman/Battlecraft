@@ -14,6 +14,8 @@ TagManager:
   - OrangeBush
   - Lavendar
   - Rock
+  - PlainsToDesert
+  - IceToPlains
   layers:
   - Default
   - TransparentFX
@@ -60,9 +62,9 @@ TagManager:
   - name: Entity
     uniqueID: 1765435647
     locked: 0
-  - name: Environment
-    uniqueID: 1030804897
-    locked: 0
   - name: Background
     uniqueID: 1511872187
+    locked: 0
+  - name: Environment
+    uniqueID: 1030804897
     locked: 0
