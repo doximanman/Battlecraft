@@ -9,9 +9,9 @@ public class CloudLogic : MonoBehaviour, IBiomeListener
     public Material desertClouds;
 
 
-    Logic logic;
-    ParticleSystem particles;
-    ParticleSystemRenderer particleRenderer;
+    private Logic logic;
+    private ParticleSystem particles;
+    private ParticleSystemRenderer particleRenderer;
 
 
     // Start is called before the first frame update
