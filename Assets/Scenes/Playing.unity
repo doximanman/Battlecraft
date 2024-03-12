@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree3 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.71
@@ -187,6 +191,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -203,6 +211,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -255,6 +267,10 @@ PrefabInstance:
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -324,6 +340,14 @@ PrefabInstance:
     - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
       propertyPath: m_Name
       value: IceTree1 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -395,8 +419,20 @@ PrefabInstance:
       value: rock1
       objectReference: {fileID: 0}
     - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960714201304265382, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445550936966900281, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -476,6 +512,14 @@ PrefabInstance:
     - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
       propertyPath: m_Name
       value: IceTree1 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -636,6 +680,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -705,6 +757,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -721,6 +781,10 @@ PrefabInstance:
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_Name
       value: OrangeBush (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
@@ -777,6 +841,10 @@ PrefabInstance:
     - target: {fileID: 1246952772474141311, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -848,9 +916,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3941153045833692208, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8243483595966883843, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
       propertyPath: m_Name
       value: IceTree2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243483595966883843, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -905,9 +981,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2184215746797950238, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
       propertyPath: m_Name
       value: Lavendar (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -979,9 +1063,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3941153045833692208, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8243483595966883843, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
       propertyPath: m_Name
       value: IceTree2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243483595966883843, guid: 2a88384e9503aab47b68c9cbcfe7d697, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1002,7 +1094,7 @@ GameObject:
   - component: {fileID: 270350058}
   - component: {fileID: 270350057}
   - component: {fileID: 270350056}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -106715,6 +106807,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -106751,6 +106851,10 @@ PrefabInstance:
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_Name
       value: OrangeBush
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
@@ -106815,6 +106919,10 @@ PrefabInstance:
     - target: {fileID: 2680888808075054399, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -106881,9 +106989,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2184215746797950238, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
       propertyPath: m_Name
       value: Lavendar (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -106954,6 +107070,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -107023,9 +107147,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3303687569712648582, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
       propertyPath: m_Name
       value: PlainsTree2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107096,9 +107228,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3303687569712648582, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
       propertyPath: m_Name
       value: PlainsTree2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107121,6 +107261,10 @@ PrefabInstance:
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_Name
       value: OrangeBush (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
@@ -107166,6 +107310,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -107189,7 +107337,9 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
-  m_Layer: 0
+  - component: {fileID: 519420036}
+  - component: {fileID: 519420035}
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -107298,6 +107448,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17db217b5bbf9a14ba5d5bd3f7b0f41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 519420032}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: d54625ff00244ed4695f892317b750b2, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1001 &529529637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107362,6 +107589,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -107425,8 +107660,20 @@ PrefabInstance:
       value: rock1 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960714201304265382, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445550936966900281, guid: 1409062752bb7bc41b91280be6059464, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107449,6 +107696,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -107501,6 +107752,10 @@ PrefabInstance:
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107555,7 +107810,7 @@ Transform:
   m_GameObject: {fileID: 694395918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.837525, y: 1.3207631, z: 0.1664433}
+  m_LocalPosition: {x: -0.27, y: 0.43, z: 0.1664433}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -107572,6 +107827,10 @@ PrefabInstance:
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_Name
       value: OrangeBush (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
@@ -107628,6 +107887,10 @@ PrefabInstance:
     - target: {fileID: 1246952772474141311, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107697,6 +107960,14 @@ PrefabInstance:
     - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
       propertyPath: m_Name
       value: IceTree1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107768,8 +108039,20 @@ PrefabInstance:
       value: rock2 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852529124184428, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645071968260487647, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107898,6 +108181,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -107943,6 +108230,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -107996,6 +108287,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -108012,6 +108307,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -108064,6 +108363,10 @@ PrefabInstance:
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -108121,6 +108424,14 @@ PrefabInstance:
     - target: {fileID: 1559301817047918850, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
       propertyPath: m_Name
       value: PlainsTree (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559301817047918850, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739816030886584046, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -108301,6 +108612,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -108370,6 +108689,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -108386,6 +108713,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -108439,6 +108770,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -108460,6 +108795,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -108513,6 +108852,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -108532,7 +108875,7 @@ GameObject:
   - component: {fileID: 1052102235}
   - component: {fileID: 1052102234}
   - component: {fileID: 1052102233}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Environment
   m_TagString: Obsticles
   m_Icon: {fileID: 0}
@@ -109306,6 +109649,10 @@ PrefabInstance:
       value: OrangeBush (1)
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
       value: OrangeBush
       objectReference: {fileID: 0}
@@ -109361,11 +109708,59 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -43.94
       objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1fef388651676847a6f4808760d9463, type: 3}
+--- !u!1 &1114827181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1114827183}
+  - component: {fileID: 1114827182}
+  m_Layer: 0
+  m_Name: MetaLogic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1114827182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114827181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce69c214a8f39b4b97c264eb6d487de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1114827183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114827181}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.207813, y: 2.2597885, z: 0.03321008}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1115645258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109419,8 +109814,20 @@ PrefabInstance:
       value: rock2 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852529124184428, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645071968260487647, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109490,6 +109897,14 @@ PrefabInstance:
     - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
       propertyPath: m_Name
       value: IceTree1 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109575,8 +109990,20 @@ PrefabInstance:
       value: rock2
       objectReference: {fileID: 0}
     - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852529124184428, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645071968260487647, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109652,9 +110079,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2184215746797950238, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
       propertyPath: m_Name
       value: Lavendar (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109726,8 +110161,20 @@ PrefabInstance:
       value: rock2 (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745594893582275835, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
       propertyPath: m_TagString
       value: Obsticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852529124184428, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645071968260487647, guid: 078200c0e55dbf246882e35634e4f834, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109808,6 +110255,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -109880,6 +110335,14 @@ PrefabInstance:
     - target: {fileID: 1559301817047918850, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
       propertyPath: m_Name
       value: PlainsTree
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559301817047918850, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739816030886584046, guid: bca0689b8d772dd4e8a644ecaaa97f80, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -109955,6 +110418,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -109973,7 +110444,7 @@ GameObject:
   - component: {fileID: 1323613202}
   - component: {fileID: 1323613201}
   - component: {fileID: 1323613205}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114844,6 +115315,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree3
       objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.03
@@ -114896,6 +115371,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -114920,7 +115399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446709799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Obsticles
   m_TagString: Obsticles
   m_Icon: {fileID: 0}
@@ -114996,9 +115475,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2184215746797950238, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
       propertyPath: m_Name
       value: Lavendar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -115084,6 +115571,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115158,6 +115653,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115179,7 +115682,7 @@ GameObject:
   - component: {fileID: 1662462443}
   - component: {fileID: 1662462445}
   - component: {fileID: 1662462444}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118362,6 +118865,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree3 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.24
@@ -118414,6 +118921,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -118440,6 +118951,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -118492,6 +119007,10 @@ PrefabInstance:
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -118577,9 +119096,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3303687569712648582, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
       propertyPath: m_Name
       value: PlainsTree2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634683479792034337, guid: 20d4d924b43592f4b871016cc52483d8, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -118650,6 +119177,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -118667,7 +119202,7 @@ GameObject:
   - component: {fileID: 1825681141}
   - component: {fileID: 1825681143}
   - component: {fileID: 1825681144}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118849,6 +119384,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -118986,6 +119529,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119002,6 +119553,10 @@ PrefabInstance:
     - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_Name
       value: IceTree3 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798497566188851788, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
       propertyPath: m_LocalScale.x
@@ -119055,6 +119610,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9195395597616776494, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119069,7 +119628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961973118}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Interactable
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -119199,9 +119758,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2184215746797950238, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
       propertyPath: m_Name
       value: Lavendar (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482472934748658060, guid: e2f362d97a99bac4fac360fc1e1df9d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -119229,6 +119796,10 @@ PrefabInstance:
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_Name
       value: OrangeBush (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 905032812653085415, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_TagString
@@ -119286,6 +119857,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6287273347857051505, guid: d1fef388651676847a6f4808760d9463, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119301,7 +119876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2070480199}
   - component: {fileID: 2070480198}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119412,6 +119987,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceTree1 (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 6707766908965476898, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7302973635677507367, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119430,6 +120013,7 @@ SceneRoots:
   - {fileID: 1895087784}
   - {fileID: 1323613204}
   - {fileID: 694395920}
+  - {fileID: 1114827183}
   - {fileID: 2070480199}
   - {fileID: 519420032}
   - {fileID: 1961973118}
