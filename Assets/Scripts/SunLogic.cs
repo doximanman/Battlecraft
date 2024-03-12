@@ -15,7 +15,7 @@ public class SunLogic : MonoBehaviour, IBiomeListener
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
-        logic.registerBiomeListener(this);
+        logic.RegisterBiomeListener(this);
     }
 
     // Update is called once per frame

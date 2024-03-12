@@ -19,7 +19,7 @@ public class CameraLogic : MonoBehaviour, IBiomeListener
         thisCamera = GetComponent<Camera>();
 
         // register to biome change
-        logic.registerBiomeListener(this);
+        logic.RegisterBiomeListener(this);
 
         // start biome
         OnBiomeChange(logic.GetStartBiome());

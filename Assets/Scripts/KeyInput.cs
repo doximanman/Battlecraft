@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class KeyInput : MonoBehaviour
@@ -11,6 +12,8 @@ public class KeyInput : MonoBehaviour
     public List<KeyCode> moveRight = new List<KeyCode>();
     public List<KeyCode> moveLeft = new List<KeyCode>();
     public List<KeyCode> jump = new List<KeyCode>();
+
+    public const KeyCode pause = KeyCode.Escape;
 
     private bool keysDisabled = false;
 
@@ -26,8 +29,19 @@ public class KeyInput : MonoBehaviour
         jump.Add(KeyCode.Space);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (Input.GetKeyDown(pause))
+        {
+            if(MetaLogic.paused)
+                MetaLogic.Unpause();
+            else
+                MetaLogic.Pause();
+            return;
+        }
+
+        if (MetaLogic.paused) return;
+
 
         if (keysDisabled) return;
 
