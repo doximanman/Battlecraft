@@ -111,7 +111,7 @@ public class PlayerControl : MonoBehaviour
 
         
 
-        return Colliders.Any(collider => logic.canJumpOn(collider));
+        return Colliders.Any(collider => logic.CanJumpOn(collider));
     }
 
 

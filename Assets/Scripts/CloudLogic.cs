@@ -19,7 +19,7 @@ public class CloudLogic : MonoBehaviour, IBiomeListener
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
-        logic.registerBiomeListener(this);
+        logic.RegisterBiomeListener(this);
 
         particles=GetComponent<ParticleSystem>();
         particleRenderer = particles.GetComponent<ParticleSystemRenderer>();

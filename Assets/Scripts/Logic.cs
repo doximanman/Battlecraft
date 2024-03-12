@@ -19,10 +19,10 @@ public class Logic : MonoBehaviour
 
     private string startBiome = plainsBiome;
 
-    private List<string> canJumpFrom = new();
+    private readonly List<string> canJumpFrom = new();
 
     // biome change event - game objects can listen to.
-    private List<IBiomeListener> biomeListeners = new();
+    private readonly List<IBiomeListener> biomeListeners = new();
 
 
     private string biome;
@@ -55,31 +55,33 @@ public class Logic : MonoBehaviour
 
     }
 
-    public void registerBiomeListener(IBiomeListener listener)
+    public void RegisterBiomeListener(IBiomeListener listener)
     {
         biomeListeners.Add(listener);
     }
 
     // preferably use canJumpOn(collider)
-    public bool canJumpOn(string tag)
+    public bool CanJumpOn(string tag)
     {
         return canJumpFrom.Contains(tag);
     }
 
-    public bool canJumpOn(Collider2D collider)
+    public bool CanJumpOn(Collider2D collider)
     {
-        return canJumpFrom.Contains(collider.tag) || canJumpOn(collider.transform.parent);
+        return canJumpFrom.Contains(collider.tag) || CanJumpOn(collider.transform.parent);
     }
 
-    private bool canJumpOn(Transform transform)
+    private bool CanJumpOn(Transform transform)
     {
         if (transform == null) return false;
 
-        return canJumpFrom.Contains(transform.tag) || canJumpOn(transform.parent);
+        return canJumpFrom.Contains(transform.tag) || CanJumpOn(transform.parent);
     }
 
     public string GetStartBiome()
     {
         return startBiome;
     }
+
+
 }
