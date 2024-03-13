@@ -9,11 +9,13 @@ public class KeyInput : MonoBehaviour
     public PlayerControl player;
 
 
-    public List<KeyCode> moveRight = new List<KeyCode>();
-    public List<KeyCode> moveLeft = new List<KeyCode>();
-    public List<KeyCode> jump = new List<KeyCode>();
+    public readonly List<KeyCode> moveRight = new();
+    public readonly List<KeyCode> moveLeft = new();
+    public readonly List<KeyCode> jump = new();
+    public readonly List<KeyCode> inventory = new();
 
     public const KeyCode pause = KeyCode.Escape;
+
 
     private bool keysDisabled = false;
 
@@ -27,24 +29,53 @@ public class KeyInput : MonoBehaviour
         moveLeft.Add(KeyCode.A);
         moveLeft.Add(KeyCode.LeftArrow);
         jump.Add(KeyCode.Space);
+        inventory.Add(KeyCode.E);
     }
 
     private void Update()
     {
+        if (keysDisabled) return;
+
+        //Debug.Log(1);
+
+        // pause menu
         if (Input.GetKeyDown(pause))
         {
-            if(MetaLogic.paused)
-                MetaLogic.Unpause();
+            if (MetaLogic.pauseMenu)
+            {
+                MetaLogic.ClosePauseMenu();
+            }
             else
-                MetaLogic.Pause();
+            {
+                MetaLogic.OpenPauseMenu();
+            }
             return;
         }
+        // disable input during pause
+        if (MetaLogic.pauseMenu) return;
+
+        //Debug.Log(2);
+
+        // inventory
+        if (AnyKeyIsPressedDown(inventory))
+        {
+            if (MetaLogic.inventoryIsOpen)
+            {
+                MetaLogic.CloseInventory();
+            }
+            else
+            {
+                MetaLogic.OpenInventory();
+            }
+        }
+
+
 
         if (MetaLogic.paused) return;
 
+        //Debug.Log(3); 
 
-        if (keysDisabled) return;
-
+        // movement
         if (AnyKeyIsPressed(moveRight))
         {
             player.MoveRight();
@@ -79,5 +110,10 @@ public class KeyInput : MonoBehaviour
     private bool AnyKeyIsPressed(List<KeyCode> keys)
     {
         return keys.Any(key => Input.GetKey(key));
+    }
+
+    private bool AnyKeyIsPressedDown(List<KeyCode> keys)
+    {
+        return keys.Any(key => Input.GetKeyDown(key));
     }
 }
