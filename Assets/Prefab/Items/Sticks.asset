@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3811a6653fb187644832a651b5620abf, type: 3}
+  m_Name: Sticks
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: e621aa6ed36f5d24a87419f06bee03f8, type: 3}
+  maxStack: 99
