@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CameraLogic : MonoBehaviour, IBiomeListener
 {
-    public readonly Color plainsBackground = new(0 / 255.0f, 175 / 255.0f, 255 / 255.0f);
-    public readonly Color iceBackground = new(49 / 255.0f, 109 / 255.0f, 164 / 255.0f);
-    public readonly Color desertBackground = new(81 / 255.0f, 214 / 255.0f, 255 / 255.0f);
+    public Color plainsBackground = new(0 / 255.0f, 175 / 255.0f, 255 / 255.0f);
+    public Color iceBackground = new(49 / 255.0f, 109 / 255.0f, 164 / 255.0f);
+    public Color desertBackground = new(81 / 255.0f, 214 / 255.0f, 255 / 255.0f);
 
 
     Logic logic;

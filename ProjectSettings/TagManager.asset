@@ -21,6 +21,9 @@ TagManager:
   - PlayButton
   - Inventory
   - PauseMenu
+  - InventorySlot
+  - Hotbar
+  - SlotContainer
   layers:
   - Default
   - TransparentFX
