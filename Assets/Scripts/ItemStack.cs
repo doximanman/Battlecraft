@@ -30,9 +30,11 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         set
         {
             itemCount = value;
+            // update count on screen
             var text = transform.GetChild(0);
             if (itemCount == 1)
             {
+                // don't show count if it is 1
                 text.gameObject.SetActive(false);
             }
             else
@@ -43,7 +45,16 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
-    [HideInInspector] public Transform oldParent;
+    private bool doubleClick = false;
+    public void DoubleClick()
+    {
+        if(dragging)
+            doubleClick = true;
+    }
+
+
+    private bool dragging=false;
+    [HideInInspector] public Transform originalParent;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -51,25 +62,30 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // so that the OnDrag method of the slot wiil be activated
         // instead of this
         GetComponent<Image>().raycastTarget = false;
-
-        oldParent = transform.parent;
+        dragging = true;
+        originalParent = transform.parent;
         transform.SetParent(transform.root);
 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        if(doubleClick)
+        {
+            eventData.pointerDrag = null;
+            OnEndDrag(eventData);
+            doubleClick = false;
+        }
+
+        else transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log(1);
         GetComponent<Image>().raycastTarget = true;
-        transform.SetParent(oldParent);
-    }
-
-    public void Update()
-    {
-        Debug.Log(name + " :" + itemCount);
+        if(transform.parent==transform.root)
+            transform.SetParent(originalParent);
+        dragging = false;
     }
 }

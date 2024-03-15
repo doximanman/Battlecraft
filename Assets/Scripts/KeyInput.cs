@@ -36,8 +36,6 @@ public class KeyInput : MonoBehaviour
     {
         if (keysDisabled) return;
 
-        //Debug.Log(1);
-
         // pause menu
         if (Input.GetKeyDown(pause))
         {
@@ -53,8 +51,6 @@ public class KeyInput : MonoBehaviour
         }
         // disable input during pause
         if (MetaLogic.pauseMenu) return;
-
-        //Debug.Log(2);
 
         // inventory
         if (AnyKeyIsPressedDown(inventory))
@@ -72,8 +68,6 @@ public class KeyInput : MonoBehaviour
 
 
         if (MetaLogic.paused) return;
-
-        //Debug.Log(3); 
 
         // movement
         if (AnyKeyIsPressed(moveRight))
