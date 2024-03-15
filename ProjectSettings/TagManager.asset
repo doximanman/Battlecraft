@@ -24,6 +24,9 @@ TagManager:
   - InventorySlot
   - Hotbar
   - SlotContainer
+  - MainInventory
+  - ExternalInventory
+  - EventSystem
   layers:
   - Default
   - TransparentFX

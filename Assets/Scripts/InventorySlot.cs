@@ -3,41 +3,154 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
     [SerializeField] private GameObject stackPrefab;
 
+    // initialized on SetItem
+    // removed on RemoveItem
+    private ItemStack stack;
+
     public ItemStack GetStack()
     {
-        if (transform.childCount == 0) return null;
-        return transform.GetChild(0).GetComponent<ItemStack>();
+        //if (transform.childCount == 0) return null;
+        //return transform.GetChild(0).GetComponent<ItemStack>();
+        return stack;
     }
 
+    // combines stack into current stack
+    // returns remainder
+    // null if no remainder
+    public ItemStack CombineStacks(ItemStack stack)
+    {
+        var thisStack = GetStack();
+        if (thisStack==null)
+        {
+            // if no stack - use new stack
+            SetItem(stack);
+            return null;
+        }
+        // there is a stack - find how many items
+        // need to move into this stack and move them.
+        int combinedCounts = thisStack.ItemCount + stack.ItemCount;
+        if(combinedCounts > stack.Type.maxStack)
+        {
+            // too many items for one stack
+            // update stack count and return remainder
+            // remainder is the updated passed parameter
+            int remainder=combinedCounts - stack.Type.maxStack;
+            thisStack.ItemCount=stack.Type.maxStack;
+            stack.ItemCount = remainder;
+            return stack;
+        }
+        // items can combine without remainder
+        thisStack.ItemCount = combinedCounts;
+        return null;
+    }
+
+    // predefined stack
     public void SetItem(ItemStack stack)
     {
         stack.transform.SetParent(transform);
+        this.stack = stack;
     }
 
+    // destroy item object
+    public void RemoveItem()
+    {
+        transform.DetachChildren();
+        Destroy(GetStack().gameObject);
+        stack = null;
+    }
+
+    // dont destroy item object
+    public void DetatchChild()
+    {
+        transform.DetachChildren();
+        stack = null;
+    }
+
+    // only 1 item of that type
     public void SetItem(ItemType item)
     {
         Assert.IsTrue(transform.childCount == 0);
 
         GameObject newStack=Instantiate(stackPrefab,transform);
         newStack.GetComponent<ItemStack>().Type = item;
+        this.stack=newStack.GetComponent<ItemStack>();
+    }
+
+    public bool HasItem()
+    {
+        return GetStack() != null;
+    }
+
+    public ItemType GetItemType()
+    {
+        if (GetStack() == null) return null;
+        return GetStack().Type;
+    }
+
+    // from original to this
+    public void MoveFrom(ItemStack item, InventorySlot original)
+    {
+        if (original == this) return;
+        if (stack!=null)
+        {
+            // if its the same itemtype, try to combine stacks
+            if (stack.Type == item.Type)
+            {
+                var remainder = CombineStacks(item);
+                if (remainder == null)
+                {
+                    // stacks were combined with no remainder
+                    // old object discarded
+                    original.RemoveItem();
+                }
+                else
+                {
+                    // stacks were combined, but there is a remainder
+                    // remainder remains in original slot
+                    original.SetItem(remainder);
+                }
+            }
+            else
+            {
+                // move current item into old slot
+                // and the dragged item into this slot
+                original.DetatchChild();
+                original.SetItem(stack);
+                DetatchChild();
+                SetItem(item);
+            }
+        }
+        else
+        {
+            // move the item to this slot
+            original.DetatchChild();
+            SetItem(item);
+        }
+    }
+
+    // disables dragging operation
+    public void DoubleClick()
+    {
+        if(stack!=null) stack.DoubleClick();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (eventData.pointerDrag == null) return;
+
+        Debug.Log(2);
         // the dragged item
         var item = eventData.pointerDrag.GetComponent<ItemStack>();
-
-        if(transform.childCount > 0)
-        {
-            // move current item into old slot
-            var thisItem = transform.GetChild(0);
-            thisItem.SetParent(item.oldParent);
-        }
-        item.oldParent=transform;
+        if(!item) return;
+        MoveFrom(item,item.originalParent.GetComponent<InventorySlot>());
     }
+
+
+
 }
