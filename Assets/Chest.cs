@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
+public class Chest : MonoBehaviour, ICloseInventoryListener,IPointerDownHandler, IPointerUpHandler
 {
     private Transform player;
     private InventoryInteract inventoryInteract;
@@ -20,12 +20,18 @@ public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
         inventoryInteract = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryInteract>();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    // must be implemented for OnPointerUp to activate
+    public void OnPointerDown(PointerEventData eventData) { }
+
+    public void OnPointerUp(PointerEventData eventData)
     {
+        // make sure current still on the chest
+        if (eventData.pointerCurrentRaycast.gameObject!=gameObject) return;
+
         // do nothing if game is paused
         if (MetaLogic.paused) return;
 
-        if(Vector3.Distance(transform.position, player.position) < openRange)
+        if (Vector3.Distance(transform.position, player.position) < openRange)
         {
             // open chest
             inventoryInteract.LoadSecondInventory(chestItems);
@@ -35,7 +41,7 @@ public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
             MetaLogic.RegisterCloseInvListener(this);
         }
     }
-    
+
     public void OnCloseInventory()
     {
         inventoryInteract.UnloadSecondInventory(chestItems);
