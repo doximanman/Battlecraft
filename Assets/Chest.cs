@@ -1,18 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Chest : MonoBehaviour, ICloseInventoryListener
+public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
 {
-    public Transform player;
-    public InventoryInteract inventoryInteract;
+    private Transform player;
+    private InventoryInteract inventoryInteract;
 
     [SerializeField] private InventoryData chestItems;
 
     public float openRange = 0.5f;
 
-    private void OnMouseDown()
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        inventoryInteract = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryInteract>();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
     {
         // do nothing if game is paused
         if (MetaLogic.paused) return;

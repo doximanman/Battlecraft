@@ -170,7 +170,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag == null) return;
 
-        Debug.Log(2);
         // the dragged item
         var item = eventData.pointerDrag.GetComponent<ItemStack>();
         if(!item) return;

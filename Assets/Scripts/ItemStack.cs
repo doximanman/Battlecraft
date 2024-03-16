@@ -83,7 +83,6 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log(1);
         GetComponent<Image>().raycastTarget = true;
         if(transform.parent==transform.root)
             transform.SetParent(originalParent);
