@@ -781,11 +781,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1545930638474411154, guid: 1dae59bd59c4ac846a21eb9e59229472, type: 3}
   m_PrefabInstance: {fileID: 1879068709}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &123026576 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-  m_PrefabInstance: {fileID: 573887336}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &127512980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109379,79 +109374,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eb7015238a688643a705cadd735ea7e, type: 3}
---- !u!1001 &573887336
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1446709799}
-    m_Modifications:
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 149.01439
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.0148
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.04700738
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1467184305092806186, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_Name
-      value: rock1 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5034307218649530864, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_TagString
-      value: Obsticles
-      objectReference: {fileID: 0}
-    - target: {fileID: 6960714201304265382, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8445550936966900281, guid: 1409062752bb7bc41b91280be6059464, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1409062752bb7bc41b91280be6059464, type: 3}
 --- !u!4 &580281443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7764035075849083463, guid: 995b52e3cfbfae94aaf2f41ef103c79f, type: 3}
@@ -119177,7 +119099,6 @@ Transform:
   - {fileID: 1890025496}
   - {fileID: 1241171105}
   - {fileID: 686055559}
-  - {fileID: 123026576}
   - {fileID: 1920383274}
   - {fileID: 1083165876}
   m_Father: {fileID: 0}
