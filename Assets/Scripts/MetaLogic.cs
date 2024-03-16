@@ -5,11 +5,19 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class MetaLogic : MonoBehaviour
 {
+    public static GameObject externalInventory;
+
     public static bool paused=false;
 
     public static bool inventoryIsOpen=false;
 
     public static bool pauseMenu = false;
+
+    private void Start()
+    {
+        externalInventory = GameObject.FindGameObjectWithTag("ExternalInventory");
+        DisableSecondInventory();
+    }
 
     public static void Pause()
     {
@@ -46,6 +54,17 @@ public class MetaLogic : MonoBehaviour
         Application.Quit();
     }
 
+    public static void EnableSecondInventory()
+    {
+        externalInventory.SetActive(true);
+    }
+
+    public static void DisableSecondInventory()
+    {
+
+        externalInventory.SetActive(false);
+    }
+
     public static void OpenInventory()
     {
         Pause();
@@ -53,10 +72,29 @@ public class MetaLogic : MonoBehaviour
         inventoryIsOpen = true;
     }
 
+    static List<ICloseInventoryListener> closeInvListeners = new();
+
     public static void CloseInventory()
     {
+        foreach(var listener in closeInvListeners)
+        {
+            listener.OnCloseInventory();
+        }
         Unpause();
         GameObject.FindGameObjectWithTag("Inventory").GetComponent<Canvas>().enabled = false;
         inventoryIsOpen = false;
+        closeInvListeners.Clear();
     }
+
+
+    public static void RegisterCloseInvListener(ICloseInventoryListener listener)
+    {
+        closeInvListeners.Add(listener);
+    }
+
+    public static void RemoveCloseInvListener(ICloseInventoryListener listener)
+    {
+        closeInvListeners.Remove(listener);
+    }
+
 }

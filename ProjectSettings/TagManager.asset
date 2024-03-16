@@ -27,6 +27,7 @@ TagManager:
   - MainInventory
   - ExternalInventory
   - EventSystem
+  - Chest
   layers:
   - Default
   - TransparentFX
