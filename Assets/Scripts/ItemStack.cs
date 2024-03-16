@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
+
     private ItemType type;
     public ItemType Type
     {

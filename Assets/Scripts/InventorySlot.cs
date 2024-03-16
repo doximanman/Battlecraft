@@ -50,18 +50,52 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return null;
     }
 
+    // create new stack
+    public void SetItem(StackData stack)
+    {
+        if (stack == null || !stack.IsDefined())
+        {
+            RemoveItem();
+            return;
+        }
+
+        GameObject newStack = Instantiate(stackPrefab, transform);
+        this.stack=newStack.GetComponent<ItemStack>();
+        this.stack.Type = stack.type;
+        this.stack.ItemCount = stack.count;
+    }
+
     // predefined stack
     public void SetItem(ItemStack stack)
     {
+        if (stack == null)
+        {
+            RemoveItem();
+            return;
+        }
+
         stack.transform.SetParent(transform);
         this.stack = stack;
+    }
+
+    // only 1 item of that type
+    public void SetItem(ItemType item)
+    {
+        if (item == null)
+        {
+            RemoveItem();
+            return;
+        }
+
+        GameObject newStack = Instantiate(stackPrefab, transform);
+        newStack.GetComponent<ItemStack>().Type = item;
+        this.stack = newStack.GetComponent<ItemStack>();
     }
 
     // destroy item object
     public void RemoveItem()
     {
-        transform.DetachChildren();
-        Destroy(GetStack().gameObject);
+        if (GetStack() != null) Destroy(GetStack().gameObject);
         stack = null;
     }
 
@@ -72,15 +106,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         stack = null;
     }
 
-    // only 1 item of that type
-    public void SetItem(ItemType item)
-    {
-        Assert.IsTrue(transform.childCount == 0);
 
-        GameObject newStack=Instantiate(stackPrefab,transform);
-        newStack.GetComponent<ItemStack>().Type = item;
-        this.stack=newStack.GetComponent<ItemStack>();
-    }
 
     public bool HasItem()
     {

@@ -110,7 +110,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-
+    public void Clear()
+    {
+        for(int i = 0; i < slots.Count; i++) {
+            slots[i].RemoveItem();
+        }
+    }
 
     public InventorySlot slot;
     public int addCount;
