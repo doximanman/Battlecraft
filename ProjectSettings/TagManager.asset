@@ -30,6 +30,7 @@ TagManager:
   - Chest
   - InventoryManager
   - DarkBackground
+  - DarkHotbar
   layers:
   - Default
   - TransparentFX

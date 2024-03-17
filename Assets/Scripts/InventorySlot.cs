@@ -163,12 +163,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     // disables dragging operation
     public void DoubleClick()
     {
-        if(stack!=null) stack.DoubleClick();
+        ItemStack.CancelDrag();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag == null) return;
+        if (ItemStack.stopDrag || eventData.pointerDrag == null) return;
 
         // the dragged item
         var item = eventData.pointerDrag.GetComponent<ItemStack>();

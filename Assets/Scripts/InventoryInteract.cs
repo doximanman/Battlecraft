@@ -34,15 +34,18 @@ public class InventoryInteract : MonoBehaviour
         secondInventory.Clear();
     }
 
-    [SerializeField] private float doubleClickDelay = 0.5f;
     private float lastClicked;
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Time.realtimeSinceStartup - lastClicked < doubleClickDelay)
+            if (Time.realtimeSinceStartup - lastClicked < MetaLogic.doubleClickDelay)
             {
                 // double click
+                // only do something if a second inventory is loaded
+                // and the inventory is open
+                if (!MetaLogic.inventoryIsOpen || !MetaLogic.IsSecondInventoryEnabled()) return;
+
                 // raycast to check which slot was clicked
                 //r = new Ray(Input.mousePosition + Vector3.back, Vector3.forward);
                 var eventData = new PointerEventData(eventSystem)
