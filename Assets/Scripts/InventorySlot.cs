@@ -15,8 +15,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public ItemStack GetStack()
     {
-        //if (transform.childCount == 0) return null;
-        //return transform.GetChild(0).GetComponent<ItemStack>();
         return stack;
     }
 

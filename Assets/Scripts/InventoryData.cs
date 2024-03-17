@@ -21,6 +21,17 @@ public class InventoryData
         }
     }
 
+    public void Fix()
+    {
+        // unity inserts empty stacks to the list instead of
+        // null. replace them.
+        for(int i = 0;i < items.Count;i++)
+        {
+            if (items[i] != null && (items[i].type == null || items[i].count == 0))
+                items[i] = null;
+        }
+    }
+
     private void Clear()
     {
         for (int i = 0; i < items.Count; i++)
@@ -71,6 +82,13 @@ public class InventoryData
         var other= obj as InventoryData;
         if (other == null) return false;
         if (other.items.Count != items.Count) return false;
+
+        // fix possible unity thing
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i] != null && (items[i].type == null || items[i].count == 0))
+                items[i] = null;
+        }
 
         return items.SequenceEqual(other.items);
     }

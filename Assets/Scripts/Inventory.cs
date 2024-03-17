@@ -135,6 +135,11 @@ public class Inventory : MonoBehaviour
     public void AddCurrentItem()
     {
         if (addCount == 0) return;
+
+        // unity stuff (see "Fix")
+        if (itemToAdd.name == "Chest")
+            itemToAdd.invData.Fix();
+
         if (slot == null)
         {
             // add anywhere
