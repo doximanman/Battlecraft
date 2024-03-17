@@ -6,16 +6,25 @@ using UnityEngine.Rendering.PostProcessing;
 public class MetaLogic : MonoBehaviour
 {
     public static GameObject externalInventory;
+    public static GameObject mainInventory;
+    public static GameObject darkenBackground;
+    public static GameObject pauseMenu;
 
     public static bool paused=false;
 
     public static bool inventoryIsOpen=false;
 
-    public static bool pauseMenu = false;
+    public static bool pauseMenuEnabled = false;
 
     private void Start()
     {
         externalInventory = GameObject.FindGameObjectWithTag("ExternalInventory");
+        mainInventory = GameObject.FindGameObjectWithTag("MainInventory");
+        darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
+        pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
+        darkenBackground.SetActive(false);
+        pauseMenu.SetActive(false);
+        CloseInventory();
         DisableSecondInventory();
     }
 
@@ -38,15 +47,17 @@ public class MetaLogic : MonoBehaviour
         if(inventoryIsOpen) CloseInventory();
 
         Pause();
-        GameObject.FindGameObjectWithTag("PauseMenu").GetComponent<Canvas>().enabled = true;
-        pauseMenu = true;
+        pauseMenu.SetActive(true);
+        darkenBackground.SetActive(true);
+        pauseMenuEnabled = true;
     }
 
     public static void ClosePauseMenu()
     {
         Unpause();
-        GameObject.FindGameObjectWithTag("PauseMenu").GetComponent<Canvas>().enabled = false;
-        pauseMenu = false;
+        pauseMenu.SetActive(false);
+        darkenBackground.SetActive(false);
+        pauseMenuEnabled = false;
     }
 
     public static void QuitGame()
@@ -68,7 +79,8 @@ public class MetaLogic : MonoBehaviour
     public static void OpenInventory()
     {
         Pause();
-        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Canvas>().enabled = true;
+        mainInventory.SetActive(true);
+        darkenBackground.SetActive(true);
         inventoryIsOpen = true;
     }
 
@@ -81,7 +93,8 @@ public class MetaLogic : MonoBehaviour
             listener.OnCloseInventory();
         }
         Unpause();
-        GameObject.FindGameObjectWithTag("Inventory").GetComponent<Canvas>().enabled = false;
+        mainInventory.SetActive(false);
+        darkenBackground.SetActive(false);
         inventoryIsOpen = false;
         closeInvListeners.Clear();
     }

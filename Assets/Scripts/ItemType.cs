@@ -4,34 +4,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(menuName ="Scriptable object/Item")]
+[CreateAssetMenu(menuName = "Scriptable object/Item")]
 public class ItemType : ScriptableObject
 {
-    private static int maxId=0;
-    private readonly int id;
-
     public Sprite icon;
     public int maxStack = 99;
 
-    ItemType()
-    {
-        maxId++;
-        id = maxId;
-    }
+    public InventoryData invData;
 
     public override bool Equals(object other)
     {
-        if(other == null) return false;
-        if(other.GetType() != GetType()) return false;
+        // 'as' returns null if the types aren't equal
+        var newOther = other as ItemType;
 
-        var newOther=other as ItemType;
+        if (newOther == null) return false;
 
-        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name;
+        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name && invData == newOther.invData;
     }
 
     public override int GetHashCode()
     {
-        return id;
+
+        if (icon == null) return maxStack;
+
+        if (invData == null) return icon.GetHashCode() ^ maxStack;
+
+        else return icon.GetHashCode() ^ maxStack ^ invData.GetHashCode();
     }
 
 }

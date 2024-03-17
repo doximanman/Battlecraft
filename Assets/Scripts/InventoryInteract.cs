@@ -12,22 +12,15 @@ public class InventoryInteract : MonoBehaviour
     public Inventory mainInventory;
     public Inventory secondInventory;
 
-    private GameObject inventoryView;
 
     private GraphicRaycaster raycaster;
     private EventSystem eventSystem;
     // Start is called before the first frame update
     void Start()
     {
-        inventoryView = GameObject.FindGameObjectWithTag("Inventory");
+        var inventoryView = GameObject.FindGameObjectWithTag("Inventory");
         raycaster= inventoryView.GetComponent<GraphicRaycaster>();
         eventSystem=GameObject.FindGameObjectWithTag("EventSystem").GetComponent<EventSystem>();
-    }
-
-    // use carefully - no checks if the game is paused
-    public void OpenInventory()
-    {
-        inventoryView.GetComponent<Canvas>().enabled = true;
     }
 
     public void LoadSecondInventory(InventoryData data)
