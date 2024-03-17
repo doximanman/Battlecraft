@@ -41,51 +41,57 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             else
             {
                 text.gameObject.SetActive(true);
-                text.GetComponent<TMP_Text>().text=itemCount.ToString();
+                text.GetComponent<TMP_Text>().text = itemCount.ToString();
             }
         }
     }
 
-    private bool doubleClick = false;
-    public void DoubleClick()
+    public static void CancelDrag()
     {
-        if(dragging)
-            doubleClick = true;
+        if(beingDragged!=null) beingDragged.EndDrag();
+        stopDrag = true;
+        beingDragged = null;
     }
 
-
-    private bool dragging=false;
+    public static bool stopDrag = false;
     [HideInInspector] public Transform originalParent;
+
+    private static ItemStack beingDragged;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // disable dragging during pause menu
+        if (MetaLogic.pauseMenuEnabled) return;
+
         // make item invisible to raycast
         // so that the OnDrag method of the slot wiil be activated
         // instead of this
         GetComponent<Image>().raycastTarget = false;
-        dragging = true;
         originalParent = transform.parent;
         transform.SetParent(transform.root);
-
+        beingDragged = this;
+        stopDrag = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(doubleClick)
-        {
-            eventData.pointerDrag = null;
-            OnEndDrag(eventData);
-            doubleClick = false;
-        }
+        if (stopDrag) eventData.pointerDrag = null ;
+
 
         else transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (stopDrag) return;
+
+        EndDrag();
+    }
+
+    private void EndDrag()
+    {
         GetComponent<Image>().raycastTarget = true;
-        if(transform.parent==transform.root)
+        if (transform.parent == transform.root)
             transform.SetParent(originalParent);
-        dragging = false;
     }
 }

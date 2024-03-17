@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public class MetaLogic : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class MetaLogic : MonoBehaviour
     public static GameObject mainInventory;
     public static GameObject darkenBackground;
     public static GameObject pauseMenu;
+    public static GameObject darkenHotbar;
+
+    public static double doubleClickDelay = 0.2f;
 
     public static bool paused=false;
 
@@ -22,10 +26,31 @@ public class MetaLogic : MonoBehaviour
         mainInventory = GameObject.FindGameObjectWithTag("MainInventory");
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
-        darkenBackground.SetActive(false);
+        darkenHotbar = GameObject.FindGameObjectWithTag("DarkHotbar");
+        UndarkenBackground();
         pauseMenu.SetActive(false);
         CloseInventory();
         DisableSecondInventory();
+    }
+
+    public static void EnableHotbar()
+    {
+        darkenHotbar.GetComponent<Image>().enabled = false;
+    }
+
+    public static void DisableHotbar()
+    {
+        darkenHotbar.GetComponent<Image>().enabled = true;
+    }
+
+    public static void DarkenBackground()
+    {
+        darkenBackground.GetComponent<Image>().enabled = true;
+    }
+
+    public static void UndarkenBackground()
+    {
+        darkenBackground.GetComponent<Image>().enabled = false;
     }
 
     public static void Pause()
@@ -33,6 +58,7 @@ public class MetaLogic : MonoBehaviour
         Time.timeScale = 0;
         Camera.main.GetComponent<PostProcessVolume>().enabled = true;
         paused = true;
+        ItemStack.CancelDrag();
     }
 
     public static void Unpause()
@@ -40,23 +66,39 @@ public class MetaLogic : MonoBehaviour
         Time.timeScale = 1;
         Camera.main.GetComponent<PostProcessVolume>().enabled = false;
         paused = false;
+        ItemStack.CancelDrag();
     }
+
+    static List<IPauseMenuListener> pauseMenuListeners = new();
 
     public static void OpenPauseMenu()
     {
+        foreach(var listener in pauseMenuListeners)
+        {
+            listener.OnPauseMenu();
+        }
+
         if(inventoryIsOpen) CloseInventory();
 
         Pause();
         pauseMenu.SetActive(true);
-        darkenBackground.SetActive(true);
+        DarkenBackground();
+        DisableHotbar();
         pauseMenuEnabled = true;
+        pauseMenuListeners.Clear();
+    }
+
+    public static void RegisterPauseMenuListener(IPauseMenuListener listener)
+    {
+        pauseMenuListeners.Add(listener);
     }
 
     public static void ClosePauseMenu()
     {
         Unpause();
         pauseMenu.SetActive(false);
-        darkenBackground.SetActive(false);
+        UndarkenBackground();
+        EnableHotbar();
         pauseMenuEnabled = false;
     }
 
@@ -76,12 +118,29 @@ public class MetaLogic : MonoBehaviour
         externalInventory.SetActive(false);
     }
 
+    public static bool IsSecondInventoryEnabled()
+    {
+        return externalInventory.activeSelf;
+    }
+
+    static List<IOpenInventoryListener> openInvListeners = new();
+
     public static void OpenInventory()
     {
+        foreach (var listener in openInvListeners)
+        {
+            listener.OnOpenInventory();
+        }
         Pause();
         mainInventory.SetActive(true);
-        darkenBackground.SetActive(true);
+        DarkenBackground();
         inventoryIsOpen = true;
+        openInvListeners.Clear();
+    }
+
+    public static void RegisterOpenInvListener(IOpenInventoryListener listener)
+    {
+        openInvListeners.Add(listener);
     }
 
     static List<ICloseInventoryListener> closeInvListeners = new();
@@ -94,15 +153,16 @@ public class MetaLogic : MonoBehaviour
         }
         Unpause();
         mainInventory.SetActive(false);
-        darkenBackground.SetActive(false);
+        UndarkenBackground();
         inventoryIsOpen = false;
         closeInvListeners.Clear();
     }
 
-
+    // does nothing when inventory is closed
     public static void RegisterCloseInvListener(ICloseInventoryListener listener)
     {
-        closeInvListeners.Add(listener);
+        if(inventoryIsOpen)
+            closeInvListeners.Add(listener);
     }
 
     public static void RemoveCloseInvListener(ICloseInventoryListener listener)
