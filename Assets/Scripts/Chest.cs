@@ -41,6 +41,7 @@ public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
         if(holdDownTimer >= holdDownTime)
         {
             ItemType chest = Instantiate(chestType);
+            chest.name = "Chest";
             chest.invData = chestItems;
             // mouse held down for holdDownTime seconds
             Inventory playerInventory = inventoryInteract.mainInventory;

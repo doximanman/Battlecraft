@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
 {
     public List<InventorySlot> slots = new();
 
-    // returns the slot item was added in
+    // returns the slot item was added in3
     // adds 1 of the item
     public InventorySlot AddItem(ItemType item)
     {
@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
-            if (itemStack != null && itemStack.Type.name == item.name)
+            if (itemStack != null && itemStack.Type.Equals(item))
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
-            if (itemStack != null && itemStack.Type.name == item.name)
+            if (itemStack != null && itemStack.Type==item)
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
@@ -98,7 +98,7 @@ public class Inventory : MonoBehaviour
         {
             // empty slot or existing slot with non full stack
             if (slot.GetStack() == null) return true;
-            if (slot.GetStack().Type == item) return slot.GetStack().ItemCount < item.maxStack;
+            if (slot.GetStack().Type.Equals(item)) return slot.GetStack().ItemCount < item.maxStack;
         }
         return false;
     }
@@ -148,7 +148,7 @@ public class Inventory : MonoBehaviour
                 ItemStack stack = slot.GetStack();
                 stack.ItemCount = (stack.ItemCount-1 + addCount) % (stack.Type.maxStack+1);
             }
-            else if (slot.GetItemType().name == itemToAdd.name)
+            else if (slot.GetItemType()==itemToAdd)
             {
                 // combine stacks
                 ItemStack stack = slot.GetStack();
