@@ -14,9 +14,13 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private ItemType type;
     public ItemType Type
     {
-        get { return type; }
+        get
+        {
+            return type;
+        }
         set
         {
+
             type = value;
             GetComponent<Image>().sprite = value.icon;
             name = type.name;
@@ -48,7 +52,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public static void CancelDrag()
     {
-        if(beingDragged!=null) beingDragged.EndDrag();
+        if (beingDragged != null) beingDragged.EndDrag();
         stopDrag = true;
         beingDragged = null;
     }
@@ -75,7 +79,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (stopDrag) eventData.pointerDrag = null ;
+        if (stopDrag) eventData.pointerDrag = null;
 
 
         else transform.position = Input.mousePosition;
