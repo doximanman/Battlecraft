@@ -19,7 +19,7 @@ public class ItemType : ScriptableObject
 
         if (newOther == null) return false;
 
-        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name && invData == newOther.invData;
+        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name && invData.Equals(newOther.invData);
     }
 
     public override int GetHashCode()

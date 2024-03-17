@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEditor.Experimental.GraphView.Port;
@@ -13,8 +14,11 @@ public class InventoryData
     // default number of items
     public InventoryData(int capacity)
     {
-        items = new List<StackData>(capacity);
-        Clear();
+        items = new();
+        for(int i = 0; i < capacity; i++)
+        {
+            items.Add(null);
+        }
     }
 
     private void Clear()
@@ -50,5 +54,29 @@ public class InventoryData
             if (items[i] != null && items[i].IsDefined())
                 inventory.slots[i].SetItem(items[i]);
         }
+    }
+
+    public InventoryData Copy()
+    {
+        InventoryData copy = new(items.Count);
+        for(int i=0;i<items.Count; i++)
+        {
+            copy.items[i] = items[i];
+        }
+        return copy;
+    }
+
+    public override bool Equals(object obj)
+    {
+        var other= obj as InventoryData;
+        if (other == null) return false;
+        if (other.items.Count != items.Count) return false;
+
+        return items.SequenceEqual(other.items);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

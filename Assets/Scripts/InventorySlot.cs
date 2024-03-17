@@ -92,6 +92,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         this.stack = newStack.GetComponent<ItemStack>();
     }
 
+    // only 1 item of that type
+    public void RemoveOne()
+    {
+        if(GetStack()!=null)
+        {
+            if (GetStack().ItemCount == 1) RemoveItem();
+            else GetStack().ItemCount--;
+        }
+    }
+
     // destroy item object
     public void RemoveItem()
     {
@@ -126,7 +136,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         if (stack!=null)
         {
             // if its the same itemtype, try to combine stacks
-            if (stack.Type == item.Type)
+            if (stack.Type.Equals(item.Type))
             {
                 var remainder = CombineStacks(item);
                 if (remainder == null)

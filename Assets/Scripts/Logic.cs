@@ -83,5 +83,18 @@ public class Logic : MonoBehaviour
         return startBiome;
     }
 
+    // gets the ground height of x position positionX
+    public static IEnumerable<float> GetGroundHeight(float positionX)
+    {
+        float BIG_HEIGHT = maxY - minY;
 
+        Vector2 start = new(positionX, maxY);
+        var result = Physics2D.RaycastAll(start, Vector2.down, BIG_HEIGHT);
+
+        foreach (var hit in result)
+        {
+            if (hit.collider.CompareTag("Ground"))
+                yield return hit.point.y;
+        }
+    }
 }
