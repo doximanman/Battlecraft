@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,36 +8,30 @@ using UnityEngine;
 public class KeyInput : MonoBehaviour
 {
     public PlayerControl player;
+    [SerializeField] private Hotbar hotbar;
 
-
-    public readonly List<KeyCode> moveRight = new();
-    public readonly List<KeyCode> moveLeft = new();
-    public readonly List<KeyCode> jump = new();
-    public readonly List<KeyCode> inventory = new();
+    public readonly List<KeyCode> moveRight = new() { KeyCode.D,KeyCode.RightArrow};
+    public readonly List<KeyCode> moveLeft = new() { KeyCode.A,KeyCode.LeftArrow};
+    public readonly List<KeyCode> jump = new() { KeyCode.Space};
+    public readonly List<KeyCode> inventory = new() { KeyCode.E};
+    public readonly KeyCode[] slotKeys = {KeyCode.Alpha1,KeyCode.Alpha2,KeyCode.Alpha3,KeyCode.Alpha4,KeyCode.Alpha5};
 
     public const KeyCode pause = KeyCode.Escape;
 
-
     private bool keysDisabled = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-
-        moveRight.Add(KeyCode.D);
-        moveRight.Add(KeyCode.RightArrow);
-        moveLeft.Add(KeyCode.A);
-        moveLeft.Add(KeyCode.LeftArrow);
-        jump.Add(KeyCode.Space);
-        inventory.Add(KeyCode.E);
-    }
 
     private void Update()
     {
+        // runs when keys are disabled 
+        // (for example for tests)
+
+
         if (keysDisabled) return;
 
-        // pause menu
+
+        // runs when pause menu is on
+
+
         if (Input.GetKeyDown(pause))
         {
             if (MetaLogic.pauseMenuEnabled)
@@ -49,10 +44,13 @@ public class KeyInput : MonoBehaviour
             }
             return;
         }
-        // disable input during pause
         if (MetaLogic.pauseMenuEnabled) return;
 
-        // inventory
+
+        // runs when paused, but not when pause menu is on
+        // (for example, inventory is open)
+
+
         if (AnyKeyIsPressedDown(inventory))
         {
             if (MetaLogic.inventoryIsOpen)
@@ -64,10 +62,10 @@ public class KeyInput : MonoBehaviour
                 MetaLogic.OpenInventory();
             }
         }
-
-
-
         if (MetaLogic.paused) return;
+
+
+        // runs when not paused
 
         // movement
         if (AnyKeyIsPressed(moveRight))
@@ -87,26 +85,43 @@ public class KeyInput : MonoBehaviour
         {
             player.Jump();
         }
+
+        // slot selection
+        var key=WhichKeyIsPressedDown(slotKeys);
+        if (key != null)
+        {
+            hotbar.SelectedIndex = (int)key;
+        }
     }
 
 
 
-    public void disableKeys()
+    public void DisableKeys()
     {
         keysDisabled = true;
     }
 
-    public void enableKeys()
+    public void EnableKeys()
     {
         keysDisabled = false;
     }
 
-    private bool AnyKeyIsPressed(List<KeyCode> keys)
+    private int? WhichKeyIsPressedDown(IEnumerable<KeyCode> keys)
+    {
+        for(int i = 0; i < keys.Count(); i++)
+        {
+            if (Input.GetKeyDown(keys.ElementAt(i)))
+                return i;
+        }
+        return null;
+    }
+
+    private bool AnyKeyIsPressed(IEnumerable<KeyCode> keys)
     {
         return keys.Any(key => Input.GetKey(key));
     }
 
-    private bool AnyKeyIsPressedDown(List<KeyCode> keys)
+    private bool AnyKeyIsPressedDown(IEnumerable<KeyCode> keys)
     {
         return keys.Any(key => Input.GetKeyDown(key));
     }

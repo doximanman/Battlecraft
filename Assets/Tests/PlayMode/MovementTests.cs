@@ -33,7 +33,7 @@ public class MovementTests
         if (keysHandlerObject != null)
         {
             var keysHandler = keysHandlerObject.GetComponent<KeyInput>();
-            keysHandler.disableKeys();
+            keysHandler.DisableKeys();
         }
 
         // wait for player to hit the ground
