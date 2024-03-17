@@ -29,6 +29,7 @@ TagManager:
   - EventSystem
   - Chest
   - InventoryManager
+  - DarkBackground
   layers:
   - Default
   - TransparentFX

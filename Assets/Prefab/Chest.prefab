@@ -98,8 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca1076ed8a69d446b899a992886522e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  inventoryInteract: {fileID: 0}
   chestItems:
     items:
     - type: {fileID: 0}
@@ -142,7 +140,9 @@ MonoBehaviour:
       count: 0
     - type: {fileID: 0}
       count: 0
+  chestType: {fileID: 11400000, guid: 0c71141172164b04e8914ff29b155488, type: 2}
   openRange: 1.5
+  holdDownTime: 0.2
 --- !u!61 &5541029613920567078
 BoxCollider2D:
   m_ObjectHideFlags: 0

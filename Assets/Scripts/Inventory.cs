@@ -92,6 +92,17 @@ public class Inventory : MonoBehaviour
         return stack;
     }
 
+    public bool HasSpace(ItemType item)
+    {
+        foreach(var slot in slots)
+        {
+            // empty slot or existing slot with non full stack
+            if (slot.GetStack() == null) return true;
+            if (slot.GetStack().Type == item) return slot.GetStack().ItemCount < item.maxStack;
+        }
+        return false;
+    }
+
     public void MoveItem(InventorySlot slot, Inventory to)
     {
         ItemStack item = slot.GetStack();

@@ -39,7 +39,7 @@ public class KeyInput : MonoBehaviour
         // pause menu
         if (Input.GetKeyDown(pause))
         {
-            if (MetaLogic.pauseMenu)
+            if (MetaLogic.pauseMenuEnabled)
             {
                 MetaLogic.ClosePauseMenu();
             }
@@ -50,7 +50,7 @@ public class KeyInput : MonoBehaviour
             return;
         }
         // disable input during pause
-        if (MetaLogic.pauseMenu) return;
+        if (MetaLogic.pauseMenuEnabled) return;
 
         // inventory
         if (AnyKeyIsPressedDown(inventory))
