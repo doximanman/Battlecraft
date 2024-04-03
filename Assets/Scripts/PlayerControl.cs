@@ -10,7 +10,6 @@ public class PlayerControl : MonoBehaviour
     public float collisionDetection = 0.1f;
     public float velocity = 10;
     public float jumpHeight = 10;
-    public float jumpDuration = 1f;
     public float leniency = 0.05f;
 
     private Logic logic;
@@ -18,7 +17,6 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D playerBody;
     private SpriteRenderer playerSprite;
     private BoxCollider2D playerCollider;
-    private float previousYVelocity;
     private float epsilon = 0.01f;
     private float originalGravityScale = 0;
 
@@ -35,7 +33,6 @@ public class PlayerControl : MonoBehaviour
         logic=GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
         playerBody.freezeRotation = true;
-        previousYVelocity = playerBody.velocity.y;
     }
 
     void Update()
@@ -111,7 +108,7 @@ public class PlayerControl : MonoBehaviour
 
         
 
-        return Colliders.Any(collider => logic.canJumpOn(collider));
+        return Colliders.Any(collider => logic.CanJumpOn(collider));
     }
 
 

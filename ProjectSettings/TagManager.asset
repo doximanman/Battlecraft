@@ -16,11 +16,27 @@ TagManager:
   - Rock
   - PlainsToDesert
   - IceToPlains
+  - SettingsButtonInGame
+  - QuitButton
+  - PlayButton
+  - Inventory
+  - PauseMenu
+  - InventorySlot
+  - Hotbar
+  - SlotContainer
+  - MainInventory
+  - ExternalInventory
+  - EventSystem
+  - Chest
+  - InventoryManager
+  - DarkBackground
+  - DarkHotbar
+  - CraftingGrid
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Game
   - Water
   - UI
   - 
