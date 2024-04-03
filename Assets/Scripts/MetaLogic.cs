@@ -11,6 +11,7 @@ public class MetaLogic : MonoBehaviour
     public static GameObject darkenBackground;
     public static GameObject pauseMenu;
     public static GameObject darkenHotbar;
+    public static GameObject crafting;
 
     public static double doubleClickDelay = 0.2f;
 
@@ -27,6 +28,7 @@ public class MetaLogic : MonoBehaviour
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         darkenHotbar = GameObject.FindGameObjectWithTag("DarkHotbar");
+        crafting = GameObject.FindGameObjectWithTag("CraftingGrid");
         UndarkenBackground();
         pauseMenu.SetActive(false);
         CloseInventory();
@@ -133,6 +135,9 @@ public class MetaLogic : MonoBehaviour
         }
         Pause();
         mainInventory.SetActive(true);
+        // enable crafting grid only if the second inventory is closed
+        if (!IsSecondInventoryEnabled())
+            crafting.SetActive(true);
         DarkenBackground();
         inventoryIsOpen = true;
         openInvListeners.Clear();
@@ -153,6 +158,7 @@ public class MetaLogic : MonoBehaviour
         }
         Unpause();
         mainInventory.SetActive(false);
+        crafting.SetActive(false);
         UndarkenBackground();
         inventoryIsOpen = false;
         closeInvListeners.Clear();
