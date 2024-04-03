@@ -12,14 +12,30 @@ public class ItemType : ScriptableObject
 
     public InventoryData invData;
 
+    public override string ToString()
+    {
+        if (invData == null)
+        {
+            return "name: " + name + " maxStack: " + maxStack;
+        }
+        return "name: "+name+" icon. maxStack: " + maxStack + " invData: "+invData;
+    }
+
+    // can compare null with an object and object with null
+    public static bool AreEqual(object obj1, object obj2)
+    {
+        if (obj1 == null && obj2 == null) return true;
+        if (obj1 == null) return obj2.Equals(obj1);
+        if (obj2 == null) return obj1.Equals(obj2);
+        return obj1.Equals(obj2);
+    }
+
     public override bool Equals(object other)
     {
         // 'as' returns null if the types aren't equal
         var newOther = other as ItemType;
 
-        if (newOther == null) return false;
-
-
+        if (newOther == null) return icon == null;
 
         return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name && invData.Equals(newOther.invData);
     }

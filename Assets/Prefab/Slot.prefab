@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackPrefab: {fileID: 164696584974191025, guid: a5c04eea71e459d41b3afedfbe025588, type: 3}
+  canAcceptItems: 1
 --- !u!114 &1745311389544885225
 MonoBehaviour:
   m_ObjectHideFlags: 0
