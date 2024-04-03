@@ -80,8 +80,8 @@ public class Chest : MonoBehaviour, ICloseInventoryListener, IPointerDownHandler
         if (Vector3.Distance(transform.position, player.position) < openRange)
         {
             // open chest
-            inventoryInteract.LoadSecondInventory(chestItems);
             MetaLogic.EnableSecondInventory();
+            inventoryInteract.LoadSecondInventory(chestItems);
             MetaLogic.OpenInventory();
 
             MetaLogic.RegisterCloseInvListener(this);

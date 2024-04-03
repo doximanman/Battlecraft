@@ -11,6 +11,7 @@ public class InventoryInteract : MonoBehaviour
 {
     public Inventory mainInventory;
     public Inventory secondInventory;
+    public CraftingGrid craftingGrid;
 
 
     private GraphicRaycaster raycaster;

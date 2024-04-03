@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [Serializable]
-public class StackData
+
+[CreateAssetMenu(menuName = "Scriptable object/Item Stack")]
+public class StackData : ScriptableObject
 {
     public ItemType type;
     public int count;

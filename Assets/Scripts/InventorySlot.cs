@@ -12,6 +12,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     // initialized on SetItem
     // removed on RemoveItem
     private ItemStack stack;
+    
+    private void SetType(ItemType type)
+    {
+        stack.Type = type;
+    }
+
+    private void SetCount(int count)
+    {
+        stack.ItemCount = count;
+    }
 
     public ItemStack GetStack()
     {
