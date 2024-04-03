@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions;
-using static UnityEditor.Experimental.GraphView.Port;
 
 [Serializable]
 public class InventoryData
@@ -77,24 +75,22 @@ public class InventoryData
         return copy;
     }
 
+    public override string ToString()
+    {
+        return string.Join(",", items);
+    }
+
     public override bool Equals(object obj)
     {
         var other= obj as InventoryData;
         if (other == null) return false;
         if (other.items.Count != items.Count) return false;
 
-        // fix possible unity thing
-        for(int i = 0; i < items.Count; i++)
-        {
-            if (items[i] != null && (items[i].type == null || items[i].count == 0))
-                items[i] = null;
-        }
-
         return items.SequenceEqual(other.items);
     }
 
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        return items.GetHashCode();
     }
 }
