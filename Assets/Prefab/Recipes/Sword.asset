@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   inItems:
-  - type: {fileID: 0}
-    count: 0
+  - type: {fileID: 11400000, guid: b16b9de0610b84244b74dabc129e484c, type: 2}
+    count: 1
   - type: {fileID: 0}
     count: 0
   - type: {fileID: 0}
@@ -22,5 +22,5 @@ MonoBehaviour:
   - type: {fileID: 0}
     count: 0
   outItem:
-    type: {fileID: 0}
-    count: 0
+    type: {fileID: 11400000, guid: b16b9de0610b84244b74dabc129e484c, type: 2}
+    count: 1
