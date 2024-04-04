@@ -36,7 +36,7 @@ public class CraftingRecipe : ScriptableObject
             }
 
             // same type and enough items in the slot
-            bool hasItems = ItemType.AreEqual(inItem.type,item.type) && inItem.count < item.count;
+            bool hasItems = ItemType.AreEqual(inItem.type,item.type) && inItem.count <= item.count;
             if (!hasItems) return false;
         }
         return true;

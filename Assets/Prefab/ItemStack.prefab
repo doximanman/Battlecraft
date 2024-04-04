@@ -89,7 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221740d95b1412c4592aea2296594fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oldParent: {fileID: 0}
+  stackPrefab: {fileID: 164696584974191025}
+  originalParent: {fileID: 0}
 --- !u!1 &9031346896891236607
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return stack;
     }
 
-    private void notifyChange()
+    private void NotifyChange()
     {
         if (slotChangeListeners != null)
             if (stack == null)
@@ -63,6 +63,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return new[] { thisStack, null };
     }
 
+    // no remainder
+    // original stack is destroyed
+    public void CombineFrom(ItemStack stack)
+    {
+        int newCount = Mathf.Min(stack.Type.maxStack, stack.ItemCount + this.stack.ItemCount);
+        stack.ItemCount = newCount;
+        Destroy(stack.gameObject);
+    }
+
     // create new stack
     public void SetItem(StackData stack)
     {
@@ -79,7 +88,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
         this.stack.Type = stack.type;
         this.stack.ItemCount = stack.count;
-        notifyChange();
+        NotifyChange();
     }
 
     // predefined stack
@@ -93,7 +102,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         stack.transform.SetParent(transform);
         this.stack = stack;
-        notifyChange();
+        NotifyChange();
     }
 
     // only 1 item of that type
@@ -116,7 +125,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             this.stack.Type = item;
             this.stack.ItemCount = 1;
         }
-        notifyChange();
+        NotifyChange();
     }
 
     // only 1 item of that type
@@ -126,7 +135,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             if (GetStack().ItemCount == 1) RemoveItem();
             else GetStack().ItemCount--;
-            notifyChange();
+            NotifyChange();
+        }
+    }
+
+    // remove count of that type
+    public void RemoveSome(int count)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            RemoveOne();
         }
     }
 
@@ -135,7 +153,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (GetStack() != null) Destroy(GetStack().gameObject);
         stack = null;
-        notifyChange();
+        NotifyChange();
     }
 
     // dont destroy item object
@@ -143,7 +161,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         transform.DetachChildren();
         stack = null;
-        notifyChange();
+        NotifyChange();
     }
 
 
@@ -174,6 +192,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     // stacks can be combined with no remainder
                     // combine and remove old item
                     original.RemoveItem();
+
+                    // RemoveItem count affect other items in the inventory
+                    // combine stacks again
+                    combinedStacks= CombineStacks(new StackData(item));
                     SetItem(combinedStacks[0]);
                 }
                 else
@@ -181,6 +203,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     // stacks can be combined, but there is a remainder
                     // remainder remains in original slot
                     original.SetItem(combinedStacks[1]);
+
+                    // SetItem count affect other items in the inventory
+                    // combine stacks again
+                    combinedStacks = CombineStacks(new StackData(item));
                     SetItem(combinedStacks[0]);
                 }
             }
@@ -202,7 +228,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             // move the item to this slot
             original.DetatchChild();
-            original.notifyChange();
+            original.NotifyChange();
             SetItem(item);
         }
     }
@@ -218,9 +244,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         if (ItemStack.stopDrag || eventData.pointerDrag == null || !canAcceptItems) return;
 
         // the dragged item
-        var item = eventData.pointerDrag.GetComponent<ItemStack>();
+        var item = ItemStack.beingDragged;
         if (!item) return;
-        MoveFrom(item, item.originalParent.GetComponent<InventorySlot>());
+        MoveFrom(item, ItemStack.originalParent.GetComponent<InventorySlot>());
     }
 
 
