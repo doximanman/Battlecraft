@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CraftingGrid : MonoBehaviour
 {
@@ -14,33 +15,68 @@ public class CraftingGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CraftingRecipe currentRecipe = null;
+
         foreach (InventorySlot slot in inSlots)
         {
-            slot.slotChangeListeners += (newStack) => { checkRecipes(); };
+            slot.slotChangeListeners += (newStack) =>
+            {
+                currentRecipe = CheckRecipes();
+                ApplyRecipe(currentRecipe);
+            };
         }
-        oldStack = outSlot.GetStack();
+        outSlot.slotChangeListeners += (newStack) =>
+        {
+            if (newStack != null || currentRecipe == null) return;
+            Craft(currentRecipe);
+            currentRecipe = CheckRecipes();
+            ApplyRecipe(currentRecipe);
+        };
     }
 
-    public void checkRecipes()
+    public void ApplyRecipe(CraftingRecipe recipe)
+    {
+        if (recipe == null)
+            outSlot.RemoveItem();
+        else
+            outSlot.SetItem(recipe.outItem);
+    }
+
+    // logical only
+    public bool CheckRecipe(CraftingRecipe recipe)
+    {
+        // convert slot list into stackdata list
+        var inData = inSlots.Select(slot => slot.GetStack() == null ? null : new StackData(slot.GetStack()));
+
+        // check if the recipe can be crafted
+        return recipe.CanCraft(inData);
+    }
+
+    // logical only
+    public CraftingRecipe CheckRecipes()
     {
         foreach (var recipe in recipes)
         {
-            if (recipe.CanCraft(inSlots.Select(slot => slot.GetStack() == null ? null : new StackData(slot.GetStack()))))
+            if (CheckRecipe(recipe))
+                return recipe;
+        }
+        return null;
+    }
+
+
+    public void Craft(CraftingRecipe recipe)
+    {
+        for (int i = 0; i < inSlots.Count; i++)
+        {
+            if (inSlots[i].GetStack() != null)
             {
-                outSlot.SetItem(recipe.outItem);
+                inSlots[i].RemoveSome(recipe.inItems[i].count);
             }
-            else outSlot.RemoveItem();
         }
     }
 
-    private ItemStack oldStack;
     // Update is called once per frame
     void Update()
     {
-        if (!StackData.AreEqual(oldStack, outSlot.GetStack()))
-        {
-            Debug.Log("Stack changed from " + oldStack + " to "+outSlot.GetStack());
-            oldStack = outSlot.GetStack();
-        }
     }
 }

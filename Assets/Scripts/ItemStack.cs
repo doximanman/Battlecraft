@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
+    [SerializeField] private GameObject stackPrefab;
 
     private ItemType type;
     public ItemType Type
@@ -58,23 +58,50 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     public static bool stopDrag = false;
-    [HideInInspector] public Transform originalParent;
+    [HideInInspector] public static Transform originalParent;
 
-    private static ItemStack beingDragged;
+    public static ItemStack beingDragged;
 
+    private bool rightClick = false;
     public void OnBeginDrag(PointerEventData eventData)
     {
         // disable dragging during pause menu
         if (MetaLogic.pauseMenuEnabled) return;
 
-        // make item invisible to raycast
-        // so that the OnDrag method of the slot wiil be activated
-        // instead of this
-        GetComponent<Image>().raycastTarget = false;
-        originalParent = transform.parent;
-        transform.SetParent(transform.root);
-        beingDragged = this;
-        stopDrag = false;
+        
+
+        // left mouse button
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            // make item invisible to raycast
+            // so that the OnDrag method of the slot wiil be activated
+            // instead of this
+            GetComponent<Image>().raycastTarget = false;
+            rightClick = false;
+            originalParent = transform.parent;
+            transform.SetParent(transform.root);
+            beingDragged = this;
+            stopDrag = false;
+        }
+        else
+        {
+
+            rightClick = true;
+            ItemStack newStack = Instantiate(stackPrefab, transform.parent).GetComponent<ItemStack>();
+            //newStack.transform.localScale=Vector3.one;
+
+            newStack.Type = Type;
+            int originalCount = ItemCount;
+            ItemCount = originalCount / 2;
+            newStack.ItemCount = (originalCount + 1) / 2;
+
+            originalParent = transform.parent;
+            newStack.transform.SetParent(transform.root);
+
+            beingDragged = newStack;
+            beingDragged.GetComponent<Image>().raycastTarget = false;
+            stopDrag = false;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -82,7 +109,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (stopDrag) eventData.pointerDrag = null;
 
 
-        else transform.position = Input.mousePosition;
+        else beingDragged.transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -94,8 +121,19 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void EndDrag()
     {
-        GetComponent<Image>().raycastTarget = true;
-        if (transform.parent == transform.root)
-            transform.SetParent(originalParent);
+        beingDragged.GetComponent<Image>().raycastTarget = true;
+        if (rightClick)
+        {
+            // get itemstack currently inside of parent and
+            // add this stack to it.
+            var parentSlot = originalParent.GetComponent<InventorySlot>();
+            parentSlot.CombineFrom(beingDragged);
+        }
+        else
+        {
+            if (transform.parent == transform.root)
+                transform.SetParent(originalParent);
+        }
+
     }
 }
