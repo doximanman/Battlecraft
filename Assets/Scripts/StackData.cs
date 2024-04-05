@@ -10,9 +10,15 @@ public class StackData
     public ItemType type;
     public int count;
 
+    public StackData(ItemType type, int count)
+    {
+        this.type = type;
+        this.count = count;
+    }
+
     public StackData(ItemStack stack)
     {
-        Assert.IsNotNull(stack);
+        //Assert.IsNotNull(stack);
 
         type = stack.Type;
         count = stack.ItemCount;
