@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -42,6 +43,27 @@ public class CraftingRecipe : ScriptableObject
         return true;
     }
 
+    public int HowManyCraft(IEnumerable<StackData> items)
+    {
+        var listItems = items.ToList();
+        int result = 0;
+        while (CanCraft(listItems))
+        {
+            for(int i = 0; i < listItems.Count; i++)
+            {
+                var item= listItems[i];
+                var recipeItem = inItems[i];
+                if (item == null || item.Equals(null)) continue;
+                else
+                {
+                    item.count -= recipeItem.count;
+                    result++;
+                }
+            }
+        }
+        // cant craft more than however many would give a max stack
+        return Mathf.Min(result,outItem.type.maxStack/outItem.count);
+    }
     public override bool Equals(object other)
     {
         CraftingRecipe otherRecipe = other as CraftingRecipe;

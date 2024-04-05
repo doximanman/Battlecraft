@@ -80,7 +80,7 @@ public class InventoryInteract : MonoBehaviour
         Inventory origin = BelongsTo(slot);
         if (origin == null) return;
         Inventory notOrigin=origin==mainInventory ? secondInventory : mainInventory;
-        origin.MoveItem(slot, notOrigin);
+        Inventory.MoveItem(slot, notOrigin);
     }
 
     public Inventory BelongsTo(InventorySlot slot)

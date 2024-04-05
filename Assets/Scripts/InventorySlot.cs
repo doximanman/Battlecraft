@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -8,15 +9,14 @@ using static UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    [SerializeField] private GameObject stackPrefab;
 
-    [SerializeField] private bool canAcceptItems;
+    public bool canAcceptItems;
 
     // initialized on SetItem
     // removed on RemoveItem
     private ItemStack stack;
 
-    public delegate void InventorySlotChange(StackData newData);
+    public delegate void InventorySlotChange(StackData oldData,StackData newData);
     public InventorySlotChange slotChangeListeners;
 
 
@@ -25,12 +25,17 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return stack;
     }
 
+    private StackData oldStack;
     private void NotifyChange()
     {
         if (slotChangeListeners != null)
-            if (stack == null)
-                slotChangeListeners(null);
-            else slotChangeListeners(new(stack));
+        {
+            StackData notifyOldStack = oldStack == null ? null : oldStack;
+            StackData notifyNewStack = stack == null ? null : new StackData(stack);
+            slotChangeListeners(notifyOldStack, notifyNewStack);
+        }
+        if (stack == null) oldStack = null;
+        else oldStack = new StackData(stack);
     }
 
     // combines the stacks, doesn't move them.
@@ -68,8 +73,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public void CombineFrom(ItemStack stack)
     {
         int newCount = Mathf.Min(stack.Type.maxStack, stack.ItemCount + this.stack.ItemCount);
-        stack.ItemCount = newCount;
+        this.stack.ItemCount = newCount;
         Destroy(stack.gameObject);
+    }
+
+    public void CombineFrom(StackData stack)
+    {
+        int newCount = Mathf.Min(stack.type.maxStack, stack.count + this.stack.ItemCount);
+        this.stack.ItemCount = newCount;
     }
 
     // create new stack
@@ -83,7 +94,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (this.stack == null)
         {
-            GameObject newStack = Instantiate(stackPrefab, transform);
+            GameObject newStack = Instantiate(Prefabs.stackPrefab, transform);
             this.stack = newStack.GetComponent<ItemStack>();
         }
         this.stack.Type = stack.type;
@@ -116,7 +127,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (this.stack == null)
         {
-            GameObject newStack = Instantiate(stackPrefab, transform);
+            GameObject newStack = Instantiate(Prefabs.stackPrefab, transform);
             newStack.GetComponent<ItemStack>().Type = item;
             this.stack = newStack.GetComponent<ItemStack>();
         }
@@ -128,14 +139,33 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         NotifyChange();
     }
 
+    public void AddOne(bool notifyChange = true)
+    {
+        if (GetStack() != null)
+        {
+            if (GetStack().ItemCount == GetStack().Type.maxStack) return;
+            GetStack().ItemCount++;
+            if (notifyChange) NotifyChange();
+        }
+    }
+
+    public void AddSome(int count)
+    {
+        for(int i=0;i<count; i++)
+        {
+            AddOne(false);
+        }
+        if(count > 0) NotifyChange();
+    }
+
     // only 1 item of that type
-    public void RemoveOne()
+    public void RemoveOne(bool notifyChange = true)
     {
         if (GetStack() != null)
         {
             if (GetStack().ItemCount == 1) RemoveItem();
             else GetStack().ItemCount--;
-            NotifyChange();
+            if(notifyChange) NotifyChange();
         }
     }
 
@@ -144,8 +174,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         for (int i = 0; i < count; i++)
         {
-            RemoveOne();
+            RemoveOne(false);
         }
+        if(count > 0) NotifyChange() ;
     }
 
     // destroy item object
@@ -187,18 +218,22 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (ItemStack.stopDrag || eventData.pointerDrag == null || !canAcceptItems) return;
 
+        // notify EndDrag that the dragging operation already happened
+        ItemStack.stopDrag = true;
+
         var item = ItemStack.beingDragged;
         var originalSlot = ItemStack.originalSlot;
         // left click
+
         // if no item here - set it to be the stack.
-        if(GetStack()==null)
+        if (GetStack() == null)
             SetItem(item);
         else
         {
             // otherwise try to combine
             if (item.Type.Equals(GetStack().Type))
             {
-                var combinedStacks=CombineStacks(new StackData(item));
+                var combinedStacks = CombineStacks(new StackData(item));
                 // there is no remainder
                 if (combinedStacks[1] == null)
                 {
@@ -208,22 +243,45 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 // there is a remainder
                 else
                 {
-                    originalSlot.SetItem(combinedStacks[1]);
+                    if (originalSlot.canAcceptItems)
+                    {
+                        // right click - add the remainder to the existing amount in the slot
+                        if (ItemStack.rightClick)
+                            originalSlot.CombineFrom(combinedStacks[1]);
+                        // left click - the slot is empty so set the item to be the entire stack
+                        else
+                            originalSlot.SetItem(combinedStacks[1]);
+                    }
+
                     // setting the item could change the inventory
                     combinedStacks = CombineStacks(new StackData(item));
                     SetItem(combinedStacks[0]);
                     Destroy(item.gameObject);
+
+                    if (!originalSlot.canAcceptItems)
+                    {
+                        // cant accept items - try to place it in the inventory
+                        MetaLogic.personalInventory.AddItems(combinedStacks[1].type, combinedStacks[1].count);
+                    }
+
+
                 }
             }
-            // otherwise swap
-            else if(canAcceptItems && originalSlot.canAcceptItems)
+            // otherwise swap only if the original slot is empty now
+            else if (canAcceptItems && originalSlot.canAcceptItems && originalSlot.GetStack()==null)
             {
                 var thisStack = GetStack();
                 DetatchChild();
                 originalSlot.SetItem(thisStack);
                 SetItem(item);
             }
+            // else just try to put it in the inventory of the player
+            else
+            {
+                MetaLogic.personalInventory.AddStack(item);
+            }
         }
+
     }
 
 

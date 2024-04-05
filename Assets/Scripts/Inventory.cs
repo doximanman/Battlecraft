@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Video;
@@ -58,7 +59,7 @@ public class Inventory : MonoBehaviour
 
     // adds wherever available.
     // returns the remainder
-    public ItemStack AddStack(ItemStack stack)
+    public StackData AddStack(ItemStack stack)
     {
         ItemType item = stack.Type;
         // if the item is in the inventory, add it into existing stacks
@@ -66,14 +67,18 @@ public class Inventory : MonoBehaviour
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
-            if (itemStack != null && itemStack.Type==item)
+            if (itemStack != null && itemStack.Type.Equals(item))
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
                     int added = Mathf.Min(item.maxStack-itemStack.ItemCount,remainder);
                     itemStack.ItemCount+=added;
                     remainder -= added;
-                    if (remainder == 0) return null;
+                    if (remainder == 0)
+                    {
+                        Destroy(stack.gameObject);
+                        return null;
+                    };
                 }
             }
         }
@@ -81,15 +86,13 @@ public class Inventory : MonoBehaviour
         // add the remainder to any empty slots
         foreach(var slot in slots)
         {
-            if(slot.GetStack() == null)
+            if(slot.GetStack()==null)
             {
-                slot.SetItem(item);
-                slot.GetStack().ItemCount = stack.ItemCount;
+                slot.SetItem(stack);
                 return null;
             }
         }
-        stack.ItemCount = remainder;
-        return stack;
+        return new StackData(stack.Type,remainder) ;
     }
 
     public bool HasSpace(ItemType item)
@@ -103,7 +106,7 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void MoveItem(InventorySlot slot, Inventory to)
+    public static void MoveItem(InventorySlot slot, Inventory to)
     {
         ItemStack item = slot.GetStack();
         if (item != null)
@@ -165,5 +168,15 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public override string ToString()
+    {
+        StringBuilder str=  new StringBuilder();
+        for(int i = 0; i < slots.Count; i++)
+        {
+            str.Append(i+", " + (slots[i].GetStack() == null ? "empty" : slots[i].GetStack().Type.name + "Count: " + slots[i].GetStack().ItemCount) + ";;");
+        }
+        return str.ToString();
     }
 }

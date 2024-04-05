@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class MetaLogic : MonoBehaviour
 {
-    public static GameObject externalInventory;
+    public static Inventory externalInventory;
+    public static Inventory personalInventory;
     public static GameObject mainInventory;
     public static GameObject darkenBackground;
     public static GameObject pauseMenu;
@@ -23,7 +24,8 @@ public class MetaLogic : MonoBehaviour
 
     private void Start()
     {
-        externalInventory = GameObject.FindGameObjectWithTag("ExternalInventory");
+        personalInventory=GameObject.FindGameObjectWithTag("PersonalInventory").GetComponent<Inventory>();
+        externalInventory = GameObject.FindGameObjectWithTag("ExternalInventory").GetComponent<Inventory>();
         mainInventory = GameObject.FindGameObjectWithTag("MainInventory");
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
@@ -111,18 +113,18 @@ public class MetaLogic : MonoBehaviour
 
     public static void EnableSecondInventory()
     {
-        externalInventory.SetActive(true);
+        externalInventory.gameObject.SetActive(true);
     }
 
     public static void DisableSecondInventory()
     {
 
-        externalInventory.SetActive(false);
+        externalInventory.gameObject.SetActive(false);
     }
 
     public static bool IsSecondInventoryEnabled()
     {
-        return externalInventory.activeSelf;
+        return externalInventory.gameObject.activeSelf;
     }
 
     static List<IOpenInventoryListener> openInvListeners = new();
@@ -156,6 +158,7 @@ public class MetaLogic : MonoBehaviour
         {
             listener.OnCloseInventory();
         }
+
         Unpause();
         mainInventory.SetActive(false);
         crafting.SetActive(false);
