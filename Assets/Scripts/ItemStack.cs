@@ -58,17 +58,15 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     public static bool stopDrag = false;
-    [HideInInspector] public static Transform originalParent;
+    [HideInInspector] public static InventorySlot originalSlot;
 
     public static ItemStack beingDragged;
-
-    private bool rightClick = false;
     public void OnBeginDrag(PointerEventData eventData)
     {
         // disable dragging during pause menu
         if (MetaLogic.pauseMenuEnabled) return;
 
-        
+
 
         // left mouse button
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -77,30 +75,19 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // so that the OnDrag method of the slot wiil be activated
             // instead of this
             GetComponent<Image>().raycastTarget = false;
-            rightClick = false;
-            originalParent = transform.parent;
+
+            // make stack son of root so it appears on top
+            // and remove it from the slot
+            originalSlot = transform.parent.GetComponent<InventorySlot>();
             transform.SetParent(transform.root);
+            originalSlot.DetatchChild();
+
             beingDragged = this;
             stopDrag = false;
         }
         else
         {
 
-            rightClick = true;
-            ItemStack newStack = Instantiate(stackPrefab, transform.parent).GetComponent<ItemStack>();
-            //newStack.transform.localScale=Vector3.one;
-
-            newStack.Type = Type;
-            int originalCount = ItemCount;
-            ItemCount = originalCount / 2;
-            newStack.ItemCount = (originalCount + 1) / 2;
-
-            originalParent = transform.parent;
-            newStack.transform.SetParent(transform.root);
-
-            beingDragged = newStack;
-            beingDragged.GetComponent<Image>().raycastTarget = false;
-            stopDrag = false;
         }
     }
 
@@ -116,24 +103,14 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (stopDrag) return;
 
-        EndDrag();
+        beingDragged.EndDrag();
     }
 
     private void EndDrag()
     {
-        beingDragged.GetComponent<Image>().raycastTarget = true;
-        if (rightClick)
-        {
-            // get itemstack currently inside of parent and
-            // add this stack to it.
-            var parentSlot = originalParent.GetComponent<InventorySlot>();
-            parentSlot.CombineFrom(beingDragged);
-        }
-        else
-        {
-            if (transform.parent == transform.root)
-                transform.SetParent(originalParent);
-        }
 
+        GetComponent<Image>().raycastTarget = true;
+        if (transform.parent == transform.root)
+                transform.SetParent(originalSlot.transform);
     }
 }

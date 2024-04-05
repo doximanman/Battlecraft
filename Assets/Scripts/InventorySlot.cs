@@ -142,7 +142,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     // remove count of that type
     public void RemoveSome(int count)
     {
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             RemoveOne();
         }
@@ -177,62 +177,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return GetStack().Type;
     }
 
-    // from original to this
-    public void MoveFrom(ItemStack item, InventorySlot original)
-    {
-        if (original == this) return;
-        if (stack != null)
-        {
-            // if its the same itemtype, try to combine stacks
-            if (stack.Type.Equals(item.Type))
-            {
-                var combinedStacks = CombineStacks(new StackData(item));
-                if (combinedStacks[1] == null)
-                {
-                    // stacks can be combined with no remainder
-                    // combine and remove old item
-                    original.RemoveItem();
-
-                    // RemoveItem count affect other items in the inventory
-                    // combine stacks again
-                    combinedStacks= CombineStacks(new StackData(item));
-                    SetItem(combinedStacks[0]);
-                }
-                else
-                {
-                    // stacks can be combined, but there is a remainder
-                    // remainder remains in original slot
-                    original.SetItem(combinedStacks[1]);
-
-                    // SetItem count affect other items in the inventory
-                    // combine stacks again
-                    combinedStacks = CombineStacks(new StackData(item));
-                    SetItem(combinedStacks[0]);
-                }
-            }
-            else
-            {
-                // move current item into old slot
-                // and the dragged item into this slot
-                // only if both slots can accept items
-                if (canAcceptItems && original.canAcceptItems)
-                {
-                    original.DetatchChild();
-                    original.SetItem(stack);
-                    DetatchChild();
-                    SetItem(item);
-                }
-            }
-        }
-        else
-        {
-            // move the item to this slot
-            original.DetatchChild();
-            original.NotifyChange();
-            SetItem(item);
-        }
-    }
-
     // disables dragging operation
     public void DoubleClick()
     {
@@ -243,10 +187,43 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (ItemStack.stopDrag || eventData.pointerDrag == null || !canAcceptItems) return;
 
-        // the dragged item
         var item = ItemStack.beingDragged;
-        if (!item) return;
-        MoveFrom(item, ItemStack.originalParent.GetComponent<InventorySlot>());
+        var originalSlot = ItemStack.originalSlot;
+        // left click
+        // if no item here - set it to be the stack.
+        if(GetStack()==null)
+            SetItem(item);
+        else
+        {
+            // otherwise try to combine
+            if (item.Type.Equals(GetStack().Type))
+            {
+                var combinedStacks=CombineStacks(new StackData(item));
+                // there is no remainder
+                if (combinedStacks[1] == null)
+                {
+                    GetStack().ItemCount = combinedStacks[0].count;
+                    Destroy(item.gameObject);
+                }
+                // there is a remainder
+                else
+                {
+                    originalSlot.SetItem(combinedStacks[1]);
+                    // setting the item could change the inventory
+                    combinedStacks = CombineStacks(new StackData(item));
+                    SetItem(combinedStacks[0]);
+                    Destroy(item.gameObject);
+                }
+            }
+            // otherwise swap
+            else if(canAcceptItems && originalSlot.canAcceptItems)
+            {
+                var thisStack = GetStack();
+                DetatchChild();
+                originalSlot.SetItem(thisStack);
+                SetItem(item);
+            }
+        }
     }
 
 
