@@ -19,16 +19,16 @@ public class CraftingGrid : MonoBehaviour
     {
         //List<StackData> oldGrid = new(ToData());
 
-        for (int i=0; i<inSlots.Count;i++)
+        for (int i = 0; i < inSlots.Count; i++)
         {
-            inSlots[i].slotChangeListeners += (oldStack,newStack) =>
+            inSlots[i].slotChangeListeners += (oldStack, newStack) =>
             {
                 //oldGrid[i] = oldStack;
                 currentRecipe = CheckRecipes();
                 ShowRecipe(currentRecipe);
             };
         }
-        outSlot.slotChangeListeners += (oldStack,newStack) =>
+        outSlot.slotChangeListeners += (oldStack, newStack) =>
         {
             if (currentRecipe == null) return;
             if (oldStack == null && newStack == null) return;
@@ -38,11 +38,11 @@ public class CraftingGrid : MonoBehaviour
                 // crafting was requested by the user
                 if (CheckRecipe(currentRecipe))
                 {
-                    CraftSome(currentRecipe, oldStack.count/currentRecipe.outItem.count);
+                    CraftSome(currentRecipe, oldStack.count / currentRecipe.outItem.count);
                 }
                 else
                 {
-                    Debug.Log("impossible case in CraftingGrid outSlot listener;1");
+                    Debug.Log("impossible case in CraftingGrid outSlot listener");
                 }
             }
             else if (oldStack == null && newStack != null)
@@ -62,10 +62,12 @@ public class CraftingGrid : MonoBehaviour
                 // each recipe provides)
                 // is bigger than 0 then necessarily the user
                 // crafted the difference
-                int toCraft = Mathf.Max(currentRecipe.HowManyCraft(ToData()) - (oldStack.count - newStack.count)/currentRecipe.outItem.count, 0);
+                int toCraft = Mathf.Max(currentRecipe.HowManyCraft(ToData()) - (oldStack.count - newStack.count) / currentRecipe.outItem.count, 0);
                 if (toCraft > 0)
+                {
                     CraftSome(currentRecipe, toCraft);
-                
+                }
+
             }
         };
     }
@@ -97,13 +99,15 @@ public class CraftingGrid : MonoBehaviour
         return null;
     }
 
-    public void CraftSome(CraftingRecipe recipe,int count)
+    public void CraftSome(CraftingRecipe recipe, int count)
     {
-        for(int i = 0; i < inSlots.Count; i++)
+        for (int i = 0; i < inSlots.Count; i++)
         {
-            if (inSlots[i]!=null)
+            if (inSlots[i] != null)
                 inSlots[i].RemoveSome(recipe.inItems[i].count * count);
         }
+
+        shiftPressed = false;
     }
 
     public void Craft(CraftingRecipe recipe)
@@ -117,23 +121,29 @@ public class CraftingGrid : MonoBehaviour
         }
     }
 
+    private bool shiftPressed = false;
     private float lastClicked;
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            // show maximum amount that can be crafted
-            if (currentRecipe == null) return;
-            int craftCount = currentRecipe.HowManyCraft(ToData());
-            int itemCount = Mathf.Min(currentRecipe.outItem.type.maxStack, craftCount * currentRecipe.outItem.count);
-            outSlot.AddSome(itemCount-outSlot.GetStack().ItemCount);
+            if (!shiftPressed)
+            {
+                shiftPressed = true;
+                // show maximum amount that can be crafted
+                if (currentRecipe == null) return;
+                int craftCount = currentRecipe.HowManyCraft(ToData());
+                int itemCount = Mathf.Min(currentRecipe.outItem.type.maxStack, craftCount * currentRecipe.outItem.count);
+                outSlot.AddSome(itemCount - outSlot.GetStack().ItemCount);
+            }
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
+            shiftPressed = false;
             // show only one craft
             if (currentRecipe == null) return;
-            outSlot.RemoveSome(outSlot.GetStack().ItemCount-currentRecipe.outItem.count);
+            outSlot.RemoveSome(outSlot.GetStack().ItemCount - currentRecipe.outItem.count);
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -142,7 +152,7 @@ public class CraftingGrid : MonoBehaviour
                 // double click
                 // only do something if the inventory is open
                 // and outSlot has an item
-                if (!MetaLogic.inventoryIsOpen || outSlot.GetStack()==null) return;
+                if (!MetaLogic.inventoryIsOpen || outSlot.GetStack() == null) return;
 
                 InventorySlot slot;
                 // raycast to check which slot was clicked
@@ -164,7 +174,7 @@ public class CraftingGrid : MonoBehaviour
                 }
                 // the output of the grid was clicked
                 // try to move to the inventory
-                Inventory.MoveItem(outSlot,MetaLogic.personalInventory);
+                Inventory.MoveItem(outSlot, MetaLogic.personalInventory);
             }
             else
             {
