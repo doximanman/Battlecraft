@@ -33,6 +33,7 @@ TagManager:
   - DarkHotbar
   - CraftingGrid
   - PersonalInventory
+  - UI
   layers:
   - Default
   - TransparentFX
