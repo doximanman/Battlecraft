@@ -84,6 +84,7 @@ public class InventoryData
     {
         var other= obj as InventoryData;
         if (other == null) return false;
+        if (items == null) return other.items == null;
         if (other.items.Count != items.Count) return false;
 
         return items.SequenceEqual(other.items);
@@ -91,6 +92,7 @@ public class InventoryData
 
     public override int GetHashCode()
     {
+        if (items == null) return 0;
         return items.GetHashCode();
     }
 }
