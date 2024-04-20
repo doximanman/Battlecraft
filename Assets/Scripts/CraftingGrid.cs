@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class CraftingGrid : MonoBehaviour
 {
-    [SerializeField] private List<InventorySlot> inSlots;
+    [SerializeField] private Matrix<InventorySlot> inSlots;
     [SerializeField] private InventorySlot outSlot;
 
     [SerializeField] private List<CraftingRecipe> recipes;
@@ -19,14 +19,17 @@ public class CraftingGrid : MonoBehaviour
     {
         //List<StackData> oldGrid = new(ToData());
 
-        for (int i = 0; i < inSlots.Count; i++)
+        for (int i = 0; i < inSlots.Count(); i++)
         {
-            inSlots[i].slotChangeListeners += (oldStack, newStack) =>
+            for (int j = 0; j < inSlots[i].Count; j++)
             {
-                //oldGrid[i] = oldStack;
-                currentRecipe = CheckRecipes();
-                ShowRecipe(currentRecipe);
-            };
+                inSlots[i][j].slotChangeListeners += (oldStack, newStack) =>
+                {
+                    //oldGrid[i] = oldStack;
+                    currentRecipe = CheckRecipes();
+                    ShowRecipe(currentRecipe);
+                };
+            }
         }
         outSlot.slotChangeListeners += (oldStack, newStack) =>
         {
@@ -101,10 +104,13 @@ public class CraftingGrid : MonoBehaviour
 
     public void CraftSome(CraftingRecipe recipe, int count)
     {
-        for (int i = 0; i < inSlots.Count; i++)
+        for (int i = 0; i < recipe.inItems.Count(); i++)
         {
-            if (inSlots[i] != null)
-                inSlots[i].RemoveSome(recipe.inItems[i].count * count);
+            for (int j = 0; j < recipe.inItems[i].Count; j++)
+            {
+                if (inSlots[i][j] != null)
+                    inSlots[i][j].RemoveSome(recipe.inItems[i][j].count * count);
+            }
         }
 
         shiftPressed = false;
@@ -112,11 +118,14 @@ public class CraftingGrid : MonoBehaviour
 
     public void Craft(CraftingRecipe recipe)
     {
-        for (int i = 0; i < inSlots.Count; i++)
+        for (int i = 0; i < recipe.inItems.Count(); i++)
         {
-            if (inSlots[i].GetStack() != null)
+            for (int j = 0; j < recipe.inItems[i].Count; j++)
             {
-                inSlots[i].RemoveSome(recipe.inItems[i].count);
+                if (inSlots[i][j].GetStack() != null)
+                {
+                    inSlots[i][j].RemoveSome(recipe.inItems[i][j].count);
+                }
             }
         }
     }
@@ -183,8 +192,19 @@ public class CraftingGrid : MonoBehaviour
             }
         }
     }
-    public IEnumerable<StackData> ToData()
+
+    public IEnumerable<IEnumerable<StackData>> ToData()
     {
-        return inSlots.Select(slot => slot.GetStack() == null ? null : new StackData(slot.GetStack()));
+        var result = new List<List<StackData>>();
+        for(int i = 0; i < inSlots.Count(); i++)
+        {
+            result.Add(new(inSlots[i].Count));
+            for(int j = 0; j < inSlots[i].Count; j++)
+            {
+                if (inSlots[i][j].GetStack() == null) result[i].Add(null);
+                else result[i].Add(new StackData(inSlots[i][j].GetStack()));
+            }
+        }
+        return result;
     }
 }

@@ -8,11 +8,13 @@ public class MetaLogic : MonoBehaviour
 {
     public static Inventory externalInventory;
     public static Inventory personalInventory;
+    public static GameObject chestInventory;
     public static GameObject mainInventory;
     public static GameObject darkenBackground;
     public static GameObject pauseMenu;
     public static GameObject darkenHotbar;
     public static GameObject crafting;
+    public static GameObject bigCrafting;
 
     public static double doubleClickDelay = 0.2f;
 
@@ -21,6 +23,9 @@ public class MetaLogic : MonoBehaviour
     public static bool inventoryIsOpen=false;
 
     public static bool pauseMenuEnabled = false;
+
+    private static bool enableBigCrafting = false;
+    private static bool enableChestInventory = false;
 
     private void Start()
     {
@@ -31,8 +36,13 @@ public class MetaLogic : MonoBehaviour
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         darkenHotbar = GameObject.FindGameObjectWithTag("DarkHotbar");
         crafting = GameObject.FindGameObjectWithTag("CraftingGrid");
+        bigCrafting = GameObject.FindGameObjectWithTag("BigCraftingGrid");
+        chestInventory = GameObject.FindGameObjectWithTag("ChestInventory");
+
+
         UndarkenBackground();
         pauseMenu.SetActive(false);
+        DisableCraftingBench();
         CloseInventory();
         DisableSecondInventory();
     }
@@ -45,6 +55,16 @@ public class MetaLogic : MonoBehaviour
     public static void DisableHotbar()
     {
         darkenHotbar.GetComponent<Image>().enabled = true;
+    }
+
+    public static void EnableCraftingBench()
+    {
+        enableBigCrafting = true;
+    }
+
+    public static void DisableCraftingBench()
+    {
+        enableBigCrafting = false;
     }
 
     public static void DarkenBackground()
@@ -111,6 +131,16 @@ public class MetaLogic : MonoBehaviour
         Application.Quit();
     }
 
+    public static void EnableChestInventory()
+    {
+        enableChestInventory = true;
+    }
+
+    public static void DisableChestInventory()
+    {
+        enableChestInventory = false;
+    }
+
     public static void EnableSecondInventory()
     {
         externalInventory.gameObject.SetActive(true);
@@ -137,9 +167,19 @@ public class MetaLogic : MonoBehaviour
         }
         Pause();
         mainInventory.SetActive(true);
-        // enable crafting grid only if the second inventory is closed
-        if (!IsSecondInventoryEnabled())
+        if (enableBigCrafting)
+        {
+            bigCrafting.SetActive(true);
+            EnableSecondInventory();
+        }
+        else if (enableChestInventory)
+        {
+            chestInventory.SetActive(true);
+            EnableSecondInventory();
+        }
+        else
             crafting.SetActive(true);
+
         DarkenBackground();
         inventoryIsOpen = true;
         openInvListeners.Clear();
@@ -162,6 +202,9 @@ public class MetaLogic : MonoBehaviour
         Unpause();
         mainInventory.SetActive(false);
         crafting.SetActive(false);
+        bigCrafting.SetActive(false);
+        chestInventory.SetActive(false);
+        DisableSecondInventory();
         UndarkenBackground();
         inventoryIsOpen = false;
         closeInvListeners.Clear();

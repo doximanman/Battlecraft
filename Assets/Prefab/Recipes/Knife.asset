@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   inItems:
-  - type: {fileID: 11400000, guid: b16b9de0610b84244b74dabc129e484c, type: 2}
-    count: 1
-  - type: {fileID: 0}
-    count: 0
-  - type: {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
-    count: 1
-  - type: {fileID: 0}
-    count: 0
+    _matrix:
+    - list:
+      - type: {fileID: 11400000, guid: b16b9de0610b84244b74dabc129e484c, type: 2}
+        count: 1
+    - list:
+      - type: {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
+        count: 1
   outItem:
     type: {fileID: 11400000, guid: cc639a84f9c26d84a987269d399454f5, type: 2}
     count: 1
