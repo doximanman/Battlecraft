@@ -13,14 +13,10 @@ MonoBehaviour:
   m_Name: Sticks
   m_EditorClassIdentifier: 
   inItems:
-  - type: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
-    count: 1
-  - type: {fileID: 0}
-    count: 0
-  - type: {fileID: 0}
-    count: 0
-  - type: {fileID: 0}
-    count: 0
+    _matrix:
+    - list:
+      - type: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
+        count: 1
   outItem:
     type: {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
     count: 2

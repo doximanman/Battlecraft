@@ -34,6 +34,9 @@ TagManager:
   - CraftingGrid
   - PersonalInventory
   - UI
+  - CraftingBench
+  - BigCraftingGrid
+  - ChestInventory
   layers:
   - Default
   - TransparentFX
