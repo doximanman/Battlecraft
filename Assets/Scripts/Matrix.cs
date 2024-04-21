@@ -11,13 +11,13 @@ public class Matrix<T> : IEnumerable<List<T>>
 
     public Matrix(int rows, int cols)
     {
-        _matrix = new(rows);
+        _matrix = new();
         for(int i = 0; i < rows; i++)
         {
-            _matrix[i].list = new(cols);
+            _matrix.Add(new());
             for(int j = 0; j < cols; j++)
             {
-                _matrix[i].list[j] = default;
+                _matrix[i].list.Add(default);
             }
         }
     }
@@ -26,21 +26,23 @@ public class Matrix<T> : IEnumerable<List<T>>
     {
         Assert.IsTrue(values != null);
 
-        _matrix = new(values.Count());
+        _matrix = new();
         
-        for(int i = 0; i < _matrix.Count; i++)
+        for(int i = 0; i < values.Count(); i++)
         {
             if (values.ElementAt(i) == null)
             {
-                _matrix[i].list = new(0);
+                // list wrapper with empty list
+                _matrix.Add(new());
             }
             else
             {
                 int len = values.ElementAt(i).Count();
-                _matrix[i].list = new(len);
+                // list wrapper with empty list
+                _matrix.Add(new());
                 for (int j = 0; j < len; j++)
                 {
-                    _matrix[i].list[j] = values.ElementAt(i).ElementAt(j);
+                    _matrix[i].list.Add(values.ElementAt(i).ElementAt(j));
                 }
             }
         }
