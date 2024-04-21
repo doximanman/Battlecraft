@@ -12,6 +12,11 @@ public class Inventory : MonoBehaviour
 {
     public List<InventorySlot> slots = new();
 
+    public void SetSlots(IEnumerable<InventorySlot> slots)
+    {
+        this.slots = new(slots);
+    }
+
     // returns the slot item was added in3
     // adds 1 of the item
     public InventorySlot AddItem(ItemType item)
@@ -124,12 +129,22 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public static void MoveInventory(IEnumerable<InventorySlot> from,Inventory to)
+    {
+        foreach(var slot in from)
+        {
+            MoveItem(slot, to);
+        }
+    }
+
     public void Clear()
     {
         for(int i = 0; i < slots.Count; i++) {
             slots[i].RemoveItem();
         }
     }
+
+
 
     public InventorySlot slot;
     public int addCount;

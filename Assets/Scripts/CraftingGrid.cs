@@ -8,10 +8,10 @@ using UnityEngine.EventSystems;
 
 public class CraftingGrid : MonoBehaviour
 {
-    [SerializeField] private Matrix<InventorySlot> inSlots;
-    [SerializeField] private InventorySlot outSlot;
+    public Matrix<InventorySlot> inSlots;
+    public InventorySlot outSlot;
 
-    [SerializeField] private List<CraftingRecipe> recipes;
+    [SerializeField] private CraftingRecipes recipes;
 
     private CraftingRecipe currentRecipe = null;
     // Start is called before the first frame update
