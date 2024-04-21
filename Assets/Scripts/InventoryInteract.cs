@@ -11,8 +11,6 @@ public class InventoryInteract : MonoBehaviour
 {
     public Inventory mainInventory;
     public Inventory secondInventory;
-    public CraftingGrid craftingGrid;
-
 
     private GraphicRaycaster raycaster;
     private EventSystem eventSystem;
@@ -75,12 +73,14 @@ public class InventoryInteract : MonoBehaviour
     {
         slot.DoubleClick();
 
-        if (!mainInventory.isActiveAndEnabled || !secondInventory.isActiveAndEnabled) return;
-
-        Inventory origin = BelongsTo(slot);
-        if (origin == null) return;
-        Inventory notOrigin=origin==mainInventory ? secondInventory : mainInventory;
-        Inventory.MoveItem(slot, notOrigin);
+        if (mainInventory.isActiveAndEnabled && secondInventory.isActiveAndEnabled)
+        {
+                // main inventory and chest are open
+                Inventory origin = BelongsTo(slot);
+                if (origin == null) return;
+                Inventory notOrigin = origin == mainInventory ? secondInventory : mainInventory;
+                Inventory.MoveItem(slot, notOrigin);
+        }
     }
 
     public Inventory BelongsTo(InventorySlot slot)

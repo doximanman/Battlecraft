@@ -62,7 +62,7 @@ public class CraftingRecipe : ScriptableObject
                 // not null - list of nulls.
                 for (int j = 0; j < items.ElementAt(i).Count(); j++)
                     // stackdata so either null or equal to null
-                    if (!(items.ElementAt(i).ElementAt(j) == null || !items.ElementAt(i).ElementAt(j).Equals(null)))
+                    if (!(items.ElementAt(i).ElementAt(j) == null || items.ElementAt(i).ElementAt(j).Equals(null)))
                         return false;
             }
         }
@@ -71,14 +71,15 @@ public class CraftingRecipe : ScriptableObject
 
     public int HowManyCraft(IEnumerable<IEnumerable<StackData>> items)
     {
+        Matrix<StackData> itemMatrix = new(items);
         int result = 0;
-        while (CanCraft(items))
+        while (CanCraft(itemMatrix))
         {
             for(int i = 0; i < inItems.Count(); i++)
             {
                 for (int j = 0; j < inItems[i].Count(); j++)
                 {
-                    var item = items.ElementAt(i).ElementAt(j);
+                    var item = itemMatrix[i][j];
                     var recipeItem = inItems[i][j];
                     if (item == null || item.Equals(null)) continue;
                     else

@@ -39,12 +39,10 @@ public class MetaLogic : MonoBehaviour
         bigCrafting = GameObject.FindGameObjectWithTag("BigCraftingGrid");
         chestInventory = GameObject.FindGameObjectWithTag("ChestInventory");
 
-
         UndarkenBackground();
         pauseMenu.SetActive(false);
         DisableCraftingBench();
         CloseInventory();
-        DisableSecondInventory();
     }
 
     public static void EnableHotbar()
@@ -60,11 +58,13 @@ public class MetaLogic : MonoBehaviour
     public static void EnableCraftingBench()
     {
         enableBigCrafting = true;
+        externalInventory.SetSlots(bigCrafting.GetComponent<SlotList>().slots);
     }
 
     public static void DisableCraftingBench()
     {
         enableBigCrafting = false;
+        externalInventory.SetSlots(crafting.GetComponent<SlotList>().slots);
     }
 
     public static void DarkenBackground()
@@ -134,11 +134,13 @@ public class MetaLogic : MonoBehaviour
     public static void EnableChestInventory()
     {
         enableChestInventory = true;
+        externalInventory.SetSlots(chestInventory.GetComponent<SlotList>().slots);
     }
 
     public static void DisableChestInventory()
     {
         enableChestInventory = false;
+        externalInventory.SetSlots(crafting.GetComponent<SlotList>().slots);
     }
 
     public static void EnableSecondInventory()
@@ -168,18 +170,13 @@ public class MetaLogic : MonoBehaviour
         Pause();
         mainInventory.SetActive(true);
         if (enableBigCrafting)
-        {
             bigCrafting.SetActive(true);
-            EnableSecondInventory();
-        }
         else if (enableChestInventory)
-        {
             chestInventory.SetActive(true);
-            EnableSecondInventory();
-        }
         else
             crafting.SetActive(true);
 
+        EnableSecondInventory();
         DarkenBackground();
         inventoryIsOpen = true;
         openInvListeners.Clear();
@@ -200,6 +197,12 @@ public class MetaLogic : MonoBehaviour
         }
 
         Unpause();
+        // move items from crafting grid to inventory
+        // only necessary because the inventory crafting grid
+        // doesn't have its own class like the crafting
+        // bench
+        if(crafting.activeSelf)
+            Inventory.MoveInventory(crafting.GetComponent<CraftingGrid>().inSlots.Flatten(),personalInventory);
         mainInventory.SetActive(false);
         crafting.SetActive(false);
         bigCrafting.SetActive(false);
