@@ -75,6 +75,7 @@ public class CraftingRecipe : ScriptableObject
         int result = 0;
         while (CanCraft(itemMatrix))
         {
+            result++;
             for(int i = 0; i < inItems.Count(); i++)
             {
                 for (int j = 0; j < inItems[i].Count(); j++)
@@ -85,7 +86,6 @@ public class CraftingRecipe : ScriptableObject
                     else
                     {
                         item.count -= recipeItem.count;
-                        result++;
                     }
                 }
             }

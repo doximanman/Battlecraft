@@ -7,4 +7,14 @@ using UnityEngine;
 public class ListWrapper<T>
 {
     public List<T> list;
+
+    public ListWrapper()
+    {
+        list = new();
+    }
+
+    public ListWrapper(List<T> list)
+    {
+        this.list = list;
+    }
 }
