@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0c992ba15afdd944183c93f5f8620540
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - wood: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
+  - sticks: {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
