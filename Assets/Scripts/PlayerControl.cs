@@ -33,13 +33,19 @@ public class PlayerControl : MonoBehaviour
         logic=GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
         playerBody.freezeRotation = true;
+        prevXPosition= playerBody.position.x;
     }
 
 
-    void Update()
+    private float prevXPosition;
+    private void FixedUpdate()
     {
-        animator.SetFloat("SpeedX", Mathf.Abs(playerBody.velocity.x));
+        // calculates real velocity
+        var velocity = (playerBody.position.x - prevXPosition) / Time.deltaTime;
+        animator.SetFloat("SpeedX", Mathf.Abs(velocity));
         animator.SetBool("OnGround", IsGrounded());
+
+        prevXPosition = playerBody.position.x;
     }
 
     /*private void OnCollisionStay2D(Collision2D collision)
