@@ -98,6 +98,18 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    public void CancelChop()
+    {
+        animator.SetTrigger("ResetAnimation");
+    }
+
+    // chop(0) cancels the current chop
+    public void Chop(float duration)
+    {
+        animator.SetTrigger("Chop");
+        Invoke(nameof(CancelChop), duration);
+    }
+
     private Vector2 BoxPosition()
     {
         return new(playerCollider.bounds.center.x, playerCollider.bounds.min.y - collisionDetection / 2);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Logic : MonoBehaviour
-{
+{ 
     // constant variables for biome names
     // so that if someone needs a biome's name
     // they don't have to use a hardcoded string

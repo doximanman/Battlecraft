@@ -8,6 +8,7 @@ public class MetaLogic : MonoBehaviour
 {
     public static Inventory externalInventory;
     public static Inventory personalInventory;
+    public static Hotbar hotbar;
     public static GameObject chestInventory;
     public static GameObject mainInventory;
     public static GameObject darkenBackground;
@@ -38,6 +39,7 @@ public class MetaLogic : MonoBehaviour
         crafting = GameObject.FindGameObjectWithTag("CraftingGrid");
         bigCrafting = GameObject.FindGameObjectWithTag("BigCraftingGrid");
         chestInventory = GameObject.FindGameObjectWithTag("ChestInventory");
+        hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<Hotbar>();
 
         UndarkenBackground();
         pauseMenu.SetActive(false);
