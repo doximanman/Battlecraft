@@ -12,8 +12,8 @@ public class PlayerControl : MonoBehaviour
     public float jumpHeight = 10;
     public float leniency = 0.05f;
 
+    private Animator animator;
     private Logic logic;
-    private GameObject player;
     private Rigidbody2D playerBody;
     private SpriteRenderer playerSprite;
     private BoxCollider2D playerCollider;
@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        animator= GetComponent<Animator>();
         playerBody = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
@@ -35,8 +35,11 @@ public class PlayerControl : MonoBehaviour
         playerBody.freezeRotation = true;
     }
 
+
     void Update()
     {
+        animator.SetFloat("SpeedX", Mathf.Abs(playerBody.velocity.x));
+        animator.SetBool("OnGround", IsGrounded());
     }
 
     /*private void OnCollisionStay2D(Collision2D collision)
@@ -80,9 +83,10 @@ public class PlayerControl : MonoBehaviour
 
             float newVelocity = Mathf.Sqrt(-2 * playerGravity * jumpHeight) - playerBody.velocity.y;
 
-            if (newVelocity > 0)
+            if (newVelocity > epsilon)
             {
                 playerBody.velocity += newVelocity * Vector2.up;
+                animator.SetTrigger("Jump");
             }
         }
 
