@@ -1,14 +1,27 @@
 using Codice.CM.Client.Differences.Merge;
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
+using System.Runtime.CompilerServices;
+
+[Serializable]
+public class Stats
+{
+    public float range;
+    public float damage;
+}
 
 [CreateAssetMenu(menuName = "Scriptable object/Item")]
 public class ItemType : ScriptableObject
 {
     public Sprite icon;
     public int maxStack = 99;
+    public bool swingable = false;
+    public Stats stats;
 
     public InventoryData invData;
 
@@ -50,4 +63,33 @@ public class ItemType : ScriptableObject
         else return icon.GetHashCode() ^ maxStack ^ invData.GetHashCode();
     }
 
+}
+
+
+[CustomEditor(typeof(ItemType))]
+public class ItemTypeEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        var item = target as ItemType;
+
+        EditorGUI.BeginChangeCheck();
+
+        item.icon = EditorGUILayout.ObjectField("Icon",item.icon, typeof(Sprite), false) as Sprite;
+        item.maxStack = EditorGUILayout.IntField("Max Stack",item.maxStack);
+        item.swingable = EditorGUILayout.Toggle("Is Swingable (as weapon)",item.swingable);
+
+        if (item.swingable)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("stats"),new GUIContent("Weapon Stats"));
+            EditorGUI.indentLevel--;
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+        }
+    }
 }
