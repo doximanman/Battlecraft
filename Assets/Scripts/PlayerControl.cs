@@ -41,7 +41,7 @@ public class PlayerControl : MonoBehaviour
     private void FixedUpdate()
     {
         // calculates real velocity
-        var velocity = (playerBody.position.x - prevXPosition) / Time.deltaTime;
+        var velocity = (playerBody.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("SpeedX", Mathf.Abs(velocity));
         animator.SetBool("OnGround", IsGrounded());
 
@@ -92,11 +92,14 @@ public class PlayerControl : MonoBehaviour
             if (newVelocity > epsilon)
             {
                 playerBody.velocity += newVelocity * Vector2.up;
+                animator.SetBool("OnGround", false);
                 animator.SetTrigger("Jump");
             }
         }
 
     }
+
+    
 
     public void CancelChop()
     {

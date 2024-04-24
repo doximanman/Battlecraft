@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 45a88c9a77a52dd45b0618da772c2ebc, type: 3}
   maxStack: 1
+  swingable: 1
+  stats:
+    range: 0.7
+    damage: 3
   invData:
     items: []

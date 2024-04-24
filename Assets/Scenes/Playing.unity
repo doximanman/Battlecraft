@@ -127413,6 +127413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08e9b738654c254db205e00c3a0a2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swingDelay: 0.48
+  hitDelay: 0.3
 --- !u!1001 &1836027253
 PrefabInstance:
   m_ObjectHideFlags: 0
