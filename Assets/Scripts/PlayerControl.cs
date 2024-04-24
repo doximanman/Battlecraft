@@ -100,13 +100,22 @@ public class PlayerControl : MonoBehaviour
 
     public void CancelChop()
     {
-        animator.SetTrigger("ResetAnimation");
+        if (chopping)
+        {
+            animator.SetTrigger("ResetAnimation");
+            CancelInvoke();
+            chopping = false;
+        }
     }
 
+    private bool chopping = false;
     // chop(0) cancels the current chop
-    public void Chop(float duration)
+    public void Chop(float duration,float direction = 1)
     {
+        // make sure player is rotated correctly
+        playerSprite.flipX = direction<0;
         animator.SetTrigger("Chop");
+        chopping = true;
         Invoke(nameof(CancelChop), duration);
     }
 
