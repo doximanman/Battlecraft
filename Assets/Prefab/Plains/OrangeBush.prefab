@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1246952772474141311}
   - component: {fileID: 297021108769974273}
   - component: {fileID: 2049952816304332313}
+  - component: {fileID: 8435818820766258576}
   m_Layer: 0
   m_Name: OrangeBush
   m_TagString: Interactable
@@ -130,3 +131,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4670538, y: 0.42129856}
   m_EdgeRadius: 0
+--- !u!114 &8435818820766258576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905032812653085415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0beadfea9595668428f48f680d2ba6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

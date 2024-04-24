@@ -114528,11 +114528,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1246952772474141311, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.677963
+      value: -21.781
       objectReference: {fileID: 0}
     - target: {fileID: 1246952772474141311, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.64801514
+      value: 0.235
       objectReference: {fileID: 0}
     - target: {fileID: 1246952772474141311, guid: d1fef388651676847a6f4808760d9463, type: 3}
       propertyPath: m_LocalPosition.z
@@ -128262,9 +128262,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7751c643e32c6b447b3a1bf1051b4296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lengthToSticks: 1
   _lengthToWood: 1
-  _widthToSticks: 1
-  _chopTime: 0.5
+  _widthToSticks: 2
+  _woodChopTime: 1
+  _bushChopTime: 0.5
   _wood: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
   _sticks: {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
   _axe: {fileID: 11400000, guid: a0c6ba479ad96844b9ed150196251f98, type: 2}
