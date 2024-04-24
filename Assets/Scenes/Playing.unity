@@ -109202,8 +109202,8 @@ MonoBehaviour:
   - {fileID: 1457926122}
   - {fileID: 256789433}
   slot: {fileID: 0}
-  addCount: 4
-  itemToAdd: {fileID: 11400000, guid: b16b9de0610b84244b74dabc129e484c, type: 2}
+  addCount: 1
+  itemToAdd: {fileID: 11400000, guid: a0c6ba479ad96844b9ed150196251f98, type: 2}
 --- !u!1001 &391162896
 PrefabInstance:
   m_ObjectHideFlags: 0

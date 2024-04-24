@@ -51,7 +51,8 @@ public class GameTree : MonoBehaviour
         timer += Time.deltaTime;
         if (status== ChoppingStatus.START)
         {
-            playerControl.Chop(duration);
+            // send the direction the player should be facing
+            playerControl.Chop(duration,Mathf.Sign(mousePosition.x-playerPosition.x));
             status = ChoppingStatus.ONGOING;
         }
         if (timer < duration) return;
@@ -72,6 +73,7 @@ public class GameTree : MonoBehaviour
         if(status== ChoppingStatus.ONGOING)
         {
             playerControl.CancelChop();
+            status = ChoppingStatus.STOP;
         }
     }
 
