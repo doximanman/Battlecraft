@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Logic : MonoBehaviour
-{ 
+{
     // constant variables for biome names
     // so that if someone needs a biome's name
     // they don't have to use a hardcoded string
@@ -83,18 +84,18 @@ public class Logic : MonoBehaviour
         return startBiome;
     }
 
-    // gets the ground height of x position positionX
-    public static IEnumerable<float> GetGroundHeight(float positionX)
+    // gets the nearest ground below the given position
+    public static float? GetGroundHeightBelow(Vector2 position)
     {
-        float BIG_HEIGHT = maxY - minY;
 
-        Vector2 start = new(positionX, maxY);
-        var result = Physics2D.RaycastAll(start, Vector2.down, BIG_HEIGHT);
+        var allHits = Physics2D.RaycastAll(position, Vector2.down);
 
-        foreach (var hit in result)
+        foreach (var hit in allHits)
         {
             if (hit.collider.CompareTag("Ground"))
-                yield return hit.point.y;
+                return hit.point.y;
         }
+
+        return null;
     }
 }

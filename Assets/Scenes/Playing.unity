@@ -127374,7 +127374,7 @@ MonoBehaviour:
   yOffsetChest: -0.05
   yOffsetBench: -0.2
   leniency: 0.5
-  maxPlaceDistance: 1.5
+  maxPlaceDistance: 1.2
 --- !u!61 &1826195908 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 8733985812443073592, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}

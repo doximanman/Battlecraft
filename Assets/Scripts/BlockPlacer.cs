@@ -42,15 +42,11 @@ public class BlockPlacer : MonoBehaviour
             Vector2 mousePosition=Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // get ground levels of x=mousePosition.x
-            var grounds = Logic.GetGroundHeight(mousePosition.x);
+            var groundMaybeNull = Logic.GetGroundHeightBelow(mousePosition);
 
             // no ground??
-            if (grounds.Count() == 0) return;
-
-            // get closest ground to player
-            float minValue = grounds.Min(gr => Mathf.Abs(player.bounds.min.y - gr));
-            var ground = grounds.First(gr => Mathf.Abs(player.bounds.min.y - gr) == minValue);
-
+            if (groundMaybeNull == null) return;
+            float ground = groundMaybeNull.Value;
 
             // assert chest/bench can fit
             float yOffset = selectedItem.Equals("Chest") ? yOffsetChest : yOffsetBench;
