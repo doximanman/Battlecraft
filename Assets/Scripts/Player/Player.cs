@@ -33,6 +33,16 @@ public class Player : MonoBehaviour
 
     }
 
+    public void PlaySound(string name)
+    {
+        AudioManager.instance.Play(name);
+    }
+
+    public void StopSound(string name)
+    {
+        AudioManager.instance.Stop(name);
+    }
+
     private readonly List<IHitListener> hitListeners=new();
     public void StartSwing()
     {

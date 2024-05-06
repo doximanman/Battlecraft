@@ -15,7 +15,7 @@ public class BlockPlacer : MonoBehaviour
     [SerializeField] private float yOffsetChest;
     [SerializeField] private float yOffsetBench;
 
-    public float leniency;
+    public float maxHeightDifference;
     public float maxPlaceDistance;
 
     private void Update()
@@ -38,26 +38,33 @@ public class BlockPlacer : MonoBehaviour
                 items = hotbar.SelectedSlot.GetStack().Type.invData.Copy();
             }
 
-            // close enough to player
+            // close enough to player and not inside ground
             Vector2 mousePosition=Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // get ground levels of x=mousePosition.x
-            var groundMaybeNull = Logic.GetGroundHeightBelow(mousePosition);
+             var groundMaybeNull = Logic.GetGroundHeightBelow(mousePosition);
 
-            // no ground??
+            // can't get ground
             if (groundMaybeNull == null) return;
             float ground = groundMaybeNull.Value;
 
             // assert chest/bench can fit
             float yOffset = selectedItem.Equals("Chest") ? yOffsetChest : yOffsetBench;
-            var sprite=selectedItem.Equals("Chest") ? chestPrefab.GetComponent<SpriteRenderer>() : benchPrefab.GetComponent<SpriteRenderer>();
-            Vector2 placePosition = new(mousePosition.x,ground+sprite.bounds.extents.y+yOffset);
-            Vector2 boxSize = (Vector2)sprite.bounds.size - leniency * Vector2.up;
+            var collider=selectedItem.Equals("Chest") ? chestPrefab.GetComponent<BoxCollider2D>() : benchPrefab.GetComponent<BoxCollider2D>();
+            Vector2 placePosition = new(mousePosition.x,ground+collider.size.y/2+yOffset);
+            //Vector2 boxSize = (Vector2)collider.bounds.size - leniency * Vector2.up;
+            Vector2 boxSize = collider.size;
+
+            // for gizmos
+            _boxCenter = placePosition;
+            _boxSize = boxSize;
 
             // assert place position close enough to player
             if (Vector2.Distance(player.bounds.center, placePosition) > maxPlaceDistance) return;
+            // assert close enough to mouse position
+            if (Mathf.Abs(placePosition.y-mousePosition.y) > maxHeightDifference) return;
 
-            var result = Physics2D.BoxCast(placePosition, boxSize,0,Vector2.right,0.01f,LayerMask.GetMask("Game"));
+            var result = Physics2D.BoxCast(placePosition, boxSize,0,Vector2.zero,0f,LayerMask.GetMask("Game"));
             if (result) return;
 
             // place chest or bench
@@ -76,4 +83,15 @@ public class BlockPlacer : MonoBehaviour
         }
 
     }
+
+    private Vector2 _boxCenter=new();
+    private Vector2 _boxSize=new();
+
+    private void OnDrawGizmos()
+    {
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawCube(_boxCenter, _boxSize);
+    }
+
 }
