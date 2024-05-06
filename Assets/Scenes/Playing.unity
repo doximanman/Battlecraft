@@ -110106,6 +110106,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 226842057}
     m_Modifications:
+    - target: {fileID: -5331037588054050107, guid: dc268827a22eaeb418a3ca2fe5e06a0e, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 22328908599151810, guid: dc268827a22eaeb418a3ca2fe5e06a0e, type: 3}
       propertyPath: m_Name
       value: Cow
@@ -112711,7 +112715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       propertyPath: m_TagString
