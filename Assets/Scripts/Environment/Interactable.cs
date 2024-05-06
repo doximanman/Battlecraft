@@ -6,30 +6,31 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
 
+[Serializable]
 public abstract class Interactable : MonoBehaviour
 {
-    enum ChoppingStatus { START, ONGOING, STOP }
+    [SerializeField] enum ChoppingStatus { START, ONGOING, STOP }
 
-    protected float maxDistance;
-    protected ItemType requiredTool;
-    protected float chopDuration;
-    protected PlayerControl playerControl;
+    [SerializeField] protected float maxDistance;
+    [SerializeField] protected ItemType requiredTool;
+    [SerializeField] protected float chopDuration;
+    [SerializeField] protected PlayerControl playerControl;
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         // default values
         playerControl=Player.current.GetComponent<PlayerControl>();
         maxDistance = InteractableConstants.maxInteractDistance;
     }
 
-    protected bool CloseEnough()
+    public bool CloseEnough()
     {
         var playerPosition = Player.current.transform.position;
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return Vector2.Distance(playerPosition, mousePosition) <= maxDistance;
     }
 
-    protected bool HoldingTool()
+    public bool HoldingTool()
     {
         var selected = InventoryLogic.hotbar.SelectedSlot.GetStack();
         if (selected == null || selected.Equals(null))
@@ -37,7 +38,7 @@ public abstract class Interactable : MonoBehaviour
         return selected.Type.Equals(requiredTool);
     }
 
-    protected abstract void OnFinishChopping();
+    public abstract void OnFinishChopping();
 
     public void OnMouseDown()
     {
@@ -76,7 +77,7 @@ public abstract class Interactable : MonoBehaviour
         OnFinishChopping();
     }
 
-    private void OnMouseUp()
+    public void OnMouseUp()
     {
         timer = -1;
         if (status == ChoppingStatus.ONGOING)
@@ -86,7 +87,7 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
-    private void OnMouseExit()
+    public void OnMouseExit()
     {
         OnMouseUp();
     }

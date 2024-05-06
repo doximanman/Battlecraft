@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Video;
@@ -20,6 +21,8 @@ public class Inventory : MonoBehaviour
     // adds 1 of the item
     public InventorySlot AddItem(ItemType item)
     {
+        if(item == null || item.Equals(null)) return null;
+
         // if the item is in the inventory, add it to an existing stack
         foreach (var slot in slots)
         {
@@ -59,6 +62,27 @@ public class Inventory : MonoBehaviour
             if (success==null) return count-i;
         }
         return 0;
+    }
+
+    /// <summary>
+    /// Adds all the items to the inventory.
+    /// </summary>
+    /// <param name="stacks">Collection of items</param>
+    /// <returns>Collection of remainder</returns>
+    public IEnumerable<StackData> AddItems(IEnumerable<StackData> stacks)
+    {
+        var stackList=new List<StackData>(stacks);
+        int i=0;
+        for(; i<stackList.Count;i++)
+        {
+            int remainder = AddItems(stackList[i].type, stackList[i].count);
+            if (remainder > 0) yield return new(stackList[i].type, remainder);
+        }
+        for (; i < stackList.Count; i++)
+        {
+            yield return stackList[i];
+        }
+        yield return null;
     }
 
     // adds wherever available.

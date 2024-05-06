@@ -94,7 +94,9 @@ public class Player : MonoBehaviour
         var hitObjects = swingHit.Select(collision => collision.collider.gameObject);
 
         // check each listener if they were hit (inside of hitObjects array)
-        foreach (var listener in hitListeners)
+        // create new list in case the listeners list changes
+        var listeners = new List<IHitListener>(hitListeners);
+        foreach (var listener in listeners)
         {
             if (hitObjects.Contains(listener.gameObject))
                 listener.OnHit(item);
@@ -111,6 +113,11 @@ public class Player : MonoBehaviour
     public void RegisterSwingListener(IHitListener listener)
     {
         hitListeners.Add(listener);
+    }
+
+    public void RemoveSwingListener(IHitListener listener)
+    {
+        hitListeners.Remove(listener);
     }
 
     private void OnDrawGizmos()

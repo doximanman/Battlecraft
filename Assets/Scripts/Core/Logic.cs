@@ -1,7 +1,9 @@
+using PlasticGui.Configuration.CloudEdition.Welcome;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Logic : MonoBehaviour
 {
@@ -20,7 +22,11 @@ public class Logic : MonoBehaviour
 
     private readonly string startBiome = plainsBiome;
 
-    private readonly List<string> canJumpFrom = new();
+    private static readonly List<string> canJumpFrom = new();
+
+    [InspectorName("Collision Detection")]
+    [SerializeField] private float _collisionDetection;
+    public static float collisionDetection = 0.05f;
 
     // biome change event - game objects can listen to.
     private readonly List<IBiomeListener> biomeListeners = new();
@@ -54,6 +60,8 @@ public class Logic : MonoBehaviour
         canJumpFrom.Add("Obsticles");
 
         ground = _ground;
+        collisionDetection = _collisionDetection;
+        wallCloseDistance = _wallCloseDistance;
     }
 
     public void RegisterBiomeListener(IBiomeListener listener)
@@ -62,21 +70,56 @@ public class Logic : MonoBehaviour
     }
 
     // preferably use canJumpOn(collider)
-    public bool CanJumpOn(string tag)
+    public static bool IsGround(string tag)
     {
         return canJumpFrom.Contains(tag);
     }
 
-    public bool CanJumpOn(Collider2D collider)
+    public static bool IsGround(Collider2D collider)
     {
-        return canJumpFrom.Contains(collider.tag) || CanJumpOn(collider.transform.parent);
+        return canJumpFrom.Contains(collider.tag) || IsGround(collider.transform.parent);
     }
 
-    private bool CanJumpOn(Transform transform)
+    private static bool IsGround(Transform transform)
     {
         if (transform == null) return false;
 
-        return canJumpFrom.Contains(transform.tag) || CanJumpOn(transform.parent);
+        return canJumpFrom.Contains(transform.tag) || IsGround(transform.parent);
+    }
+
+    public static bool IsGrounded(GameObject obj)
+    {
+        var collider = obj.GetComponent<BoxCollider2D>();
+        var rigidbody=obj.GetComponent<Rigidbody2D>();
+        Assert.IsNotNull(collider);
+        Assert.IsNotNull(rigidbody);
+
+        // create a box to see if there is ground below the player.
+        Vector2 boxPosition = new(collider.bounds.center.x, collider.bounds.min.y - collisionDetection / 2); ;
+        Vector2 boxSize = new(collider.size.x * rigidbody.transform.lossyScale.x - 2 * collisionDetection, collisionDetection);
+
+        var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
+
+        return Colliders.Any(collider => IsGround(collider));
+    }
+
+    [InspectorName("Wall Close Distance")]
+    [SerializeField] private float _wallCloseDistance;
+    public static float wallCloseDistance;
+    [InspectorName("Wall Detection Height")]
+    [SerializeField] private float _wallDetectionHeight;
+    public static float wallDetectionHeight;
+    // wall is close to object, in the given direction
+    public static bool WallClose(GameObject obj,float direction)
+    {
+        var collider = obj.GetComponent<Collider2D>();
+        Assert.IsNotNull(collider);
+
+        var position=new Vector2(obj.transform.position.x,collider.bounds.min.y+ wallDetectionHeight);
+        var directionVector = direction < 0 ? Vector2.left : Vector2.right;
+        var colliders = Physics2D.RaycastAll(position, directionVector, wallCloseDistance);
+
+        return colliders.Any(collider => IsGround(collider.collider));
     }
 
     public string GetStartBiome()
@@ -95,7 +138,7 @@ public class Logic : MonoBehaviour
 
         foreach (var hit in allHits)
         {
-            if (hit.collider.gameObject == ground.gameObject)
+            if (IsGround(hit.collider))
                 return hit.point.y;
         }
 
