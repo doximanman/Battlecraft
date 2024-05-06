@@ -1,16 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
-
+[Serializable]
 public class GameTree : Interactable
 {
     private float length;
     private float width;
 
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
 
@@ -24,7 +25,7 @@ public class GameTree : Interactable
         chopDuration = InteractableConstants.woodChopTime * length;
     }
 
-    protected override void OnFinishChopping()
+    public override void OnFinishChopping()
     {
         // time has passed - break the tree and add wood and sticks to inventory.
         InventoryLogic.personalInventory.AddItems(InteractableConstants.wood,

@@ -7,12 +7,18 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 [Serializable]
 public class Stats
 {
     public float range;
     public float damage;
+
+    public override string ToString()
+    {
+        return "Range: " + range + " Damage: " + damage;
+    }
 }
 
 [CreateAssetMenu(menuName = "Scriptable object/Item")]
@@ -20,18 +26,22 @@ public class ItemType : ScriptableObject
 {
     public Sprite icon;
     public int maxStack = 99;
+
     public bool swingable = false;
     public Stats stats;
 
+    public bool hasInventory = false;
     public InventoryData invData;
 
     public override string ToString()
     {
-        if (invData == null)
-        {
-            return "name: " + name + " maxStack: " + maxStack;
-        }
-        return "name: "+name+" icon. maxStack: " + maxStack + " invData: "+invData;
+        StringBuilder builder = new();
+        builder.Append("Name: " + name + "Max Stack: " + maxStack);
+        if (swingable)
+            builder.Append(" Swingable. Stats: " + stats);
+        if (invData != null && !invData.Equals(null))
+            builder.Append(" Inventory Data: " + invData);
+        return builder.ToString();
     }
 
     // can compare null with an object and object with null
@@ -77,12 +87,20 @@ public class ItemTypeEditor : Editor
 
         item.icon = EditorGUILayout.ObjectField("Icon",item.icon, typeof(Sprite), false) as Sprite;
         item.maxStack = EditorGUILayout.IntField("Max Stack",item.maxStack);
-        item.swingable = EditorGUILayout.Toggle("Is Swingable (as weapon)",item.swingable);
+        item.swingable = EditorGUILayout.Toggle("Swingable",item.swingable);
+        item.hasInventory= EditorGUILayout.Toggle("Inventory", item.hasInventory);
 
         if (item.swingable)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("stats"),new GUIContent("Weapon Stats"));
+            EditorGUI.indentLevel--;
+        }
+
+        if (item.hasInventory)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("invData"), new GUIContent("Inventory Data"));
             EditorGUI.indentLevel--;
         }
 

@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[Serializable]
 public class GameBush : Interactable
 {
-    private float length;
+    [SerializeField] private float length;
 
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
 
@@ -20,7 +22,7 @@ public class GameBush : Interactable
         chopDuration = InteractableConstants.bushChopTime * length;
     }
 
-    protected override void OnFinishChopping()
+    public override void OnFinishChopping()
     {
         // add sticks to inventory
         // proportional to size of bush
