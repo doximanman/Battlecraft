@@ -6,6 +6,8 @@ public class Setup : MonoBehaviour
 {
     void Start()
     {
+        MenuLogic.settingsTab.SetActive(false);
+
         MetaLogic.UndarkenBackground();
         MetaLogic.pauseMenu.SetActive(false);
 
@@ -15,5 +17,6 @@ public class Setup : MonoBehaviour
         InventoryLogic.mainInventory.SetActive(false);
         InventoryLogic.chestInventory.SetActive(false);
         InventoryLogic.DisableSecondInventory();
+
     }
 }
