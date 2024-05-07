@@ -177,6 +177,8 @@ MonoBehaviour:
   animalSprite: {fileID: 21300000, guid: da944b686d6ba11408ca3ae8c7af3c9b, type: 3}
   droppedItems: []
   knockback: {x: 2, y: 2}
+  getsScared: 1
+  runawayTime: 3
   maxHealth: 5
 --- !u!114 &8379696114543419996
 MonoBehaviour:
@@ -198,6 +200,7 @@ MonoBehaviour:
     maxMoveTime: 1
     chanceToGoRight: 0.5
     xSpeed: 1
+    xRunSpeed: 2
     jumpHeight: 1.2
     jumpChance: 0.5
   jumpDelay: 0.5

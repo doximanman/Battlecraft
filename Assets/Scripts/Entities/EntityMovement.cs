@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EntityMovement : MonoBehaviour
 {
     private float prevXPosition;
@@ -16,6 +17,7 @@ public class EntityMovement : MonoBehaviour
     [SerializeField] private bool randomMovement;
     [SerializeField] private MovementSettings movementSettings;
 
+    private IEnumerator randomMovementCoroutine;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,11 @@ public class EntityMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         originalGravityScale = body.gravityScale;
 
-        StartCoroutine(MoveRandomly());
+        if (randomMovement)
+        {
+            randomMovementCoroutine = MoveRandomly();
+            StartCoroutine(MoveRandomly());
+        }
     }
 
     // Update is called once per frame
@@ -39,20 +45,23 @@ public class EntityMovement : MonoBehaviour
             sprite.flipX = velocity > 0;
     }
 
-    private bool move = true;
     IEnumerator MoveRandomly()
     {
-        while (move)
+        while (true)
         {
+
+            // wait for random time
             float waitTime = UnityEngine.Random.Range(movementSettings.minWaitTime, movementSettings.maxWaitTime);
             yield return new WaitForSeconds(waitTime);
+
+            // move for random time, in a random direction
             float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
             float randomNumber = UnityEngine.Random.Range(0f, 1f);
             bool right = randomNumber < movementSettings.chanceToGoRight;
-            if (right) MoveRight(); else MoveLeft();
-            StartCoroutine(JumpRandomly(right ? 1 : -1));
+            IEnumerator moveRoutine = right ? Move(moveTime,Direction.RIGHT) : Move(moveTime,Direction.LEFT);
+            StartCoroutine(moveRoutine);
+
             yield return new WaitForSeconds(moveTime);
-            StopCoroutine(nameof(JumpRandomly));
             StopMoving();
         }
     }
@@ -63,24 +72,55 @@ public class EntityMovement : MonoBehaviour
     [SerializeField] private float jumpTime;
     // possibility to jump if next to wall
     // and moving towards the wall
-    IEnumerator JumpRandomly(float direction)
+    IEnumerator JumpRandomly(Direction direction)
     {
-        // every second, try to jump
-        while (move)
+        // every delay, try to jump if next to wall
+        while (true)
         {
-            yield return new WaitForSeconds(jumpDelay);
             if (Logic.WallClose(gameObject, direction))
                 if (UnityEngine.Random.Range(0, 1) < movementSettings.jumpChance)
                 {
                     Jump();
                     // wait a bit for jump to happen
                     yield return new WaitForSeconds(jumpTime);
-                    if (direction > 0) MoveRight(); else MoveLeft();
+                    if (direction == Direction.RIGHT) MoveRight(); else MoveLeft();
                 }
-            yield return null;
+            yield return new WaitForSeconds(jumpDelay);
         }
     }
 
+    // jumps over obsticles if needed
+    // moves continuously
+    public IEnumerator Move(float seconds, Direction direction,bool jump = true)
+    {
+        Debug.Log("moving");
+        if (direction == Direction.RIGHT) InvokeRepeating(nameof(MoveRight), 0, Time.fixedDeltaTime);
+        else InvokeRepeating(nameof(MoveLeft),0, Time.fixedDeltaTime);
+        IEnumerator jumpRoutine=null;
+        if (jump)
+        {
+            jumpRoutine = JumpRandomly(direction);
+            StartCoroutine(jumpRoutine);
+        }
+        yield return new WaitForSeconds(seconds);
+        if(jump) StopCoroutine(jumpRoutine);
+        Debug.Log("not moving");
+        StopMoving();
+    }
+
+    public IEnumerator Run(float seconds, Direction direction, bool jump = true)
+    {
+        // stop all other movement and run
+        StopAllCoroutines();
+        var oldSpeed = movementSettings.xSpeed;
+        movementSettings.xSpeed = movementSettings.xRunSpeed;
+        yield return Move(seconds, direction, jump);
+        movementSettings.xSpeed = oldSpeed;
+        if(randomMovement)
+            StartCoroutine(randomMovementCoroutine);
+    }
+
+    // moves until blocked by something
     [ContextMenu("Move Right")]
     public void MoveRight()
     {
@@ -121,5 +161,6 @@ public class EntityMovement : MonoBehaviour
     public void StopMoving()
     {
         body.velocity = body.velocity.y * Vector2.up;
+        CancelInvoke();
     }
 }

@@ -110174,6 +110174,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8379696114543419996, guid: dc268827a22eaeb418a3ca2fe5e06a0e, type: 3}
+      propertyPath: movementSettings.maxMoveTime
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -111937,6 +111941,7 @@ MonoBehaviour:
   _ground: {fileID: 270350056}
   _wallCloseDistance: 1
   _wallDetectionHeight: 0.1
+  _maximumWallAngle: 40
 --- !u!4 &694395920
 Transform:
   m_ObjectHideFlags: 0
