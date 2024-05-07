@@ -31,17 +31,17 @@ public class CameraLogic : MonoBehaviour, IBiomeListener
 
     }
 
-    public void OnBiomeChange(string biome)
+    public void OnBiomeChange(Biome biome)
     {
         switch (biome)
         {
-            case (Logic.plainsBiome):
+            case (Biome.PLAINS):
                 thisCamera.backgroundColor = plainsBackground;
                 break;
-            case (Logic.desertBiome):
+            case (Biome.DESERT):
                 thisCamera.backgroundColor = desertBackground;
                 break;
-            case (Logic.iceBiome):
+            case (Biome.ICE):
                 thisCamera.backgroundColor = iceBackground;
                 break;
 

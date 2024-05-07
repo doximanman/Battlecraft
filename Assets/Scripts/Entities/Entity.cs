@@ -10,6 +10,7 @@ public class Entity : IHitListener
     public Sprite animalSprite;
 
     public StackData[] droppedItems;
+    public Vector2 knockback;
     public int maxHealth;
     private float health=1;
     public float Health
@@ -39,7 +40,20 @@ public class Entity : IHitListener
             Debug.Log("Hit with unswingable item??");
             return;
         }
-        Debug.Log(animalName + " was hit by " + hitWith);
+        // hurt animation
+        if(gameObject.TryGetComponent<Animator>(out var animator))
+        {
+            animator.SetTrigger("Hurt");
+        }
+        // knockback
+        if(gameObject.TryGetComponent<Rigidbody2D>(out var body))
+        {
+            bool isRight = Player.current.transform.position.x < transform.position.x;
+            if (isRight) body.velocity += knockback;
+            else body.velocity += new Vector2(-knockback.x, knockback.y);
+            //var force = new Vector2(isRight? knockback.x : -knockback.x,knockback.y);
+            //body.AddForce(force, ForceMode2D.Impulse);
+        }
         // reduce health by weapon damage
         Health -= hitWith.stats.damage;
     }

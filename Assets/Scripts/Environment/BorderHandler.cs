@@ -11,8 +11,8 @@ public class BorderHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        logic=GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
-        border=GetComponent<Collider2D>();
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
+        border = GetComponent<Collider2D>();
 
     }
 
@@ -22,15 +22,15 @@ public class BorderHandler : MonoBehaviour
         if (!collision.CompareTag("Player")) return;
 
         float playerPosition = collision.bounds.center.x;
-        float middlePosition=border.bounds.center.x;
+        float middlePosition = border.bounds.center.x;
 
         switch (tag)
         {
             case ("PlainsToDesert"):
-                logic.Biome = playerPosition <middlePosition ? Logic.plainsBiome : Logic.desertBiome;
+                logic.Biome = playerPosition < middlePosition ? Biome.PLAINS : Biome.DESERT;
                 break;
             case ("IceToPlains"):
-                logic.Biome = playerPosition < middlePosition ? Logic.iceBiome : Logic.plainsBiome;
+                logic.Biome = playerPosition < middlePosition ? Biome.ICE : Biome.DESERT;
                 break;
         }
     }

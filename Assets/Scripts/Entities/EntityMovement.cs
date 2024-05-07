@@ -19,7 +19,7 @@ public class EntityMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        prevXPosition= transform.position.x;
+        prevXPosition = transform.position.x;
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -31,11 +31,11 @@ public class EntityMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float velocity = (transform.position.x - prevXPosition)/Time.fixedDeltaTime;
+        float velocity = (transform.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("Speed", Mathf.Abs(velocity));
         prevXPosition = transform.position.x;
 
-        if(Mathf.Abs(velocity) > zeroSpeed)
+        if (Mathf.Abs(velocity) > zeroSpeed)
             sprite.flipX = velocity > 0;
     }
 
@@ -48,7 +48,6 @@ public class EntityMovement : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
             float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
             float randomNumber = UnityEngine.Random.Range(0f, 1f);
-            Debug.Log(randomNumber + " less than " + movementSettings.chanceToGoRight);
             bool right = randomNumber < movementSettings.chanceToGoRight;
             if (right) MoveRight(); else MoveLeft();
             StartCoroutine(JumpRandomly(right ? 1 : -1));
@@ -121,6 +120,6 @@ public class EntityMovement : MonoBehaviour
     [ContextMenu("Stop Moving")]
     public void StopMoving()
     {
-        body.velocity=body.velocity.y * Vector2.up;
+        body.velocity = body.velocity.y * Vector2.up;
     }
 }
