@@ -11,6 +11,8 @@ public class Entity : IHitListener
 
     public StackData[] droppedItems;
     public Vector2 knockback;
+    public bool getsScared;
+    public float runawayTime;
     public int maxHealth;
     private float health=1;
     public float Health
@@ -51,8 +53,12 @@ public class Entity : IHitListener
             bool isRight = Player.current.transform.position.x < transform.position.x;
             if (isRight) body.velocity += knockback;
             else body.velocity += new Vector2(-knockback.x, knockback.y);
-            //var force = new Vector2(isRight? knockback.x : -knockback.x,knockback.y);
-            //body.AddForce(force, ForceMode2D.Impulse);
+        }
+        // entity runs away
+        if(getsScared && gameObject.TryGetComponent<EntityMovement>(out var movement))
+        {
+            bool isRight = Player.current.transform.position.x < transform.position.x;
+            StartCoroutine(movement.Run(runawayTime,isRight ? Direction.RIGHT : Direction.LEFT));
         }
         // reduce health by weapon damage
         Health -= hitWith.stats.damage;

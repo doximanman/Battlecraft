@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public enum Biome { PLAINS, ICE, DESERT };
+public enum Direction { LEFT, RIGHT }
 public class Logic : MonoBehaviour
 { 
     // constant variables for biome names
@@ -21,7 +22,7 @@ public class Logic : MonoBehaviour
     public const float minY = -20;
     public const float maxX = 470;
     public const float maxY = 20;
-
+    
     private readonly Biome startBiome = Biome.PLAINS;
 
     private static readonly List<string> canJumpFrom = new();
@@ -64,6 +65,7 @@ public class Logic : MonoBehaviour
         ground = _ground;
         collisionDetection = _collisionDetection;
         wallCloseDistance = _wallCloseDistance;
+        maximumWallAngle = _maximumWallAngle;
     }
 
     public void RegisterBiomeListener(IBiomeListener listener)
@@ -111,17 +113,28 @@ public class Logic : MonoBehaviour
     [InspectorName("Wall Detection Height")]
     [SerializeField] private float _wallDetectionHeight;
     public static float wallDetectionHeight;
+    [InspectorName("Maximum Angle Of Wall Normal With (0,1)")]
+    [SerializeField] private float _maximumWallAngle;
+    public static float maximumWallAngle;
     // wall is close to object, in the given direction
-    public static bool WallClose(GameObject obj,float direction)
+    public static bool WallClose(GameObject obj,Direction direction)
     {
         var collider = obj.GetComponent<Collider2D>();
         Assert.IsNotNull(collider);
 
         var position=new Vector2(obj.transform.position.x,collider.bounds.min.y+ wallDetectionHeight);
-        var directionVector = direction < 0 ? Vector2.left : Vector2.right;
-        var colliders = Physics2D.RaycastAll(position, directionVector, wallCloseDistance);
+        var directionVector = direction == Direction.RIGHT ? Vector2.right : Vector2.left;
+        var collisions = Physics2D.RaycastAll(position, directionVector, wallCloseDistance);
 
-        return colliders.Any(collider => IsGround(collider.collider));
+        // normal of collision must point up
+        // otherwise its just a slope
+        // and the collider must be ground
+        return collisions.Any(collision => {
+            var angle = Vector2.Angle(-directionVector, collision.normal) % 180;
+            bool wallAndGround= angle<maximumWallAngle && IsGround(collision.collider);
+            if(IsGround(collision.collider)) Debug.Log(-directionVector + " "+collision.normal+" "+ angle + " " + wallAndGround);
+            return wallAndGround;
+            });
     }
 
     public Biome GetStartBiome()
