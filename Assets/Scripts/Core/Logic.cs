@@ -5,14 +5,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+public enum Biome { PLAINS, ICE, DESERT };
 public class Logic : MonoBehaviour
-{
+{ 
     // constant variables for biome names
     // so that if someone needs a biome's name
     // they don't have to use a hardcoded string
-    public const string plainsBiome = "plains";
+
+    /*public const string plainsBiome = "plains";
     public const string iceBiome = "ice";
-    public const string desertBiome = "desert";
+    public const string desertBiome = "desert";*/
 
     // map bounds
     public const float minX = -470;
@@ -20,7 +22,7 @@ public class Logic : MonoBehaviour
     public const float maxX = 470;
     public const float maxY = 20;
 
-    private readonly string startBiome = plainsBiome;
+    private readonly Biome startBiome = Biome.PLAINS;
 
     private static readonly List<string> canJumpFrom = new();
 
@@ -36,8 +38,8 @@ public class Logic : MonoBehaviour
 
     private static CompositeCollider2D ground;
 
-    private string biome;
-    public string Biome
+    private Biome biome;
+    public Biome Biome
     {
         get
         {
@@ -122,7 +124,7 @@ public class Logic : MonoBehaviour
         return colliders.Any(collider => IsGround(collider.collider));
     }
 
-    public string GetStartBiome()
+    public Biome GetStartBiome()
     {
         return startBiome;
     }

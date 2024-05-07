@@ -25,7 +25,7 @@ public class CraftingLogic : MonoBehaviour
             // if it is my responsibility to deal with the 
             // second inventory, I will open/close one of the
             // crafting grids.
-            if (!(InventoryLogic.responsible == InventoryLogic.RESPONSIBLE.CRAFTING)) return;
+            if (!(InventoryLogic.responsible == InventoryLogic.Responsible.CRAFTING)) return;
 
             if (on)
             {
@@ -69,7 +69,7 @@ public class CraftingLogic : MonoBehaviour
     {
         craftingListeners?.Invoke(true);
         // "I am responsible for the second inventory"
-        InventoryLogic.responsible = InventoryLogic.RESPONSIBLE.CRAFTING;
+        InventoryLogic.responsible = InventoryLogic.Responsible.CRAFTING;
         enableBigCrafting = true;
         // external inventory is the inSlots of the big crafting bench.
         InventoryLogic.externalInventory.SetSlots(bigCrafting.GetComponent<SlotList>().slots);

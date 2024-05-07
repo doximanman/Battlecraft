@@ -25,17 +25,17 @@ public class CloudLogic : MonoBehaviour, IBiomeListener
         particleRenderer = particles.GetComponent<ParticleSystemRenderer>();
     }
 
-    public void OnBiomeChange(string biome)
+    public void OnBiomeChange(Biome biome)
     {
         switch (biome)
         {
-            case (Logic.plainsBiome):
+            case (Biome.PLAINS):
                 particleRenderer.material=plainsClouds;
                 break;
-            case (Logic.iceBiome):
+            case (Biome.ICE):
                 particleRenderer.material = iceClouds;
                 break;
-            case (Logic.desertBiome):
+            case (Biome.DESERT):
                 particleRenderer.material = desertClouds;
                 break;
         }

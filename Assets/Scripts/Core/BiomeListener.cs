@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IBiomeListener
 {
-    void OnBiomeChange(string biome);
+    void OnBiomeChange(Biome biome);
 }

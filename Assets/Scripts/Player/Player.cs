@@ -90,7 +90,8 @@ public class Player : MonoBehaviour
         }
 
         // raycast swing
-        var swingHit = Physics2D.BoxCastAll(startPoint, size, 0, direction);
+        var boxSize=BoxSize();
+        var swingHit = Physics2D.BoxCastAll(boxSize.Item1,boxSize.Item2, 0, direction,0);
         var hitObjects = swingHit.Select(collision => collision.collider.gameObject);
 
         // check each listener if they were hit (inside of hitObjects array)
