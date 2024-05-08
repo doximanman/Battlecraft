@@ -53,11 +53,7 @@ public class MovementTests
         float startingY=player.transform.position.y;
         float startingX=player.transform.position.x;
 
-        playerController.MoveRight();
-
-        yield return new WaitForSeconds(waitTime);
-
-        playerController.StopMoving();
+        yield return playerController.Move(Direction.RIGHT, waitTime);
 
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         Vector2 supposedPosition = new Vector2(startingX+playerController.velocity*waitTime, startingY);
@@ -83,11 +79,7 @@ public class MovementTests
         float startingY = player.transform.position.y;
         float startingX = player.transform.position.x;
 
-        playerController.MoveLeft();
-
-        yield return new WaitForSeconds(waitTime);
-
-        playerController.StopMoving();
+        yield return playerController.Move(Direction.LEFT, waitTime);
 
         Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         Vector2 supposedPosition = new Vector2(startingX-playerController.velocity * waitTime, startingY);

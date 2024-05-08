@@ -50,13 +50,16 @@ public class InventoryLogic : MonoBehaviour
 
         responsible = Responsible.CRAFTING;
 
-        KeyInput.instance.onInventory += () =>
+        KeyInput.instance.onInventory += (down,_,_) =>
         {
-            // when pressing the inventory button, open it.
-            // only if the pause menu is not enabled.
-            if (MetaLogic.pauseMenuEnabled) return;
-            if (inventoryIsOpen) CloseInventory();
-            else OpenInventory();
+            if (down)
+            {
+                // when pressing the inventory button, open it.
+                // only if the pause menu is not enabled.
+                if (MetaLogic.pauseMenuEnabled) return;
+                if (inventoryIsOpen) CloseInventory();
+                else OpenInventory();
+            }
         };
 
         MetaLogic.pauseMenuListeners += (on) =>

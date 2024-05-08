@@ -8,20 +8,10 @@ public class SunLogic : MonoBehaviour, IBiomeListener
     public float iceScale = 0.7f;
     public float desertScale = 1.3f;
 
-    private Logic logic;
-
     // Start is called before the first frame update
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
-
-        logic.RegisterBiomeListener(this);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Logic.RegisterBiomeListener(this);
     }
 
     public void OnBiomeChange(Biome biome)
