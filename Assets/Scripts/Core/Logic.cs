@@ -6,16 +6,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public enum Biome { PLAINS, ICE, DESERT };
-public enum Direction { LEFT, RIGHT }
+public enum Direction { ZERO, LEFT, RIGHT }
 public class Logic : MonoBehaviour
 { 
-    // constant variables for biome names
-    // so that if someone needs a biome's name
-    // they don't have to use a hardcoded string
-
-    /*public const string plainsBiome = "plains";
-    public const string iceBiome = "ice";
-    public const string desertBiome = "desert";*/
 
     // map bounds
     public const float minX = -470;
@@ -23,7 +16,7 @@ public class Logic : MonoBehaviour
     public const float maxX = 470;
     public const float maxY = 20;
     
-    private readonly Biome startBiome = Biome.PLAINS;
+    private static readonly Biome startBiome = Biome.PLAINS;
 
     private static readonly List<string> canJumpFrom = new();
 
@@ -32,15 +25,15 @@ public class Logic : MonoBehaviour
     public static float collisionDetection = 0.05f;
 
     // biome change event - game objects can listen to.
-    private readonly List<IBiomeListener> biomeListeners = new();
+    private static readonly List<IBiomeListener> biomeListeners = new();
 
     [InspectorName("Ground Collider")]
     [SerializeField] private CompositeCollider2D _ground;
 
     private static CompositeCollider2D ground;
 
-    private Biome biome;
-    public Biome Biome
+    private static Biome biome;
+    public static Biome Biome
     {
         get
         {
@@ -66,9 +59,10 @@ public class Logic : MonoBehaviour
         collisionDetection = _collisionDetection;
         wallCloseDistance = _wallCloseDistance;
         maximumWallAngle = _maximumWallAngle;
+        groundSlideAngle= _groundSlideAngle;
     }
 
-    public void RegisterBiomeListener(IBiomeListener listener)
+    public static void RegisterBiomeListener(IBiomeListener listener)
     {
         biomeListeners.Add(listener);
     }
@@ -137,7 +131,8 @@ public class Logic : MonoBehaviour
             });
     }
 
-    public Biome GetStartBiome()
+
+    public static Biome GetStartBiome()
     {
         return startBiome;
     }
@@ -158,5 +153,32 @@ public class Logic : MonoBehaviour
         }
 
         return null;
+    }
+
+    [InspectorName("Ground Slides Above Angle")]
+    [SerializeField] private float _groundSlideAngle;
+    public static float groundSlideAngle;
+
+    /// <summary>
+    /// Checks the angle between a gameobject and the ground.
+    /// The game object should be grounded.
+    /// </summary>
+    /// <param name="gameObject">Object to check below.</param>
+    /// <returns>The angle between the ground and the object.</returns>
+    public static bool ShouldSlide(GameObject obj)
+    {
+        Collider2D collider2D = obj.GetComponent<Collider2D>();
+
+        Vector2 centerOfObject = new(collider2D.bounds.center.x,collider2D.bounds.min.y);
+        Vector2 sizeOfDetection = new(collider2D.bounds.size.x,1f);
+
+        var results = Physics2D.BoxCastAll(centerOfObject, sizeOfDetection, 0, Vector2.down);
+        
+        foreach(var hit in results)
+        {
+            if (IsGround(hit.collider))
+                return Vector2.Angle(hit.normal, Vector2.up) < groundSlideAngle;
+        }
+        return false;
     }
 }

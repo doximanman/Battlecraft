@@ -17,6 +17,9 @@ public class EntityMovement : MonoBehaviour
     [SerializeField] private bool randomMovement;
     [SerializeField] private MovementSettings movementSettings;
 
+    public Biome biome;
+    public bool stayInBiome;
+
     private IEnumerator randomMovementCoroutine;
     // Start is called before the first frame update
     void Start()
@@ -37,19 +40,24 @@ public class EntityMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // update animator x speed
         float velocity = (transform.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("Speed", Mathf.Abs(velocity));
         prevXPosition = transform.position.x;
 
+        // flip sprite accordingly
         if (Mathf.Abs(velocity) > zeroSpeed)
             sprite.flipX = velocity > 0;
     }
 
+    /// <summary>
+    /// Moves randomly, stays inside biome.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator MoveRandomly()
     {
         while (true)
         {
-
             // wait for random time
             float waitTime = UnityEngine.Random.Range(movementSettings.minWaitTime, movementSettings.maxWaitTime);
             yield return new WaitForSeconds(waitTime);
@@ -58,7 +66,7 @@ public class EntityMovement : MonoBehaviour
             float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
             float randomNumber = UnityEngine.Random.Range(0f, 1f);
             bool right = randomNumber < movementSettings.chanceToGoRight;
-            IEnumerator moveRoutine = right ? Move(moveTime,Direction.RIGHT) : Move(moveTime,Direction.LEFT);
+            IEnumerator moveRoutine = right ? Walk(moveTime,Direction.RIGHT) : Walk(moveTime,Direction.LEFT);
             StartCoroutine(moveRoutine);
 
             yield return new WaitForSeconds(moveTime);
@@ -70,7 +78,7 @@ public class EntityMovement : MonoBehaviour
     [SerializeField] private float jumpDelay;
     [InspectorName("Time It Takes To Jump")]
     [SerializeField] private float jumpTime;
-    // possibility to jump if next to wall
+    // possibility to jump if next to wall,
     // and moving towards the wall
     IEnumerator JumpRandomly(Direction direction)
     {
@@ -83,7 +91,7 @@ public class EntityMovement : MonoBehaviour
                     Jump();
                     // wait a bit for jump to happen
                     yield return new WaitForSeconds(jumpTime);
-                    if (direction == Direction.RIGHT) MoveRight(); else MoveLeft();
+                    Move(direction);
                 }
             yield return new WaitForSeconds(jumpDelay);
         }
@@ -91,9 +99,8 @@ public class EntityMovement : MonoBehaviour
 
     // jumps over obsticles if needed
     // moves continuously
-    public IEnumerator Move(float seconds, Direction direction,bool jump = true)
+    public IEnumerator Walk(float seconds, Direction direction,bool jump = true)
     {
-        Debug.Log("moving");
         if (direction == Direction.RIGHT) InvokeRepeating(nameof(MoveRight), 0, Time.fixedDeltaTime);
         else InvokeRepeating(nameof(MoveLeft),0, Time.fixedDeltaTime);
         IEnumerator jumpRoutine=null;
@@ -104,7 +111,6 @@ public class EntityMovement : MonoBehaviour
         }
         yield return new WaitForSeconds(seconds);
         if(jump) StopCoroutine(jumpRoutine);
-        Debug.Log("not moving");
         StopMoving();
     }
 
@@ -112,25 +118,33 @@ public class EntityMovement : MonoBehaviour
     {
         // stop all other movement and run
         StopAllCoroutines();
+        CancelInvoke();
         var oldSpeed = movementSettings.xSpeed;
         movementSettings.xSpeed = movementSettings.xRunSpeed;
-        yield return Move(seconds, direction, jump);
+        yield return Walk(seconds, direction, jump);
         movementSettings.xSpeed = oldSpeed;
         if(randomMovement)
             StartCoroutine(randomMovementCoroutine);
     }
 
-    // moves until blocked by something
-    [ContextMenu("Move Right")]
-    public void MoveRight()
+    /// <summary>
+    /// Moves a bit in the given direction
+    /// </summary>
+    /// <param name="direction">Direction to move</param>
+    /// <param name="stayInBiome">Whether to move past the entity's defined biome</param>
+    public IEnumerator Move(Direction direction,bool stayInBiome=false)
     {
-        body.velocity = body.velocity.y * Vector2.up + movementSettings.xSpeed * Vector2.right;
-    }
+        float xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed : -movementSettings.xSpeed;
+        if (stayInBiome)
+        {
+            // return if the movement would take the entity outside of the biome.
+            if (Biomes.GetBiome(transform.position.x + xSpeed) != biome)
+                yield break;
+        }
+        body.velocity = new(xSpeed, body.velocity.y);
 
-    [ContextMenu("Move Left")]
-    public void MoveLeft()
-    {
-        body.velocity = body.velocity.y * Vector2.up + movementSettings.xSpeed * Vector2.left;
+        yield return new WaitForFixedUpdate();
+        body.velocity = new(0, body.velocity.y);
     }
 
     [ContextMenu("Jump")]
@@ -155,6 +169,19 @@ public class EntityMovement : MonoBehaviour
             }
         }
 
+    }
+
+    // for inspector
+    [ContextMenu("Move Right")]
+    private void MoveRight()
+    {
+        StartCoroutine(Move(Direction.RIGHT,stayInBiome));
+    }
+
+    [ContextMenu("Move Left")]
+    private void MoveLeft()
+    {
+        StartCoroutine(Move(Direction.LEFT,stayInBiome));
     }
 
     [ContextMenu("Stop Moving")]

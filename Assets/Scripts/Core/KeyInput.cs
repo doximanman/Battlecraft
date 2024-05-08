@@ -5,22 +5,24 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+
 public class KeyInput : MonoBehaviour
 {
     public static KeyInput instance;
 
-    public delegate void KeyDownHandler();
+    public delegate void KeyDownHandler(bool down,bool held,bool up);
     public delegate void KeyNumHandler(int number);
 
-    public readonly List<KeyCode> moveRight = new() { KeyCode.D,KeyCode.RightArrow};
-    public readonly List<KeyCode> moveLeft = new() { KeyCode.A,KeyCode.LeftArrow};
-    public readonly List<KeyCode> jump = new() { KeyCode.Space};
-    public readonly List<KeyCode> inventory = new() { KeyCode.E};
-    public readonly KeyCode[] slotKeys = {KeyCode.Alpha1,KeyCode.Alpha2,KeyCode.Alpha3,KeyCode.Alpha4,KeyCode.Alpha5};
+    public readonly List<KeyCode> moveRight = new() { KeyCode.D, KeyCode.RightArrow };
+    public readonly List<KeyCode> moveLeft = new() { KeyCode.A, KeyCode.LeftArrow };
+    public readonly List<KeyCode> jump = new() { KeyCode.Space };
+    public readonly List<KeyCode> inventory = new() { KeyCode.E };
+    public readonly KeyCode[] slotKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
+    // every handler has a (bool,bool,bool) variable
+    // so that the key handlers can pass a reference
     public KeyDownHandler onRight;
     public KeyDownHandler onLeft;
-    public KeyDownHandler noMovement;
     public KeyDownHandler onJump;
     public KeyDownHandler onInventory;
     public KeyNumHandler onNum;
@@ -36,7 +38,6 @@ public class KeyInput : MonoBehaviour
         instance = this;
     }
 
-
     public bool paused = false;
     private void Update()
     {
@@ -47,15 +48,18 @@ public class KeyInput : MonoBehaviour
 
 
         // runs when pause menu is on
-
-        if (Input.GetKeyDown(escape)) onEscape();
+        var pressed = KeyIsPressed(escape);
+        onEscape?.Invoke(pressed.Item1, pressed.Item2, pressed.Item3);
+        //onEscape?.Invoke(KeyPressed(escape));
 
         if (MetaLogic.pauseMenuEnabled) return;
 
 
         // runs when paused but pause menu is off
         // for example, inventory is open.
-        if (AnyKeyIsPressedDown(inventory)) onInventory();
+        pressed = AnyKeyIsPressed(inventory);
+        onInventory?.Invoke(pressed.Item1, pressed.Item2, pressed.Item3);
+        //onInventory?.Invoke(AnyKeyIsPressedDown(inventory));
 
         if (MetaLogic.paused) return;
 
@@ -63,17 +67,20 @@ public class KeyInput : MonoBehaviour
         // runs when not paused
 
         // movement
-        if (AnyKeyIsPressed(moveRight)) onRight();
-        else if (AnyKeyIsPressed(moveLeft)) onLeft();
-        else noMovement();
+        pressed = AnyKeyIsPressed(moveRight);
+        onRight?.Invoke(pressed.Item1, pressed.Item2, pressed.Item3);
+        pressed = AnyKeyIsPressed(moveLeft);
+        onLeft?.Invoke(pressed.Item1, pressed.Item2, pressed.Item3);
 
-        if (AnyKeyIsPressed(jump)) onJump();
+        pressed = AnyKeyIsPressed(jump);
+        onJump?.Invoke(pressed.Item1, pressed.Item2, pressed.Item3);
+        //onJump?.Invoke(AnyKeyIsPressed(jump));
 
         // slot selection
-        var key=WhichKeyIsPressedDown(slotKeys);
-        if (key != null) onNum((int)key);
-    }
+        var key = WhichKeyIsPressedDown(slotKeys);
+        if (key != null) onNum?.Invoke((int)key);
 
+    }
 
 
     public void DisableKeys()
@@ -88,7 +95,7 @@ public class KeyInput : MonoBehaviour
 
     private int? WhichKeyIsPressedDown(IEnumerable<KeyCode> keys)
     {
-        for(int i = 0; i < keys.Count(); i++)
+        for (int i = 0; i < keys.Count(); i++)
         {
             if (Input.GetKeyDown(keys.ElementAt(i)))
                 return i;
@@ -96,7 +103,23 @@ public class KeyInput : MonoBehaviour
         return null;
     }
 
-    private bool AnyKeyIsPressed(IEnumerable<KeyCode> keys)
+    private (bool,bool,bool) KeyIsPressed(KeyCode key)
+    {
+        bool down = Input.GetKeyDown(key);
+        bool held = Input.GetKey(key);
+        bool up = Input.GetKeyUp(key);
+        return (down, held, up);
+    }
+
+    private (bool,bool,bool) AnyKeyIsPressed(IEnumerable<KeyCode> keys)
+    {
+        bool down = keys.Any(key => Input.GetKeyDown(key));
+        bool held = keys.Any(key => Input.GetKey(key));
+        bool up = keys.Any(key => Input.GetKeyUp(key));
+        return (down, held, up);
+    }
+
+    /*private bool AnyKeyIsPressed(IEnumerable<KeyCode> keys)
     {
         return keys.Any(key => Input.GetKey(key));
     }
@@ -104,5 +127,5 @@ public class KeyInput : MonoBehaviour
     private bool AnyKeyIsPressedDown(IEnumerable<KeyCode> keys)
     {
         return keys.Any(key => Input.GetKeyDown(key));
-    }
+    }*/
 }

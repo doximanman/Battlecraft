@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class MovementSettings
 {
+    public float stepMoveTime;
     public float minWaitTime;
     public float maxWaitTime;
     public float minMoveTime;

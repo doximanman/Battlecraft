@@ -203,6 +203,8 @@ MonoBehaviour:
     xRunSpeed: 2
     jumpHeight: 1.2
     jumpChance: 0.5
+  biome: 0
+  stayInBiome: 1
   jumpDelay: 0.5
   jumpTime: 0.3
 --- !u!95 &2982332330525209899

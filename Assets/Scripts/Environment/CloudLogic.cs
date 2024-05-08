@@ -8,8 +8,6 @@ public class CloudLogic : MonoBehaviour, IBiomeListener
     public Material iceClouds;
     public Material desertClouds;
 
-
-    private Logic logic;
     private ParticleSystem particles;
     private ParticleSystemRenderer particleRenderer;
 
@@ -17,9 +15,8 @@ public class CloudLogic : MonoBehaviour, IBiomeListener
     // Start is called before the first frame update
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
 
-        logic.RegisterBiomeListener(this);
+        Logic.RegisterBiomeListener(this);
 
         particles=GetComponent<ParticleSystem>();
         particleRenderer = particles.GetComponent<ParticleSystemRenderer>();
