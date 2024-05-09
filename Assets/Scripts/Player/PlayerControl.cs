@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static Codice.Client.BaseCommands.BranchExplorer.Layout.BrExLayout;
 
 
 public class PlayerControl : MonoBehaviour
@@ -56,8 +57,21 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(moveLeft);
             }
         };
-        //KeyInput.instance.noMovement += StopMoving;
-        KeyInput.instance.onJump += (_,held,_) => { if (held) Jump(); };
+        
+        bool jump = true;
+        KeyInput.instance.onJump += (down,held,up) => {
+            // jump logic: at first you can just jump.
+            // if you were able to jump (i.e. you're grounded)
+            // then you have to let go of the jump key before the next jump.
+            // if you let go mid-jump and pressed again, then that jump will be "queued"
+            // and you will jump as soon as you hit the ground, if you're still holding.
+            if (jump && held) {
+                jump = !Jump();
+            }
+            if (up)
+                jump = true;
+
+        };
     }
 
     private float prevXPosition;
@@ -139,16 +153,18 @@ public class PlayerControl : MonoBehaviour
         //playerSprite.flipX = true;
     }
 
-    public void Jump()
+    // returns: if jump was executed
+    public bool Jump()
     {
-        if (Logic.IsGrounded(gameObject))
+        if (grounded)
         {
+            Debug.Log(1);
             isMoving = true;
             // jump by distance - add only the velocity needed to jump to the height jumpHeight
             // in time jumpDuration
             float playerGravity = originalGravityScale * Physics2D.gravity.y;
 
-            if (playerGravity > 0) return;
+            if (playerGravity > 0) return false;
 
             float newVelocity = Mathf.Sqrt(-2 * playerGravity * jumpHeight) - playerBody.velocity.y;
 
@@ -160,8 +176,9 @@ public class PlayerControl : MonoBehaviour
             }
             // wait a bit to get off the ground
             Invoke(nameof(JumpHelper), 0.1f);
+            return true;
         }
-
+        return false;
     }
 
     private void JumpHelper()
@@ -190,18 +207,6 @@ public class PlayerControl : MonoBehaviour
         Invoke(nameof(CancelChop), duration);
     }
 
-    /// <summary>
-    /// Checks whether the collision occured from below
-    /// </summary>
-    private bool ContactDirectionFromBelow(Collision2D collision)
-    {
-        ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
-        collision.GetContacts(contacts);
-        // any normal has a component in the up direction
-        return contacts.Any(contact => {
-            Debug.Log(Vector2.Dot(contact.normal, Vector2.up));
-            return Vector2.Dot(contact.normal, Vector2.up) > epsilon; });
-    }
     private Vector2 BoxPosition()
     {
         return new(playerCollider.bounds.center.x, playerCollider.bounds.min.y - Logic.collisionDetection / 2);
@@ -209,7 +214,8 @@ public class PlayerControl : MonoBehaviour
 
     private Vector2 BoxSize()
     {
-        return new(playerCollider.size.x * playerBody.transform.lossyScale.x-2*leniency, Logic.collisionDetection);
+        return new(playerCollider.bounds.size.x - Logic.collisionDetection, Logic.collisionDetection);
+        //return new(playerCollider.size.x * playerBody.transform.lossyScale.x-2*leniency, Logic.collisionDetection);
     }
 
 

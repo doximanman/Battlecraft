@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         //Vector2 direction;
         // raycast the swing
         // raycast parameters
-        if (playerSprite.flipX)
+        if (transform.rotation.y < 0.1f)
         {
             // facing left
             startPoint = new(playerCollider.bounds.min.x-0.1f, playerCollider.bounds.min.y);

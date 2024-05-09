@@ -27,6 +27,8 @@ public class Logic : MonoBehaviour
     // biome change event - game objects can listen to.
     private static readonly List<IBiomeListener> biomeListeners = new();
 
+    public static readonly Dictionary<GameObject, List<(Collider2D,Vector2)>> touching = new();
+
     [InspectorName("Ground Collider")]
     [SerializeField] private CompositeCollider2D _ground;
 
@@ -59,7 +61,6 @@ public class Logic : MonoBehaviour
         collisionDetection = _collisionDetection;
         wallCloseDistance = _wallCloseDistance;
         maximumWallAngle = _maximumWallAngle;
-        groundSlideAngle= _groundSlideAngle;
     }
 
     public static void RegisterBiomeListener(IBiomeListener listener)
@@ -85,6 +86,8 @@ public class Logic : MonoBehaviour
         return canJumpFrom.Contains(transform.tag) || IsGround(transform.parent);
     }
 
+    // gameobject must have registered their collisions in
+    // the "touching" dictionary
     public static bool IsGrounded(GameObject obj)
     {
         var collider = obj.GetComponent<BoxCollider2D>();
@@ -93,8 +96,9 @@ public class Logic : MonoBehaviour
         Assert.IsNotNull(rigidbody);
 
         // create a box to see if there is ground below the player.
-        Vector2 boxPosition = new(collider.bounds.center.x, collider.bounds.min.y - collisionDetection / 2); ;
-        Vector2 boxSize = new(collider.size.x * rigidbody.transform.lossyScale.x - 2 * collisionDetection, collisionDetection);
+        var boxPosition = new Vector2(collider.bounds.center.x, collider.bounds.min.y - collisionDetection / 2);
+        var boxSize = new Vector2(collider.bounds.size.x-collisionDetection, collisionDetection);
+
 
         var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
 
@@ -113,12 +117,18 @@ public class Logic : MonoBehaviour
     // wall is close to object, in the given direction
     public static bool WallClose(GameObject obj,Direction direction)
     {
+        var compCollider = obj.GetComponent<CompositeCollider2D>();
         var collider = obj.GetComponent<Collider2D>();
-        Assert.IsNotNull(collider);
+        Assert.IsTrue(collider!=null || compCollider!=null);
 
-        var position=new Vector2(obj.transform.position.x,collider.bounds.min.y+ wallDetectionHeight);
         var directionVector = direction == Direction.RIGHT ? Vector2.right : Vector2.left;
-        var collisions = Physics2D.RaycastAll(position, directionVector, wallCloseDistance);
+
+        RaycastHit2D[] collisions;
+
+        if (compCollider != null)
+            collisions = Physics2D.BoxCastAll(compCollider.bounds.center, compCollider.bounds.size, 0, directionVector, wallCloseDistance);
+        else
+            collisions = Physics2D.BoxCastAll(collider.bounds.center, collider.bounds.size,0,directionVector,wallCloseDistance);
 
         // normal of collision must point up
         // otherwise its just a slope
@@ -155,10 +165,6 @@ public class Logic : MonoBehaviour
         return null;
     }
 
-    [InspectorName("Ground Slides Above Angle")]
-    [SerializeField] private float _groundSlideAngle;
-    public static float groundSlideAngle;
-
     /// <summary>
     /// Checks the angle between a gameobject and the ground.
     /// The game object should be grounded.
@@ -177,7 +183,7 @@ public class Logic : MonoBehaviour
         foreach(var hit in results)
         {
             if (IsGround(hit.collider))
-                return Vector2.Angle(hit.normal, Vector2.up) < groundSlideAngle;
+                return Vector2.Angle(hit.normal, Vector2.up) < maximumWallAngle;
         }
         return false;
     }

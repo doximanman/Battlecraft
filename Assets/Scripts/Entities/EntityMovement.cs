@@ -38,16 +38,30 @@ public class EntityMovement : MonoBehaviour
     }
 
     // Update is called once per frame
+    private bool grounded = false;
     void FixedUpdate()
     {
+        grounded = Logic.IsGrounded(gameObject);
         // update animator x speed
         float velocity = (transform.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("Speed", Mathf.Abs(velocity));
         prevXPosition = transform.position.x;
 
         // flip sprite accordingly
-        if (Mathf.Abs(velocity) > zeroSpeed)
-            sprite.flipX = velocity > 0;
+        if (moving==Direction.RIGHT)
+            transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        else if(moving==Direction.LEFT)
+            transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+
+        if (grounded && !isMoving)
+        {
+            body.velocity = Vector2.zero;
+            body.gravityScale = 0;
+        }
+        else
+        {
+            body.gravityScale = originalGravityScale;
+        }
     }
 
     /// <summary>
@@ -66,91 +80,80 @@ public class EntityMovement : MonoBehaviour
             float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
             float randomNumber = UnityEngine.Random.Range(0f, 1f);
             bool right = randomNumber < movementSettings.chanceToGoRight;
-            IEnumerator moveRoutine = right ? Walk(moveTime,Direction.RIGHT) : Walk(moveTime,Direction.LEFT);
-            StartCoroutine(moveRoutine);
-
-            yield return new WaitForSeconds(moveTime);
-            StopMoving();
+            IEnumerator moveRoutine = right ? Move(Direction.RIGHT, moveTime,stayInBiome:true) : Move(Direction.LEFT, moveTime,stayInBiome:true);
+            yield return StartCoroutine(moveRoutine);
         }
     }
 
-    [InspectorName("Time Between Jumps")]
-    [SerializeField] private float jumpDelay;
     [InspectorName("Time It Takes To Jump")]
     [SerializeField] private float jumpTime;
-    // possibility to jump if next to wall,
-    // and moving towards the wall
-    IEnumerator JumpRandomly(Direction direction)
-    {
-        // every delay, try to jump if next to wall
-        while (true)
-        {
-            if (Logic.WallClose(gameObject, direction))
-                if (UnityEngine.Random.Range(0, 1) < movementSettings.jumpChance)
-                {
-                    Jump();
-                    // wait a bit for jump to happen
-                    yield return new WaitForSeconds(jumpTime);
-                    Move(direction);
-                }
-            yield return new WaitForSeconds(jumpDelay);
-        }
-    }
 
-    // jumps over obsticles if needed
-    // moves continuously
-    public IEnumerator Walk(float seconds, Direction direction,bool jump = true)
-    {
-        if (direction == Direction.RIGHT) InvokeRepeating(nameof(MoveRight), 0, Time.fixedDeltaTime);
-        else InvokeRepeating(nameof(MoveLeft),0, Time.fixedDeltaTime);
-        IEnumerator jumpRoutine=null;
-        if (jump)
-        {
-            jumpRoutine = JumpRandomly(direction);
-            StartCoroutine(jumpRoutine);
-        }
-        yield return new WaitForSeconds(seconds);
-        if(jump) StopCoroutine(jumpRoutine);
-        StopMoving();
-    }
-
-    public IEnumerator Run(float seconds, Direction direction, bool jump = true)
+    public IEnumerator Run(float seconds, Direction direction, bool jump = true, bool stayInBiome = false)
     {
         // stop all other movement and run
         StopAllCoroutines();
         CancelInvoke();
         var oldSpeed = movementSettings.xSpeed;
         movementSettings.xSpeed = movementSettings.xRunSpeed;
-        yield return Walk(seconds, direction, jump);
+        yield return StartCoroutine(Move(direction, seconds, jump, stayInBiome));
         movementSettings.xSpeed = oldSpeed;
-        if(randomMovement)
+        if (randomMovement)
             StartCoroutine(randomMovementCoroutine);
     }
 
-    /// <summary>
-    /// Moves a bit in the given direction
-    /// </summary>
-    /// <param name="direction">Direction to move</param>
-    /// <param name="stayInBiome">Whether to move past the entity's defined biome</param>
-    public IEnumerator Move(Direction direction,bool stayInBiome=false)
+    private bool isMoving = false;
+    public IEnumerator Move(Direction direction, float duration, bool jump = true, bool stayInBiome = false)
     {
-        float xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed : -movementSettings.xSpeed;
-        if (stayInBiome)
-        {
-            // return if the movement would take the entity outside of the biome.
-            if (Biomes.GetBiome(transform.position.x + xSpeed) != biome)
-                yield break;
-        }
-        body.velocity = new(xSpeed, body.velocity.y);
-
-        yield return new WaitForFixedUpdate();
-        body.velocity = new(0, body.velocity.y);
+        // "move until the duration time has passed"
+        float stopTime = Time.time + duration;
+        return MoveUntil(direction, () => Time.time >= stopTime, jump, stayInBiome);
     }
+
+    public IEnumerator MoveUntil(Direction direction, Func<bool> stop, bool jump = true, bool stayInBiome = false)
+    {
+        isMoving = true;
+        float xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
+            (direction == Direction.LEFT ? -movementSettings.xSpeed :
+            0);
+        moving = direction;
+        while (!stop())
+        {
+            // if stayInBiome = false then move
+            // otherside stayInBiome=true, so only move if not close to border
+            // in the movement direction. if you are close to the border,
+            // switch directions
+            Debug.Log(direction);
+            if (!stayInBiome || Biomes.GetBiome(transform.position.x + xSpeed/2) == biome)
+            {
+                // close to wall - jump
+                if (jump && Logic.WallClose(gameObject, direction))
+                {
+                    Jump();
+                    yield return new WaitForSeconds(jumpTime);
+                }
+                body.velocity = new(xSpeed, body.velocity.y);
+            }
+            else if(stayInBiome)
+            {
+                direction= direction==Direction.RIGHT ? Direction.LEFT : direction == Direction.LEFT ? Direction.RIGHT : direction;
+                xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
+                    (direction == Direction.LEFT ? -movementSettings.xSpeed :
+                    0);
+                moving = direction;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        body.velocity = new(0, body.velocity.y);
+        moving = Direction.ZERO;
+        isMoving = false;
+    }
+
+    Direction moving;
 
     [ContextMenu("Jump")]
     public void Jump()
     {
-        if (Logic.IsGrounded(gameObject))
+        if (grounded)
         {
             // jump by distance - add only the velocity needed to jump to the height jumpHeight
             // in time jumpDuration
@@ -175,13 +178,13 @@ public class EntityMovement : MonoBehaviour
     [ContextMenu("Move Right")]
     private void MoveRight()
     {
-        StartCoroutine(Move(Direction.RIGHT,stayInBiome));
+        StartCoroutine(Move(Direction.RIGHT, movementSettings.stepMoveTime, stayInBiome));
     }
 
     [ContextMenu("Move Left")]
     private void MoveLeft()
     {
-        StartCoroutine(Move(Direction.LEFT,stayInBiome));
+        StartCoroutine(Move(Direction.LEFT, movementSettings.stepMoveTime, stayInBiome));
     }
 
     [ContextMenu("Stop Moving")]
