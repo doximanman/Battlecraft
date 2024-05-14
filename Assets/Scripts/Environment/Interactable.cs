@@ -67,8 +67,9 @@ public abstract class Interactable : MonoBehaviour
         {
             var playerPosition = Player.current.transform.position;
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var direction = mousePosition.x - playerPosition.x > 0 ? Direction.RIGHT : Direction.LEFT;
             // send the direction the player should be facing
-            playerControl.Chop(chopDuration, Mathf.Sign(mousePosition.x - playerPosition.x));
+            playerControl.Chop(chopDuration, direction);
             status = ChoppingStatus.ONGOING;
         }
         if (timer < chopDuration) return;

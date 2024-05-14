@@ -136,7 +136,6 @@ public class Logic : MonoBehaviour
         return collisions.Any(collision => {
             var angle = Vector2.Angle(-directionVector, collision.normal) % 180;
             bool wallAndGround= angle<maximumWallAngle && IsGround(collision.collider);
-            if(IsGround(collision.collider)) Debug.Log(-directionVector + " "+collision.normal+" "+ angle + " " + wallAndGround);
             return wallAndGround;
             });
     }

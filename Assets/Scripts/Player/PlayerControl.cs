@@ -86,10 +86,7 @@ public class PlayerControl : MonoBehaviour
 
         prevXPosition = playerBody.position.x;
 
-        if (moving == Direction.RIGHT)
-            transform.rotation = new(transform.rotation.x,180,transform.rotation.z,transform.rotation.w);
-        else if (moving == Direction.LEFT)
-            transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+        Face(moving);
 
         if (grounded && !isMoving)
         {
@@ -100,6 +97,14 @@ public class PlayerControl : MonoBehaviour
         {
             playerBody.gravityScale = originalGravityScale;
         }
+    }
+
+    public void Face(Direction direction)
+    {
+        if (direction == Direction.RIGHT)
+            transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        else if (direction == Direction.LEFT)
+            transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
     }
 
     private bool isMoving = false;
@@ -158,7 +163,6 @@ public class PlayerControl : MonoBehaviour
     {
         if (grounded)
         {
-            Debug.Log(1);
             isMoving = true;
             // jump by distance - add only the velocity needed to jump to the height jumpHeight
             // in time jumpDuration
@@ -198,10 +202,10 @@ public class PlayerControl : MonoBehaviour
 
     private bool chopping = false;
     // chop(0) cancels the current chop
-    public void Chop(float duration,float direction = 1)
+    public void Chop(float duration,Direction direction)
     {
         // make sure player is rotated correctly
-        playerSprite.flipX = direction<0;
+        Face(direction);
         animator.SetTrigger("Chop");
         chopping = true;
         Invoke(nameof(CancelChop), duration);

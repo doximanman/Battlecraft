@@ -7,7 +7,6 @@ using UnityEngine;
 public class Entity : IHitListener
 {
     public string animalName;
-    public Sprite animalSprite;
 
     public StackData[] droppedItems;
     public Vector2 knockback;
@@ -29,9 +28,13 @@ public class Entity : IHitListener
 
     private void Start()
     {
-        GetComponent<SpriteRenderer>().sprite=animalSprite;
         Health = maxHealth;
         Player.current.RegisterSwingListener(this);
+    }
+
+    public void PlaySound(string soundName)
+    {
+        AudioManager.instance.PlayFrom(gameObject,animalName, soundName);
     }
 
     public override void OnHit(ItemType hitWith)

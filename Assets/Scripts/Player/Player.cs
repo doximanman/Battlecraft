@@ -35,12 +35,12 @@ public class Player : MonoBehaviour
 
     public void PlaySound(string name)
     {
-        AudioManager.instance.Play(name);
+        AudioManager.instance.Play("Player",name);
     }
 
     public void StopSound(string name)
     {
-        AudioManager.instance.Stop(name);
+        AudioManager.instance.Stop("Player",name);
     }
 
     private readonly List<IHitListener> hitListeners=new();
