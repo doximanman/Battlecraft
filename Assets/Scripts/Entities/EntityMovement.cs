@@ -12,7 +12,6 @@ public class EntityMovement : MonoBehaviour
 
     private Animator animator;
     private Rigidbody2D body;
-    private SpriteRenderer sprite;
 
     [SerializeField] private bool randomMovement;
     [SerializeField] private MovementSettings movementSettings;
@@ -27,7 +26,6 @@ public class EntityMovement : MonoBehaviour
         prevXPosition = transform.position.x;
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
         originalGravityScale = body.gravityScale;
 
         if (randomMovement)
@@ -122,7 +120,6 @@ public class EntityMovement : MonoBehaviour
             // otherside stayInBiome=true, so only move if not close to border
             // in the movement direction. if you are close to the border,
             // switch directions
-            Debug.Log(direction);
             if (!stayInBiome || Biomes.GetBiome(transform.position.x + xSpeed/2) == biome)
             {
                 // close to wall - jump
