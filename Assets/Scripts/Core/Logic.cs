@@ -8,14 +8,14 @@ using UnityEngine.Assertions;
 public enum Biome { PLAINS, ICE, DESERT };
 public enum Direction { ZERO, LEFT, RIGHT }
 public class Logic : MonoBehaviour
-{ 
+{
 
     // map bounds
     public const float minX = -470;
     public const float minY = -20;
     public const float maxX = 470;
     public const float maxY = 20;
-    
+
     private static readonly Biome startBiome = Biome.PLAINS;
 
     private static readonly List<string> canJumpFrom = new();
@@ -27,7 +27,7 @@ public class Logic : MonoBehaviour
     // biome change event - game objects can listen to.
     private static readonly List<IBiomeListener> biomeListeners = new();
 
-    public static readonly Dictionary<GameObject, List<(Collider2D,Vector2)>> touching = new();
+    public static readonly Dictionary<GameObject, List<(Collider2D, Vector2)>> touching = new();
 
     [InspectorName("Ground Collider")]
     [SerializeField] private CompositeCollider2D _ground;
@@ -91,13 +91,13 @@ public class Logic : MonoBehaviour
     public static bool IsGrounded(GameObject obj)
     {
         var collider = obj.GetComponent<BoxCollider2D>();
-        var rigidbody=obj.GetComponent<Rigidbody2D>();
+        var rigidbody = obj.GetComponent<Rigidbody2D>();
         Assert.IsNotNull(collider);
         Assert.IsNotNull(rigidbody);
 
         // create a box to see if there is ground below the player.
         var boxPosition = new Vector2(collider.bounds.center.x, collider.bounds.min.y - collisionDetection / 2);
-        var boxSize = new Vector2(collider.bounds.size.x-collisionDetection, collisionDetection);
+        var boxSize = new Vector2(collider.bounds.size.x - collisionDetection, collisionDetection);
 
 
         var Colliders = Physics2D.OverlapBoxAll(boxPosition, boxSize, 0);
@@ -115,31 +115,57 @@ public class Logic : MonoBehaviour
     [SerializeField] private float _maximumWallAngle;
     public static float maximumWallAngle;
     // wall is close to object, in the given direction
-    public static bool WallClose(GameObject obj,Direction direction)
+    public static bool WallClose(GameObject obj, Direction direction)
     {
-        var compCollider = obj.GetComponent<CompositeCollider2D>();
         var collider = obj.GetComponent<Collider2D>();
-        Assert.IsTrue(collider!=null || compCollider!=null);
+        Assert.IsTrue(collider != null);
 
         var directionVector = direction == Direction.RIGHT ? Vector2.right : Vector2.left;
 
-        RaycastHit2D[] collisions;
-
-        if (compCollider != null)
-            collisions = Physics2D.BoxCastAll(compCollider.bounds.center, compCollider.bounds.size, 0, directionVector, wallCloseDistance);
-        else
-            collisions = Physics2D.BoxCastAll(collider.bounds.center, collider.bounds.size,0,directionVector,wallCloseDistance);
+        RaycastHit2D[] collisions = Physics2D.BoxCastAll(collider.bounds.center, collider.bounds.size, 0, directionVector, wallCloseDistance);
 
         // normal of collision must point up
         // otherwise its just a slope
         // and the collider must be ground
-        return collisions.Any(collision => {
+        return collisions.Any(collision =>
+        {
             var angle = Vector2.Angle(-directionVector, collision.normal) % 180;
-            bool wallAndGround= angle<maximumWallAngle && IsGround(collision.collider);
+            bool wallAndGround = angle < maximumWallAngle && IsGround(collision.collider);
             return wallAndGround;
-            });
+        });
     }
 
+    public static bool CanJump(GameObject obj, Direction direction)
+    {
+        // raycast up
+        // then in the given direction (r shape)
+        var collider=obj.GetComponent<Collider2D>();
+        Assert.IsTrue(collider != null);
+
+        var center=collider.bounds.center;
+        var size = collider.bounds.size;
+
+        RaycastHit2D[] upCollisions = Physics2D.BoxCastAll(center,size, 0, Vector2.up, WorldTiles.tileSize.y);
+
+        // if there's ground above - can't jump.
+        if (upCollisions.Any(collision => IsGround(collision.collider)))
+            return false;
+
+        if (direction == Direction.ZERO)
+            return true;
+
+        var directionVector = direction == Direction.RIGHT ? Vector2.right : Vector2.left;
+        // raycast from the higher position (r shape)
+        center=new(center.x,center.y+WorldTiles.tileSize.y);
+
+        RaycastHit2D[] diagCollisions = Physics2D.BoxCastAll(center,size, 0, directionVector, wallCloseDistance);
+
+        // ground diagnoally - can't jump.
+        if (upCollisions.Any(collision => IsGround(collision.collider)))
+            return false;
+
+        return true;
+    }
 
     public static Biome GetStartBiome()
     {
@@ -174,12 +200,12 @@ public class Logic : MonoBehaviour
     {
         Collider2D collider2D = obj.GetComponent<Collider2D>();
 
-        Vector2 centerOfObject = new(collider2D.bounds.center.x,collider2D.bounds.min.y);
-        Vector2 sizeOfDetection = new(collider2D.bounds.size.x,1f);
+        Vector2 centerOfObject = new(collider2D.bounds.center.x, collider2D.bounds.min.y);
+        Vector2 sizeOfDetection = new(collider2D.bounds.size.x, 1f);
 
         var results = Physics2D.BoxCastAll(centerOfObject, sizeOfDetection, 0, Vector2.down);
-        
-        foreach(var hit in results)
+
+        foreach (var hit in results)
         {
             if (IsGround(hit.collider))
                 return Vector2.Angle(hit.normal, Vector2.up) < maximumWallAngle;
