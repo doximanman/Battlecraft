@@ -73,10 +73,10 @@ public class Entity : IHitListener
         // entity died, just adds items to inventory
         InventoryLogic.personalInventory.AddItems(droppedItems);
         Player.current.RemoveSwingListener(this);
-        Invoke(nameof(KillAnimal), 0.1f);
+        Invoke(nameof(KillEntity), 0.1f);
     }
 
-    private void KillAnimal()
+    private void KillEntity()
     {
         Destroy(gameObject);
     }

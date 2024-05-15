@@ -125,8 +125,20 @@ public class EntityMovement : MonoBehaviour
                 // close to wall - jump
                 if (jump && Logic.WallClose(gameObject, direction))
                 {
-                    Jump();
-                    yield return new WaitForSeconds(jumpTime);
+                    if (Logic.CanJump(gameObject, direction))
+                    {
+                        Jump();
+                        yield return new WaitForSeconds(jumpTime);
+                    }
+                    else
+                    {
+                        // can't jump - turn around
+                        direction = direction == Direction.RIGHT ? Direction.LEFT : direction == Direction.LEFT ? Direction.RIGHT : direction;
+                        xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
+                            (direction == Direction.LEFT ? -movementSettings.xSpeed :
+                            0);
+                        moving = direction;
+                    }
                 }
                 body.velocity = new(xSpeed, body.velocity.y);
             }
