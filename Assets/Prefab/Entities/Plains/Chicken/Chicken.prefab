@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8379696114543419996}
   - component: {fileID: 2982332330525209899}
   - component: {fileID: 6390273034025225762}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chicken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,11 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalName: Chicken
+  entityName: Chicken
   droppedItems: []
   knockback: {x: 2, y: 2}
   getsScared: 1
   runawayTime: 4
+  chasesPlayer: 0
+  chaseRange: 395.8
   maxHealth: 2
 --- !u!114 &8379696114543419996
 MonoBehaviour:

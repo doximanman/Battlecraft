@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: -5331037588054050107}
   - component: {fileID: 2483577916864157178}
   - component: {fileID: 8379696114543419996}
+  - component: {fileID: 2982332330525209899}
   - component: {fileID: 6390273034025225762}
-  - component: {fileID: 2327200530522679132}
-  m_Layer: 7
-  m_Name: Sheep
+  m_Layer: 0
+  m_Name: Snake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 22328908599151810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.047, y: -0.12, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1765435647
   m_SortingLayer: 4
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -995651359, guid: 6e383e52a5a8f6a498b25c5cd0eaed26, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 1c4407d2cc27b2849b3b35679a2fc49a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,13 +128,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: Sheep
+  entityName: Snake
   droppedItems: []
   knockback: {x: 2, y: 2}
-  getsScared: 1
-  runawayTime: 2
-  chasesPlayer: 0
-  maxHealth: 4
+  getsScared: 0
+  runawayTime: 4
+  chasesPlayer: 1
+  chaseRange: 10
+  chaseUntilCloserThan: 1
+  maxHealth: 8
+  distanceToPlayer: 0
+  chasing: 0
 --- !u!114 &8379696114543419996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65169ac7e5a753f49bf303a9f3dd3166, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomMovement: 1
+  randomMovement: 0
   movementSettings:
     stepMoveTime: 1
     minWaitTime: 1
@@ -155,13 +159,35 @@ MonoBehaviour:
     minMoveTime: 0.5
     maxMoveTime: 1
     chanceToGoRight: 0.5
-    xSpeed: 3
-    xRunSpeed: 4
+    xSpeed: 1
+    xRunSpeed: 3
     jumpHeight: 1.2
     jumpChance: 0.5
+  stun: 0
   biome: 0
   stayInBiome: 1
   jumpTime: 0.3
+--- !u!95 &2982332330525209899
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22328908599151810}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: e3336a81425324b42865434d6001284a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &6390273034025225762
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -194,37 +220,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015058018, y: 0.014025301}
+  m_Offset: {x: 0.00086949766, y: -0.0005396567}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.51, y: 0.4}
+    oldSize: {x: 0.3, y: 0.16}
     newSize: {x: 2.56, y: 2.13}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.4165483, y: 0.33753777}
+  m_Size: {x: 0.24240535, y: 0.13606414}
   m_EdgeRadius: 0
---- !u!95 &2327200530522679132
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22328908599151810}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 889b624381805aa42b0807a34d76e461, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

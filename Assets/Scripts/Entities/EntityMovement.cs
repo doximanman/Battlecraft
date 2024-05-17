@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EntityMovement : MonoBehaviour
 {
+
     private float prevXPosition;
     private float originalGravityScale;
     private readonly float zeroSpeed = 0.01f;
@@ -13,8 +14,9 @@ public class EntityMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody2D body;
 
-    [SerializeField] private bool randomMovement;
+    public bool randomMovement;
     [SerializeField] private MovementSettings movementSettings;
+
 
     public Biome biome;
     public bool stayInBiome;
@@ -35,20 +37,32 @@ public class EntityMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void Launch(Vector3 force)
+    {
+        // move up so that the entity is off the ground
+        transform.position += 0.05f*force;
+        stopUntilGrounded = true;
+        // then apply the force
+        body.velocity = force;
+    }
+
+    private bool stopUntilGrounded = false;
+
     private bool grounded = false;
     void FixedUpdate()
     {
         grounded = Logic.IsGrounded(gameObject);
+        if (grounded) stopUntilGrounded = false;
+
         // update animator x speed
         float velocity = (transform.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("Speed", Mathf.Abs(velocity));
         prevXPosition = transform.position.x;
 
         // flip sprite accordingly
-        if (moving==Direction.RIGHT)
+        if (moving == Direction.RIGHT)
             transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
-        else if(moving==Direction.LEFT)
+        else if (moving == Direction.LEFT)
             transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
 
         if (grounded && !isMoving)
@@ -78,7 +92,7 @@ public class EntityMovement : MonoBehaviour
             float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
             float randomNumber = UnityEngine.Random.Range(0f, 1f);
             bool right = randomNumber < movementSettings.chanceToGoRight;
-            IEnumerator moveRoutine = right ? Move(Direction.RIGHT, moveTime,stayInBiome:true) : Move(Direction.LEFT, moveTime,stayInBiome:true);
+            IEnumerator moveRoutine = right ? Move(Direction.RIGHT, moveTime, stayInBiome: true) : Move(Direction.LEFT, moveTime, stayInBiome: true);
             yield return StartCoroutine(moveRoutine);
         }
     }
@@ -99,63 +113,99 @@ public class EntityMovement : MonoBehaviour
             StartCoroutine(randomMovementCoroutine);
     }
 
+
     private bool isMoving = false;
-    public IEnumerator Move(Direction direction, float duration, bool jump = true, bool stayInBiome = false)
+    public IEnumerator Move(Direction direction, float duration, bool jump = true,bool stayInBiome=false)
     {
         // "move until the duration time has passed"
         float stopTime = Time.time + duration;
-        return MoveUntil(direction, () => Time.time >= stopTime, jump, stayInBiome);
+        return MoveUntil(direction, () => Time.time >= stopTime,jump,stayInBiome);
     }
 
-    public IEnumerator MoveUntil(Direction direction, Func<bool> stop, bool jump = true, bool stayInBiome = false)
+    public IEnumerator DynamicMoveUntil(Func<Direction> direction, Func<bool> stop, bool jump = true)
     {
         isMoving = true;
-        float xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
-            (direction == Direction.LEFT ? -movementSettings.xSpeed :
-            0);
-        moving = direction;
         while (!stop())
         {
-            // if stayInBiome = false then move
-            // otherside stayInBiome=true, so only move if not close to border
-            // in the movement direction. if you are close to the border,
-            // switch directions
-            if (!stayInBiome || Biomes.GetBiome(transform.position.x + xSpeed/2) == biome)
+            if (stopUntilGrounded)
             {
-                // close to wall - jump
-                if (jump && Logic.WallClose(gameObject, direction))
-                {
-                    if (Logic.CanJump(gameObject, direction))
-                    {
-                        Jump();
-                        yield return new WaitForSeconds(jumpTime);
-                    }
-                    else
-                    {
-                        // can't jump - turn around
-                        direction = direction == Direction.RIGHT ? Direction.LEFT : direction == Direction.LEFT ? Direction.RIGHT : direction;
-                        xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
-                            (direction == Direction.LEFT ? -movementSettings.xSpeed :
-                            0);
-                        moving = direction;
-                    }
-                }
-                body.velocity = new(xSpeed, body.velocity.y);
+                yield return new WaitUntil(() => grounded);
             }
-            else if(stayInBiome)
+
+            // evaluate speed according to current direction
+            moving = direction();
+            float xSpeed = moving == Direction.RIGHT ? movementSettings.xSpeed :
+                (moving == Direction.LEFT ? -movementSettings.xSpeed :
+                0);
+            // jump if close to wall
+            if (jump && Logic.WallClose(gameObject, moving))
             {
-                direction= direction==Direction.RIGHT ? Direction.LEFT : direction == Direction.LEFT ? Direction.RIGHT : direction;
-                xSpeed = direction == Direction.RIGHT ? movementSettings.xSpeed :
-                    (direction == Direction.LEFT ? -movementSettings.xSpeed :
-                    0);
-                moving = direction;
+                Jump();
+                yield return new WaitForSeconds(jumpTime);
             }
+            // if stunned - wait.
+            if (stopUntilGrounded)
+                yield return new WaitUntil(() => grounded);
+            // move
+            body.velocity = new(xSpeed, body.velocity.y);
             yield return new WaitForFixedUpdate();
         }
+        // stop moving
         body.velocity = new(0, body.velocity.y);
         moving = Direction.ZERO;
         isMoving = false;
     }
+
+    public IEnumerator FollowUntil(Func<bool> stop, Func<float> targetX,float minDistanceFromTarget, bool jump = true)
+    {
+        StopAllCoroutines();
+        yield return DynamicMoveUntil(() =>
+        {
+            // if target is to the right - move right.
+            // if target is to the left - move left.
+            // if target is close enough - stay in position.
+            float distance = targetX() - transform.position.x;
+            if (distance > minDistanceFromTarget) return Direction.RIGHT;
+            if (distance < -minDistanceFromTarget) return Direction.LEFT;
+            return Direction.ZERO;
+        }, stop, jump);
+        if (randomMovement) StartCoroutine(randomMovementCoroutine);
+    }
+
+    public IEnumerator MoveUntil(Direction initialDirection, Func<bool> stop, bool jump = true, bool stayInBiome = false)
+    {
+        Direction currentDirection = initialDirection;
+        if (stayInBiome)
+        {
+            yield return StartCoroutine(DynamicMoveUntil(() =>
+            {
+                // if outside of biome - turn towards the biome
+                if (Biomes.GetBiomeClose(transform.position.x, currentDirection) != biome)
+                    currentDirection = Biomes.BiomeWhere(biome, transform.position.x);
+                // if close to wall and can't jump - turn around
+                // "can't jump" means jump is false or can't jump (Logic.CanJump)
+                else if (Logic.WallClose(gameObject, currentDirection) && (!jump || !Logic.CanJump(gameObject, currentDirection)))
+                    currentDirection = currentDirection == Direction.LEFT ? Direction.RIGHT :
+                                        currentDirection == Direction.RIGHT ? Direction.LEFT :
+                                        Direction.ZERO;
+                return currentDirection;
+            }, stop, jump));
+        }
+        else
+        {
+            // move without concern to biome
+            // if close to wall and can't jump - turn around
+            yield return StartCoroutine(DynamicMoveUntil(() =>
+            {
+                if (Logic.WallClose(gameObject, currentDirection) && (!jump || !Logic.CanJump(gameObject, currentDirection)))
+                    currentDirection = currentDirection == Direction.LEFT ? Direction.RIGHT :
+                                        currentDirection == Direction.RIGHT ? Direction.LEFT :
+                                        Direction.ZERO;
+                return currentDirection;
+            }, stop, jump));
+        }
+    }
+
 
     Direction moving;
 
