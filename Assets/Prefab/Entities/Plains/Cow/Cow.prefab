@@ -128,11 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalName: Cow
+  entityName: Cow
   droppedItems: []
   knockback: {x: 2, y: 2}
   getsScared: 1
   runawayTime: 3
+  chasesPlayer: 0
   maxHealth: 5
 --- !u!114 &8379696114543419996
 MonoBehaviour:
