@@ -31,13 +31,27 @@ public class Entity : IHitListener
         }
     }
 
+    [DefaultValue(1)]
+    [SerializeField] private float minSize;
+    [DefaultValue(1.5f)]
+    [SerializeField] private float maxSize=1.5f;
+
     private EntityMovement movement;
     private void Start()
     {
         Health = maxHealth;
         Player.current.RegisterSwingListener(this);
         movement=GetComponent<EntityMovement>();
+
+        // random scale (= random size)
+        System.Random rand = new();
+        Vector3 originalScale = transform.lossyScale;
+        transform.localScale = originalScale * RandomFloat(rand,minSize,maxSize);
+        // move up a bit so the entity doesn't phase through the ground
+        transform.position += Vector3.up * 0.1f;
     }
+
+    private float RandomFloat(System.Random rand, float min, float max) => (float) rand.NextDouble() * (max - min) + min;
 
     [SerializeField] float distanceToPlayer;
     [SerializeField] bool chasing = false;
@@ -133,6 +147,8 @@ public class EntityEditor : Editor
     SerializedProperty chasing;
     SerializedProperty distanceToPlayer;
     SerializedProperty chaseUntilCloserThan;
+    SerializedProperty minSize;
+    SerializedProperty maxSize;
 
     public override VisualElement CreateInspectorGUI()
     {
@@ -148,6 +164,8 @@ public class EntityEditor : Editor
         chasing = serializedObject.FindProperty("chasing");
         distanceToPlayer = serializedObject.FindProperty("distanceToPlayer");
         chaseUntilCloserThan = serializedObject.FindProperty("chaseUntilCloserThan");
+        minSize = serializedObject.FindProperty("minSize");
+        maxSize = serializedObject.FindProperty("maxSize");
         return returnValue;
     }
 
@@ -160,6 +178,9 @@ public class EntityEditor : Editor
         EditorGUILayout.PropertyField(droppedItems);
         EditorGUILayout.PropertyField(knockback);
         EditorGUILayout.PropertyField(getsScared);
+        EditorGUILayout.PropertyField(minSize);
+        EditorGUILayout.PropertyField(maxSize);
+
         if(getsScared.boolValue)
         {
             EditorGUILayout.PropertyField(runawayTime);

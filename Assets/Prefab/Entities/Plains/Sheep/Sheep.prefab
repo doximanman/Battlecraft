@@ -134,7 +134,13 @@ MonoBehaviour:
   getsScared: 1
   runawayTime: 2
   chasesPlayer: 0
+  chaseRange: 0
+  chaseUntilCloserThan: 0
   maxHealth: 4
+  minSize: 0.9
+  maxSize: 1.1
+  distanceToPlayer: 0
+  chasing: 0
 --- !u!114 &8379696114543419996
 MonoBehaviour:
   m_ObjectHideFlags: 0
