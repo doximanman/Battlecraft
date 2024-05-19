@@ -42,8 +42,9 @@ public class EntityMovement : MonoBehaviour
         // move up so that the entity is off the ground
         transform.position += 0.05f*force;
         stopUntilGrounded = true;
-        // then apply the force
-        body.velocity = force;
+        // then apply the force, with random knockback
+        System.Random rand = new();
+        body.velocity = force * (float)(rand.NextDouble()+1);
     }
 
     private bool stopUntilGrounded = false;

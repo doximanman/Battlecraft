@@ -28,6 +28,7 @@ public class BlockPlacer : MonoBehaviour
             // assert a chest is selected
             if (hotbar.SelectedSlot.GetStack() == null) return;
             string selectedItem = hotbar.SelectedSlot.GetStack().Type.name;
+            Debug.Log(selectedItem);
             if (!selectedItem.Contains("Chest") && !selectedItem.Contains("Bench")) return;
             selectedItem = selectedItem.Contains("Chest") ? "Chest" : "Bench";
 
@@ -51,20 +52,22 @@ public class BlockPlacer : MonoBehaviour
             // assert chest/bench can fit
             float yOffset = selectedItem.Equals("Chest") ? yOffsetChest : yOffsetBench;
             var collider=selectedItem.Equals("Chest") ? chestPrefab.GetComponent<BoxCollider2D>() : benchPrefab.GetComponent<BoxCollider2D>();
+
+            Vector2 centerOfCollider = new(mousePosition.x, ground + collider.size.y / 2 + 0.01f);
             Vector2 placePosition = new(mousePosition.x,ground+collider.size.y/2+yOffset);
             //Vector2 boxSize = (Vector2)collider.bounds.size - leniency * Vector2.up;
             Vector2 boxSize = collider.size;
 
             // for gizmos
-            _boxCenter = placePosition;
+            _boxCenter = centerOfCollider;
             _boxSize = boxSize;
 
             // assert place position close enough to player
             if (Vector2.Distance(player.bounds.center, placePosition) > maxPlaceDistance) return;
             // assert close enough to mouse position
-            if (Mathf.Abs(placePosition.y-mousePosition.y) > maxHeightDifference) return;
+            if (Mathf.Abs(centerOfCollider.y-mousePosition.y) > maxHeightDifference) return;
 
-            var result = Physics2D.BoxCast(placePosition, boxSize,0,Vector2.zero,0f,LayerMask.GetMask("Game"));
+            var result = Physics2D.BoxCast(centerOfCollider, boxSize,0,Vector2.zero,0f,LayerMask.GetMask("Game"));
             if (result) return;
 
             // place chest or bench
