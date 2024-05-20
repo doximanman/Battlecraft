@@ -14,6 +14,7 @@ public class Stats
 {
     public float range;
     public float damage;
+    public float stun;
 
     public override string ToString()
     {

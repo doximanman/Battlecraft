@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6378726406499494203}
   - component: {fileID: 2734570872609794519}
-  - component: {fileID: 7450057714495651883}
   - component: {fileID: -5331037588054050107}
   - component: {fileID: 2483577916864157178}
   - component: {fileID: 8379696114543419996}
   - component: {fileID: 2982332330525209899}
-  m_Layer: 0
+  - component: {fileID: 6390273034025225762}
+  m_Layer: 7
   m_Name: Cow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1765435647
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: da944b686d6ba11408ca3ae8c7af3c9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -89,7 +89,107 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7450057714495651883
+--- !u!50 &-5331037588054050107
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22328908599151810}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 2
+  m_Material: {fileID: 6200000, guid: db128a2d6e188b94a87cd7aed28d0e41, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 192
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &2483577916864157178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22328908599151810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityName: Cow
+  droppedItems: []
+  knockback: {x: 2, y: 2}
+  getsScared: 1
+  runawayTime: 3
+  chasesPlayer: 0
+  chaseRange: 0
+  chaseUntilCloserThan: 0
+  maxHealth: 5
+  minSize: 0.9
+  maxSize: 1.1
+  distanceToPlayer: 0
+  chasing: 0
+--- !u!114 &8379696114543419996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22328908599151810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65169ac7e5a753f49bf303a9f3dd3166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomMovement: 1
+  movementSettings:
+    stepMoveTime: 1
+    minWaitTime: 1
+    maxWaitTime: 15
+    minMoveTime: 0.5
+    maxMoveTime: 1
+    chanceToGoRight: 0.5
+    xSpeed: 1
+    xRunSpeed: 2
+    jumpHeight: 1.2
+    jumpChance: 0.5
+  biome: 0
+  stayInBiome: 1
+  jumpTime: 0.3
+--- !u!95 &2982332330525209899
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22328908599151810}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: d5a474b4ce6c72345b7b329cf969c9b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &6390273034025225762
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +221,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00000011920929, y: 0.040071964}
+  m_Offset: {x: -0.10973057, y: 0.027745366}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -130,95 +230,7 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 2.419748, y: 1.7793713}
+  m_Size: {x: 1.7991898, y: 1.6583297}
   m_EdgeRadius: 0
---- !u!50 &-5331037588054050107
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22328908599151810}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 2
-  m_Material: {fileID: 6200000, guid: db128a2d6e188b94a87cd7aed28d0e41, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!114 &2483577916864157178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22328908599151810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animalName: Cow
-  animalSprite: {fileID: 21300000, guid: da944b686d6ba11408ca3ae8c7af3c9b, type: 3}
-  droppedItems: []
-  maxHealth: 5
---- !u!114 &8379696114543419996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22328908599151810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65169ac7e5a753f49bf303a9f3dd3166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomMovement: 1
-  movementSettings:
-    minWaitTime: 1
-    maxWaitTime: 15
-    minMoveTime: 0.5
-    maxMoveTime: 1
-    chanceToGoRight: 0.5
-    xSpeed: 1
-    jumpHeight: 1.2
-    jumpChance: 0.5
-  jumpDelay: 0.5
-  jumpTime: 0.3
---- !u!95 &2982332330525209899
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22328908599151810}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 30e44e15472b5294a90cd3ad4803a101, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0

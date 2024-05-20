@@ -35,12 +35,12 @@ public class Player : MonoBehaviour
 
     public void PlaySound(string name)
     {
-        AudioManager.instance.Play(name);
+        AudioManager.instance.Play("Player",name);
     }
 
     public void StopSound(string name)
     {
-        AudioManager.instance.Stop(name);
+        AudioManager.instance.Stop("Player",name);
     }
 
     private readonly List<IHitListener> hitListeners=new();
@@ -52,8 +52,8 @@ public class Player : MonoBehaviour
 
         // hit animation
         animator.SetTrigger("Attack");
-        // delayed hit
-        Invoke(nameof(Swing), hitDelay);
+
+        // hit invoked by animation
         
     }
 
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         //Vector2 direction;
         // raycast the swing
         // raycast parameters
-        if (playerSprite.flipX)
+        if (transform.rotation.y < 0.1f)
         {
             // facing left
             startPoint = new(playerCollider.bounds.min.x-0.1f, playerCollider.bounds.min.y);
@@ -90,7 +90,8 @@ public class Player : MonoBehaviour
         }
 
         // raycast swing
-        var swingHit = Physics2D.BoxCastAll(startPoint, size, 0, direction);
+        var boxSize=BoxSize();
+        var swingHit = Physics2D.BoxCastAll(boxSize.Item1,boxSize.Item2, 0, direction,0);
         var hitObjects = swingHit.Select(collision => collision.collider.gameObject);
 
         // check each listener if they were hit (inside of hitObjects array)

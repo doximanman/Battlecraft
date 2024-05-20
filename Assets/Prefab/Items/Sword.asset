@@ -18,5 +18,7 @@ MonoBehaviour:
   stats:
     range: 0.5
     damage: 1
+    stun: 1
+  hasInventory: 0
   invData:
     items: []

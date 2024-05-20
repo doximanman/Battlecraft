@@ -8,21 +8,18 @@ public class CameraLogic : MonoBehaviour, IBiomeListener
     public Color iceBackground = new(49 / 255.0f, 109 / 255.0f, 164 / 255.0f);
     public Color desertBackground = new(81 / 255.0f, 214 / 255.0f, 255 / 255.0f);
 
-
-    Logic logic;
     Camera thisCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<Logic>();
         thisCamera = GetComponent<Camera>();
 
         // register to biome change
-        logic.RegisterBiomeListener(this);
+        Logic.RegisterBiomeListener(this);
 
         // start biome
-        OnBiomeChange(logic.GetStartBiome());
+        OnBiomeChange(Logic.GetStartBiome());
     }
 
     // Update is called once per frame
@@ -31,17 +28,17 @@ public class CameraLogic : MonoBehaviour, IBiomeListener
 
     }
 
-    public void OnBiomeChange(string biome)
+    public void OnBiomeChange(Biome biome)
     {
         switch (biome)
         {
-            case (Logic.plainsBiome):
+            case (Biome.PLAINS):
                 thisCamera.backgroundColor = plainsBackground;
                 break;
-            case (Logic.desertBiome):
+            case (Biome.DESERT):
                 thisCamera.backgroundColor = desertBackground;
                 break;
-            case (Logic.iceBiome):
+            case (Biome.ICE):
                 thisCamera.backgroundColor = iceBackground;
                 break;
 

@@ -14,8 +14,8 @@ public class InventoryLogic : MonoBehaviour
     /// will open some crafting grid, and this class will not do 
     /// anything.
     /// </summary>
-    public enum RESPONSIBLE { INVENTORY, CRAFTING };
-    public static RESPONSIBLE responsible;
+    public enum Responsible { INVENTORY, CRAFTING };
+    public static Responsible responsible;
 
     public delegate void ToggleListener(bool on);
 
@@ -48,15 +48,18 @@ public class InventoryLogic : MonoBehaviour
         mainInventory = _mainInventory;
         darkenHotbar = _darkenHotbar;
 
-        responsible = RESPONSIBLE.CRAFTING;
+        responsible = Responsible.CRAFTING;
 
-        KeyInput.instance.onInventory += () =>
+        KeyInput.instance.onInventory += (down,_,_) =>
         {
-            // when pressing the inventory button, open it.
-            // only if the pause menu is not enabled.
-            if (MetaLogic.pauseMenuEnabled) return;
-            if (inventoryIsOpen) CloseInventory();
-            else OpenInventory();
+            if (down)
+            {
+                // when pressing the inventory button, open it.
+                // only if the pause menu is not enabled.
+                if (MetaLogic.pauseMenuEnabled) return;
+                if (inventoryIsOpen) CloseInventory();
+                else OpenInventory();
+            }
         };
 
         MetaLogic.pauseMenuListeners += (on) =>
@@ -92,7 +95,7 @@ public class InventoryLogic : MonoBehaviour
     public static void EnableChestInventory()
     {
         chestListeners?.Invoke(true);
-        responsible = RESPONSIBLE.INVENTORY;
+        responsible = Responsible.INVENTORY;
         enableChestInventory = true;
         externalInventory.SetSlots(chestInventory.GetComponent<SlotList>().slots);
     }
@@ -100,7 +103,7 @@ public class InventoryLogic : MonoBehaviour
     public static void DisableChestInventory()
     {
         chestListeners?.Invoke(false);
-        responsible = RESPONSIBLE.CRAFTING;
+        responsible = Responsible.CRAFTING;
         enableChestInventory = false;
         //externalInventory.SetSlots(crafting.GetComponent<SlotList>().slots);
     }
@@ -131,7 +134,7 @@ public class InventoryLogic : MonoBehaviour
 
         MetaLogic.Pause();
         mainInventory.SetActive(true);
-        if (responsible == RESPONSIBLE.INVENTORY && enableChestInventory)
+        if (responsible == Responsible.INVENTORY && enableChestInventory)
             chestInventory.SetActive(true);
 
         EnableSecondInventory();

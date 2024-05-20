@@ -1,8 +1,11 @@
+using Codice.CM.Client.Differences;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static Codice.Client.BaseCommands.BranchExplorer.Layout.BrExLayout;
 
 
 public class PlayerControl : MonoBehaviour
@@ -19,7 +22,7 @@ public class PlayerControl : MonoBehaviour
     private float originalGravityScale = 0;
 
 
-
+    private float epsilon = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,54 +36,139 @@ public class PlayerControl : MonoBehaviour
         prevXPosition= playerBody.position.x;
 
         // key inputs
-        KeyInput.instance.onRight += MoveRight;
-        KeyInput.instance.onLeft += MoveLeft;
-        KeyInput.instance.noMovement += StopMoving;
-        KeyInput.instance.onJump += Jump;
+        bool rightHeld = false;
+        bool leftHeld = false;
+        KeyInput.instance.onRight += (down,held,_) =>
+        {
+            rightHeld = held;
+            // once key is first pressed - start moving until it is not pressed
+            if (down || (held && !isMoving))
+            {
+                var moveRight = MoveUntil(Direction.RIGHT, () => !rightHeld);
+                StartCoroutine(moveRight);
+            }
+        };
+        KeyInput.instance.onLeft += (down,held,_) =>
+        {
+            leftHeld = held;
+            if (down || (held && !isMoving))
+            {
+                var moveLeft = MoveUntil(Direction.LEFT, () => !leftHeld);
+                StartCoroutine(moveLeft);
+            }
+        };
+        
+        bool jump = true;
+        KeyInput.instance.onJump += (down,held,up) => {
+            // jump logic: at first you can just jump.
+            // if you were able to jump (i.e. you're grounded)
+            // then you have to let go of the jump key before the next jump.
+            // if you let go mid-jump and pressed again, then that jump will be "queued"
+            // and you will jump as soon as you hit the ground, if you're still holding.
+            if (jump && held) {
+                jump = !Jump();
+            }
+            if (up)
+                jump = true;
+
+        };
     }
 
-
     private float prevXPosition;
+    private bool grounded = false;
     private void FixedUpdate()
     {
+        grounded = Logic.IsGrounded(gameObject);
         // calculates real velocity
         var velocity = (playerBody.position.x - prevXPosition) / Time.fixedDeltaTime;
         animator.SetFloat("SpeedX", Mathf.Abs(velocity));
-        animator.SetBool("OnGround", Logic.IsGrounded(gameObject));
+        animator.SetBool("OnGround", grounded);
 
         prevXPosition = playerBody.position.x;
-    }
 
-    public void MoveRight()
-    {
+        Face(moving);
 
-        playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
-
-        playerSprite.flipX = false;
-    }
-
-    public void MoveLeft()
-    {
-        playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.left;
-
-        playerSprite.flipX = true;
-    }
-
-
-    public void StopMoving()
-    {
-        playerBody.velocity = playerBody.velocity.y * Vector2.up;
-    }
-
-    public void Jump()
-    {
-        if (Logic.IsGrounded(gameObject))
+        if (grounded && !isMoving)
         {
+            playerBody.velocity = Vector2.zero;
+            playerBody.gravityScale = 0;
+        }
+        else
+        {
+            playerBody.gravityScale = originalGravityScale;
+        }
+    }
+
+    public void Face(Direction direction)
+    {
+        if (direction == Direction.RIGHT)
+            transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        else if (direction == Direction.LEFT)
+            transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+    }
+
+    private bool isMoving = false;
+    public IEnumerator Move(Direction direction, float duration)
+    {
+        isMoving = true;
+        float xSpeed = direction == Direction.RIGHT ? velocity : (direction == Direction.LEFT ? -velocity : 0);
+        float timer = 0;
+        moving = direction;
+        while (timer < duration && moving == direction) {
+            playerBody.velocity = new(xSpeed, playerBody.velocity.y);
+            yield return new WaitForFixedUpdate();
+            timer += Time.fixedDeltaTime;
+        }
+        playerBody.velocity = new(0, playerBody.velocity.y);
+        moving = Direction.ZERO;
+        isMoving = false;
+    }
+
+    public IEnumerator MoveUntil(Direction direction,Func<bool> stop)
+    {
+        isMoving = true;
+        float xSpeed = direction == Direction.RIGHT ? velocity : (direction == Direction.LEFT ? -velocity : 0);
+        float timer = 0;
+        moving = direction;
+        while (!stop())
+        {
+            playerBody.velocity = new(xSpeed, playerBody.velocity.y);
+            yield return new WaitForFixedUpdate();
+            timer += Time.fixedDeltaTime;
+        }
+        playerBody.velocity = new(0, playerBody.velocity.y);
+        moving = Direction.ZERO;
+        isMoving = false;
+    }
+
+    Direction moving;
+    public void StepRight()
+    {
+        StartCoroutine(Move(Direction.RIGHT,Time.fixedDeltaTime+epsilon));
+        //playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.right;
+
+        //playerSprite.flipX = false;
+    }
+
+    public void StepLeft()
+    {
+        StartCoroutine(Move(Direction.LEFT,Time.fixedDeltaTime+ epsilon));
+        //playerBody.velocity = playerBody.velocity.y * Vector2.up + velocity * Vector2.left;
+
+        //playerSprite.flipX = true;
+    }
+
+    // returns: if jump was executed
+    public bool Jump()
+    {
+        if (grounded)
+        {
+            isMoving = true;
             // jump by distance - add only the velocity needed to jump to the height jumpHeight
             // in time jumpDuration
             float playerGravity = originalGravityScale * Physics2D.gravity.y;
 
-            if (playerGravity > 0) return;
+            if (playerGravity > 0) return false;
 
             float newVelocity = Mathf.Sqrt(-2 * playerGravity * jumpHeight) - playerBody.velocity.y;
 
@@ -90,8 +178,16 @@ public class PlayerControl : MonoBehaviour
                 animator.SetBool("OnGround", false);
                 animator.SetTrigger("Jump");
             }
+            // wait a bit to get off the ground
+            Invoke(nameof(JumpHelper), 0.1f);
+            return true;
         }
+        return false;
+    }
 
+    private void JumpHelper()
+    {
+        isMoving = false;
     }
 
     public void CancelChop()
@@ -106,10 +202,10 @@ public class PlayerControl : MonoBehaviour
 
     private bool chopping = false;
     // chop(0) cancels the current chop
-    public void Chop(float duration,float direction = 1)
+    public void Chop(float duration,Direction direction)
     {
         // make sure player is rotated correctly
-        playerSprite.flipX = direction<0;
+        Face(direction);
         animator.SetTrigger("Chop");
         chopping = true;
         Invoke(nameof(CancelChop), duration);
@@ -122,7 +218,8 @@ public class PlayerControl : MonoBehaviour
 
     private Vector2 BoxSize()
     {
-        return new(playerCollider.size.x * playerBody.transform.lossyScale.x-2*leniency, Logic.collisionDetection);
+        return new(playerCollider.bounds.size.x - Logic.collisionDetection, Logic.collisionDetection);
+        //return new(playerCollider.size.x * playerBody.transform.lossyScale.x-2*leniency, Logic.collisionDetection);
     }
 
 

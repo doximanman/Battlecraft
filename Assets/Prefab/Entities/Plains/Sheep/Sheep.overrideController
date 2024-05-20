@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sheep
+  m_Controller: {fileID: 9100000, guid: 30e44e15472b5294a90cd3ad4803a101, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: cb90d5352c4f6e648af0f6a9d4048640, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c4b11f773834f804c8a5bf77ee4f9203, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9bfca9d308d36874b8f362b3940cd235, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 533fe9c14b361f44b9468baf1e26e8e3, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0d07b17ed0c71f24e87f7cc35f0c872e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 92d012426689978489577870de89ecaa, type: 2}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CraftingBench : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class CraftingBench : MonoBehaviour
 {
     private Transform player;
     
@@ -46,15 +46,15 @@ public class CraftingBench : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     }
 
     private bool mouseDown = false;
-    public void OnPointerDown(PointerEventData eventData) {
+    public void OnMouseDown(){
         mouseDown = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnMouseUp()
     {
+        if (!mouseDown)
+            return;
         mouseDown = false;
-        // make sure current still on the chest
-        if (eventData.pointerCurrentRaycast.gameObject != gameObject) return;
 
         // do nothing if game is paused
         if (MetaLogic.paused) return;

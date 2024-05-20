@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Chest : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Chest : MonoBehaviour
 {
     private Transform player;
     private InventoryInteract inventoryInteract;
@@ -63,16 +63,16 @@ public class Chest : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private bool mouseDown = false;
     // must be implemented for OnPointerUp to activate
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnMouseDown()
     {
         mouseDown = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnMouseUp()
     {
-        mouseDown = false;
         // make sure current still on the chest
-        if (eventData.pointerCurrentRaycast.gameObject != gameObject) return;
+        if (!mouseDown) return;
+        mouseDown = false;
 
         // do nothing if game is paused
         if (MetaLogic.paused) return;
