@@ -109969,6 +109969,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6378726406499494203, guid: 153ca1307d8f2d445b6e3a373ef48dd0, type: 3}
   m_PrefabInstance: {fileID: 337818333}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &349892440
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 22328908599151810, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_Name
+      value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.2953646
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.862321
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378726406499494203, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 894cfe98f5e05384681e8bd630852218, type: 3}
 --- !u!4 &358605203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6378726406499494203, guid: 3954cc4828b174842a85902ee10eccb3, type: 3}
@@ -113404,6 +113461,98 @@ MonoBehaviour:
       audioClip: {fileID: 8300000, guid: 8742cf8319ee08e448ebf585706ff715, type: 3}
       volume: 0.498
       pitch: 1.574
+      audioSource: {fileID: 0}
+  - type: Wolf
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: f3b2ba91b382e0a44a53321cb3db4266, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Walk
+      audioClip: {fileID: 8300000, guid: 42b98ae12b1e1c84c9b2050e6b4318d4, type: 3}
+      volume: 0.498
+      pitch: 1.574
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 72e2390173d07b646a019ed1bec7a2eb, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+  - type: Snake
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: 482c9c59d4d237c40957091f273011bd, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Walk
+      audioClip: {fileID: 8300000, guid: 0c4eadbb343448c488caca747638ece5, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 3b6c09e84209f55458d8539745b47bc7, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+  - type: Deer
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: 9c86db6e7dae19c41a142dc5f537e740, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Walk
+      audioClip: {fileID: 8300000, guid: 300dd7e20135647488a5f829c9bd44c0, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 19c1be204273d5d45816e5c67946f280, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+  - type: Slime
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: 8063f6191a7b9e44daa69bc7f0fab595, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 9c04756afc1ebe645bde8b5f2b059da0, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+  - type: IceSlime
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: 8063f6191a7b9e44daa69bc7f0fab595, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 9c04756afc1ebe645bde8b5f2b059da0, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+  - type: DesertWolf
+    sounds:
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: f3b2ba91b382e0a44a53321cb3db4266, type: 3}
+      volume: 1
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Walk
+      audioClip: {fileID: 8300000, guid: 42b98ae12b1e1c84c9b2050e6b4318d4, type: 3}
+      volume: 0.498
+      pitch: 1.574
+      audioSource: {fileID: 0}
+    - name: Attack
+      audioClip: {fileID: 8300000, guid: 72e2390173d07b646a019ed1bec7a2eb, type: 3}
+      volume: 1
+      pitch: 1
       audioSource: {fileID: 0}
 --- !u!4 &677793199 stripped
 Transform:
@@ -137577,3 +137726,4 @@ SceneRoots:
   - {fileID: 563174091}
   - {fileID: 738833228}
   - {fileID: 1360605380}
+  - {fileID: 349892440}

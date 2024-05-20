@@ -52,8 +52,8 @@ public class Player : MonoBehaviour
 
         // hit animation
         animator.SetTrigger("Attack");
-        // delayed hit
-        Invoke(nameof(Swing), hitDelay);
+
+        // hit invoked by animation
         
     }
 
