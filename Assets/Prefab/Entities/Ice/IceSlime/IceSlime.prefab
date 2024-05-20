@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae03446bf8a4433459f05a953db9f8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityName: Snake
+  entityName: IceSlime
   droppedItems: []
   knockback: {x: 2, y: 2}
   getsScared: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
     minMoveTime: 0.5
     maxMoveTime: 1
     chanceToGoRight: 0.5
-    xSpeed: 0.1
+    xSpeed: 0.5
     xRunSpeed: 3
     jumpHeight: 1.2
     jumpChance: 0.5
