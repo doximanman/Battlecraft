@@ -112,6 +112,7 @@ public class Entity : IHitListener
         Health -= hitWith.stats.damage;
     }
 
+
     [ContextMenu("Death")]
     public void Death()
     {
