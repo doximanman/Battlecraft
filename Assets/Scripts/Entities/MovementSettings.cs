@@ -6,12 +6,14 @@ using UnityEngine;
 [Serializable]
 public class MovementSettings
 {
+    public float stepMoveTime;
     public float minWaitTime;
     public float maxWaitTime;
     public float minMoveTime;
     public float maxMoveTime;
     public float chanceToGoRight;
     public float xSpeed;
+    public float xRunSpeed;
     public float jumpHeight;
     public float jumpChance;
 }

@@ -44,8 +44,8 @@ TagManager:
   - Game
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Entity
   - 
   - 
   - 
@@ -77,14 +77,17 @@ TagManager:
   - name: UI
     uniqueID: 1784456227
     locked: 0
-  - name: Entity
-    uniqueID: 1765435647
-    locked: 0
   - name: Background
     uniqueID: 1511872187
     locked: 0
   - name: Environment
     uniqueID: 1030804897
+    locked: 0
+  - name: Entity
+    uniqueID: 1765435647
+    locked: 0
+  - name: Ground
+    uniqueID: 316626275
     locked: 0
   - name: Player
     uniqueID: 3066587565

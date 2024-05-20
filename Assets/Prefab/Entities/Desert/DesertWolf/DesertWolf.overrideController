@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DesertWolf
+  m_Controller: {fileID: 9100000, guid: a0955f81a48ad1e4db13432c94c3dab3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 21b6a8be5920d5347ba8c0263bcf4787, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3923190e3372c4b43a1bd8aa93916635, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7b29eab13f3190449bbf3850c59ec55c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5297396b941763842bfcb68749f969be, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c12c5962764c7f14db6b24e711386641, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5ea5205ee66a76c449287e455710f418, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4d9d71678dc14ec48a05c895adcb48fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8fc33f586571da248a4a182386c92b3f, type: 2}

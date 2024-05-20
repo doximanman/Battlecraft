@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Deer
+  m_Controller: {fileID: 9100000, guid: a0955f81a48ad1e4db13432c94c3dab3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 21b6a8be5920d5347ba8c0263bcf4787, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c71b152838fac534fb24818930de0c14, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7b29eab13f3190449bbf3850c59ec55c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d0f2ca4e1b4460f40930e8e2e9968a73, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c12c5962764c7f14db6b24e711386641, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 105e65e14b50d1a43b7cd8f0f697fd7a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4d9d71678dc14ec48a05c895adcb48fd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b76fb725965588648b85cdcb6ed90953, type: 2}

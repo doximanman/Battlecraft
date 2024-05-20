@@ -22,10 +22,13 @@ public class MetaLogic : MonoBehaviour
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
 
-        KeyInput.instance.onEscape += () =>
+        KeyInput.instance.onEscape += (down,_,_) =>
         {
-            if (pauseMenuEnabled) ClosePauseMenu();
-            else OpenPauseMenu();
+            if (down)
+            {
+                if (pauseMenuEnabled) ClosePauseMenu();
+                else OpenPauseMenu();
+            }
         };
 
     }
