@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Vector3 spawnPoint;
+
     public static Player current;
 
     private Animator animator;
-    private SpriteRenderer playerSprite;
     private BoxCollider2D playerCollider;
     private void Start()
     {
         current = this;
         animator = GetComponent<Animator>();
-        playerSprite = GetComponent<SpriteRenderer>();
         playerCollider=GetComponent<BoxCollider2D>();
+
+        spawnPoint= transform.position;
     }
 
     public float swingDelay;
@@ -102,6 +104,14 @@ public class Player : MonoBehaviour
             if (hitObjects.Contains(listener.gameObject))
                 listener.OnHit(item);
         }
+    }
+
+    [ContextMenu("Death")]
+    public void Death()
+    {
+        PlayerInventory inventory = GetComponent<PlayerInventory>();
+        inventory.DropInventory(false);
+        transform.position = spawnPoint;
     }
 
     private (Vector3,Vector3) BoxSize()
