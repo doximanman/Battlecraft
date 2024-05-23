@@ -127291,6 +127291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedStackPrefab: {fileID: 1139282898287208737, guid: 48bded5638e5ce747b448b0835a370e4, type: 3}
   combineStacksDistance: 1
+  pickupDelay: 2
   _instance: {fileID: 1495421299}
 --- !u!4 &1495421300
 Transform:
@@ -133409,6 +133410,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupRange: 1
+  maxThrowSpeed: {x: 3, y: 3}
+  minThrowSpeed: {x: 2, y: 2}
 --- !u!1001 &1836027253
 PrefabInstance:
   m_ObjectHideFlags: 0

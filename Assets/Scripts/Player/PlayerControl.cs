@@ -72,6 +72,8 @@ public class PlayerControl : MonoBehaviour
                 jump = true;
 
         };
+
+        facing = Direction.LEFT;
     }
 
     private float prevXPosition;
@@ -99,12 +101,20 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private Direction facing;
+    public Direction Facing => facing;
     public void Face(Direction direction)
     {
         if (direction == Direction.RIGHT)
+        {
             transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+            facing = Direction.RIGHT;
+        }
         else if (direction == Direction.LEFT)
+        {
             transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+            facing= Direction.LEFT;
+        }
     }
 
     private bool isMoving = false;
