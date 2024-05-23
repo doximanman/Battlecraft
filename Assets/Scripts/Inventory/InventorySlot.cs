@@ -25,6 +25,15 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         return stack;
     }
 
+    public bool TryGetStack(out ItemStack stack)
+    {
+        stack = this.stack;
+        if (this.stack == null || this.stack.Equals(null))
+            return false;
+        else
+            return true;
+    }
+
     private StackData oldStack;
     private void NotifyChange()
     {

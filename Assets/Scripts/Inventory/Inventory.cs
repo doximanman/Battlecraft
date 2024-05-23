@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using static UnityEditor.Progress;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
 {
     public List<InventorySlot> slots = new();
 
@@ -167,6 +167,15 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    IEnumerator<InventorySlot> IEnumerable<InventorySlot>.GetEnumerator()
+    {
+        return slots.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return slots.GetEnumerator();
+    }
 
 
     public InventorySlot slot;
@@ -217,4 +226,5 @@ public class Inventory : MonoBehaviour
         }
         return str.ToString();
     }
+
 }
