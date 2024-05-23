@@ -51,7 +51,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3751371f72eb853458613e9c9f28ffb8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -129,10 +129,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5098044775875075225}
   boxCollider2D: {fileID: 2217717373985007928}
   borderSubtract: 0.1
-  pickupRange: 0
   stack:
     type: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
     count: 1
+  pickupDelay: 0
 --- !u!61 &2217717373985007928
 BoxCollider2D:
   m_ObjectHideFlags: 0

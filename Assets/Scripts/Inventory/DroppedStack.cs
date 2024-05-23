@@ -27,6 +27,7 @@ public class DroppedStack : MonoBehaviour
             {
                 spriteRenderer.sprite = stack.type.icon;
                 boxCollider2D.size = spriteRenderer.size - borderSubtract*Vector2.one;
+                stack = value;
             }
         }
     }
@@ -72,8 +73,12 @@ public class DroppedStack : MonoBehaviour
     private bool update = false;
     private void OnValidate() => update = true;
 
+    public float pickupDelay;
     private void Update()
     {
         if (update) Stack = stack;
+
+        if (pickupDelay > 0)
+            pickupDelay = pickupDelay < Time.deltaTime ? 0 : pickupDelay - Time.deltaTime;
     }
 }
