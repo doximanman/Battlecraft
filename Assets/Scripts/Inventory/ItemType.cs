@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 
 [Serializable]
-public class Stats
+public class WeaponStats
 {
     public float range;
     public float damage;
@@ -18,7 +18,18 @@ public class Stats
 
     public override string ToString()
     {
-        return "Range: " + range + " Damage: " + damage;
+        return "Range: " + range + " Damage: " + damage + " Stun: " + stun;
+    }
+}
+
+[Serializable]
+public class FoodStats
+{
+    public float saturation;
+
+    public override string ToString()
+    {
+        return "Saturation: " + saturation;
     }
 }
 
@@ -29,10 +40,13 @@ public class ItemType : ScriptableObject
     public int maxStack = 99;
 
     public bool swingable = false;
-    public Stats stats;
+    public WeaponStats stats;
 
     public bool hasInventory = false;
     public InventoryData invData;
+
+    public bool food = false;
+    public FoodStats foodStats;
 
     public override string ToString()
     {
@@ -89,19 +103,29 @@ public class ItemTypeEditor : Editor
         item.icon = EditorGUILayout.ObjectField("Icon",item.icon, typeof(Sprite), false) as Sprite;
         item.maxStack = EditorGUILayout.IntField("Max Stack",item.maxStack);
         item.swingable = EditorGUILayout.Toggle("Swingable",item.swingable);
-        item.hasInventory= EditorGUILayout.Toggle("Inventory", item.hasInventory);
 
         if (item.swingable)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("stats"),new GUIContent("Weapon Stats"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("stats"), new GUIContent("Weapon Stats"));
             EditorGUI.indentLevel--;
         }
+
+        item.hasInventory= EditorGUILayout.Toggle("Inventory", item.hasInventory);
 
         if (item.hasInventory)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("invData"), new GUIContent("Inventory Data"));
+            EditorGUI.indentLevel--;
+        }
+
+        item.food = EditorGUILayout.Toggle("Food", item.food);
+
+        if (item.food)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("foodStats"), new GUIContent("Food Stats"));
             EditorGUI.indentLevel--;
         }
 
