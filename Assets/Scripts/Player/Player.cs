@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,6 +19,12 @@ public class Player : MonoBehaviour
         playerCollider=GetComponent<BoxCollider2D>();
 
         spawnPoint= transform.position;
+
+        GetComponent<StatManager>().GetStat("Food").OnValueChanged += (value) =>
+        {
+            if (value == 0)
+                Death();
+        };
     }
 
     public float swingDelay;
@@ -109,9 +116,10 @@ public class Player : MonoBehaviour
     [ContextMenu("Death")]
     public void Death()
     {
-        PlayerInventory inventory = GetComponent<PlayerInventory>();
+        ItemInterations inventory = GetComponent<ItemInterations>();
         inventory.DropInventory(false);
         transform.position = spawnPoint;
+        GetComponent<StatManager>().ResetStats();
     }
 
     private (Vector3,Vector3) BoxSize()

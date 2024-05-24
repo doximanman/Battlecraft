@@ -44,7 +44,7 @@ public class DroppedStack : MonoBehaviour
             StackData otherStack = droppedStack.Stack;
             // same type and both stacks have less than maxStack items
             // (otherwise two stacks would swap items infinitely if one has maxStack)
-            if (stack.type == otherStack.type
+            if (stack.type.Equals(otherStack.type)
                 && stack.count < stack.type.maxStack && otherStack.count < stack.type.maxStack)
             {
                 int combined=stack.count + otherStack.count;

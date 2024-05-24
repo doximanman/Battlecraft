@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class ItemInterations : MonoBehaviour
 {
     public Inventory inventory;
     public float pickupRange;

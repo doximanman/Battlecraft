@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3811a6653fb187644832a651b5620abf, type: 3}
   m_Name: Chicken
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 03f04863cd23d364691f34a76fea8c92, type: 3}
   maxStack: 99
   swingable: 0
   stats:
@@ -22,6 +22,6 @@ MonoBehaviour:
   hasInventory: 0
   invData:
     items: []
-  food: 0
+  food: 1
   foodStats:
-    saturation: 0
+    saturation: 3
