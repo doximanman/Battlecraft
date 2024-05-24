@@ -79,7 +79,7 @@ public class DroppedStacksManager : MonoBehaviour
 
         // remove it if found.
         if (toRemove)
-            Destroy(toRemove);
+            DestroyImmediate(toRemove);
     }
 
     // each gameobject provides a distance and a function.
