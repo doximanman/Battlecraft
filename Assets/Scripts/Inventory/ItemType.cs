@@ -122,6 +122,7 @@ public class ItemTypeEditor : Editor
 
         item.food = EditorGUILayout.Toggle("Food", item.food);
 
+
         if (item.food)
         {
             EditorGUI.indentLevel++;
