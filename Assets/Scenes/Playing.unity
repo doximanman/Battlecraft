@@ -133479,7 +133479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {x: 0, y: 0, z: 0}
   swingDelay: 0.48
-  hitDelay: 0.3
 --- !u!114 &1826195916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133515,9 +133514,9 @@ MonoBehaviour:
   value: 10
   maxValue: 10
   minValue: 0
-  loseOvertime: 1
-  loseInterval: 0.1
-  loseAmount: 0.001
+  changeOvertime: 1
+  changeInterval: 0.1
+  changeAmount: -0.001
 --- !u!114 &1826195921
 MonoBehaviour:
   m_ObjectHideFlags: 0

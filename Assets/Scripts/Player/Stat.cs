@@ -22,7 +22,8 @@ public class Stat : MonoBehaviour
         set
         {
             bool different = valueSlider.value != value;
-            this.value = value < 0 ? 0 : value;
+            this.value = value < MinValue ? MinValue : value;
+            this.value = this.value > MaxValue ? MaxValue : value;
             valueSlider.value = this.value;
             if (different)
                 OnValueChanged?.Invoke(this.value);
@@ -60,12 +61,12 @@ public class Stat : MonoBehaviour
 
     #region Functionality
 
-    [SerializeField] private bool loseOvertime;
-    public bool LoseOvertime => loseOvertime;
-    [SerializeField] private float loseInterval;
-    public float LoseInterval => loseInterval;
-    [SerializeField] private float loseAmount;
-    public float LoseAmount => loseAmount;
+    [SerializeField] private bool changeOvertime;
+    public bool ChangeOvertime => changeOvertime;
+    [SerializeField] private float changeInterval;
+    public float ChangeInterval => changeInterval;
+    [SerializeField] private float changeAmount;
+    public float ChangeAmount => changeAmount;
 
     private void Start()
     {
@@ -75,11 +76,14 @@ public class Stat : MonoBehaviour
     private float timer;
     private void Update()
     {
-        timer += Time.deltaTime;
-        if(timer > loseInterval)
+        if (changeOvertime)
         {
-            Value -= loseAmount;
-            timer = 0;
+            timer += Time.deltaTime;
+            if (timer > changeInterval)
+            {
+                Value += changeAmount;
+                timer = 0;
+            }
         }
     }
 
@@ -99,9 +103,9 @@ public class StatEditor : Editor
     SerializedProperty value;
     SerializedProperty minValue;
     SerializedProperty maxValue;
-    SerializedProperty loseOvertime;
-    SerializedProperty loseInterval;
-    SerializedProperty loseAmount;
+    SerializedProperty changeOvertime;
+    SerializedProperty changeInterval;
+    SerializedProperty changeAmount;
     #endregion
 
     public override UnityEngine.UIElements.VisualElement CreateInspectorGUI()
@@ -114,9 +118,9 @@ public class StatEditor : Editor
         valueSlider = serializedObject.FindProperty("valueSlider");
         minValue = serializedObject.FindProperty("minValue");
         maxValue = serializedObject.FindProperty("maxValue");
-        loseOvertime = serializedObject.FindProperty("loseOvertime");
-        loseInterval = serializedObject.FindProperty("loseInterval");
-        loseAmount = serializedObject.FindProperty("loseAmount");
+        changeOvertime = serializedObject.FindProperty("changeOvertime");
+        changeInterval = serializedObject.FindProperty("changeInterval");
+        changeAmount = serializedObject.FindProperty("changeAmount");
         return result;
     }
 
@@ -156,14 +160,14 @@ public class StatEditor : Editor
         if (value.floatValue != stat.Value) stat.Value = value.floatValue;
 
         //SerializedProperty loseOvertime = serializedObject.FindProperty("loseOvertime");
-        EditorGUILayout.PropertyField(loseOvertime, new GUIContent("Lose Overtime"));
-        if(loseOvertime.boolValue)
+        EditorGUILayout.PropertyField(changeOvertime, new GUIContent("Change Overtime"));
+        if(changeOvertime.boolValue)
         {
             //SerializedProperty loseInterval = serializedObject.FindProperty("loseInterval");
             //SerializedProperty loseAmount = serializedObject.FindProperty("loseAmount");
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(loseInterval, new GUIContent("Lose Interval (lose every X seconds)"));
-            EditorGUILayout.PropertyField(loseAmount, new GUIContent("Lose Amount"));
+            EditorGUILayout.PropertyField(changeInterval, new GUIContent("Change Interval (Change every X seconds)"));
+            EditorGUILayout.PropertyField(changeAmount, new GUIContent("Change Amount (Add X every interval)"));
             EditorGUI.indentLevel--;
         }
 
