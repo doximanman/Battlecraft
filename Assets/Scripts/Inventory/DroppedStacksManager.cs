@@ -33,7 +33,7 @@ public class DroppedStacksManager : MonoBehaviour
             foreach (var (gameObject, actDist, onCloseTo) in closeListeners)
             {
                 // destroyed objects become null
-                if (gameObject == child.gameObject || gameObject == null || child.gameObject == null) continue;
+                if (gameObject == null || child == null || gameObject == child.gameObject) continue;
                 if (Vector2.Distance(gameObject.transform.position, child.transform.position) < actDist)
                 {
                     DroppedStack droppedStack = child.GetComponent<DroppedStack>();
