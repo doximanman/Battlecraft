@@ -1,35 +1,55 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Vector3 spawnPoint;
+
     public static Player current;
 
     private Animator animator;
-    private SpriteRenderer playerSprite;
     private BoxCollider2D playerCollider;
     private void Start()
     {
         current = this;
         animator = GetComponent<Animator>();
-        playerSprite = GetComponent<SpriteRenderer>();
         playerCollider=GetComponent<BoxCollider2D>();
+
+        spawnPoint= transform.position;
+
+        GetComponent<StatManager>().GetStat("Food").OnValueChanged += (value) =>
+        {
+            if (value == 0)
+                Death();
+        };
+
+        Hotbar.instance.OnItemUse += (stack) =>
+        {
+            if (stack.type.swingable && swingTimer > swingDelay)
+            {
+                StartSwing(stack);
+                swingTimer = 0;
+            }
+            else if (stack.type.food)
+                Consume(stack);
+        };
     }
 
     public float swingDelay;
-    public float hitDelay;
-    private float timer=0;
+    private float swingTimer=0;
     private void Update()
     {
-        timer += Time.deltaTime;
-
+        swingTimer += Time.deltaTime;
+/*
         if (Input.GetMouseButtonDown(0) && timer> swingDelay)
         {
-            StartSwing();
+            TrySwing();
             timer = 0;
-        }
+        }*/
 
     }
 
@@ -43,31 +63,31 @@ public class Player : MonoBehaviour
         AudioManager.instance.Stop("Player",name);
     }
 
-    private readonly List<IHitListener> hitListeners=new();
-    public void StartSwing()
+    
+
+    public void Consume(StackData stack)
     {
-        // item must be swingable
-        var item = InventoryLogic.hotbar.SelectedSlot.GetStack() == null ? null : InventoryLogic.hotbar.SelectedSlot.GetStack().Type;
-        if (item == null || !item.swingable) return;
-
-        // hit animation
-        animator.SetTrigger("Attack");
-
-        // hit invoked by animation
-        
+        Stat food = GetComponent<StatManager>().GetStat("Food");
+        food.Value += stack.type.foodStats.saturation;
+        stack.count--;
     }
 
+    private readonly List<IHitListener> hitListeners=new();
 
+    public void StartSwing(StackData stack)
+    {
+        swingItem = stack.type;
+        // hit animation
+        // the animation triggers swing
+        animator.SetTrigger("Attack");
+    }
+
+    private ItemType swingItem;
     private Vector2 startPoint=new();
     private Vector2 size= new();
     private Vector2 direction= new();
     public void Swing()
     {
-        // selected item
-        var item = InventoryLogic.hotbar.SelectedSlot.GetStack() == null ? null : InventoryLogic.hotbar.SelectedSlot.GetStack().Type;
-
-        // item must be swingable
-        if (item == null || !item.swingable) return;
 
         //Vector2 startPoint;
         //Vector2 size;
@@ -78,14 +98,14 @@ public class Player : MonoBehaviour
         {
             // facing left
             startPoint = new(playerCollider.bounds.min.x-0.1f, playerCollider.bounds.min.y);
-            size = new Vector2(item.stats.range, playerCollider.bounds.size.y);
+            size = new Vector2(swingItem.stats.range, playerCollider.bounds.size.y);
             direction = Vector2.left + Vector2.up;
         }
         else
         {
             // facing right
             startPoint = new(playerCollider.bounds.max.x+0.1f, playerCollider.bounds.min.y);
-            size = new Vector2(item.stats.range, playerCollider.bounds.size.y);
+            size = new Vector2(swingItem.stats.range, playerCollider.bounds.size.y);
             direction = Vector2.right + Vector2.up;
         }
 
@@ -100,8 +120,17 @@ public class Player : MonoBehaviour
         foreach (var listener in listeners)
         {
             if (hitObjects.Contains(listener.gameObject))
-                listener.OnHit(item);
+                listener.OnHit(swingItem);
         }
+    }
+
+    [ContextMenu("Death")]
+    public void Death()
+    {
+        ItemInterations inventory = GetComponent<ItemInterations>();
+        inventory.DropInventory(false);
+        transform.position = spawnPoint;
+        GetComponent<StatManager>().ResetStats();
     }
 
     private (Vector3,Vector3) BoxSize()
