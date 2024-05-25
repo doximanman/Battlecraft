@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 
 public class Hotbar : MonoBehaviour
 {
+    public static Hotbar instance;
+
     [SerializeField] private GameObject slotPrefab;
 
     public List<InventorySlot> slots;
@@ -37,9 +40,15 @@ public class Hotbar : MonoBehaviour
             SelectedSlot = slots[selectedIndex];
         } }
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+
         // deselected color same as normal slot color
         deselectedColor=slotPrefab.GetComponent<Image>().color;
         
@@ -47,5 +56,31 @@ public class Hotbar : MonoBehaviour
         SelectedSlot = slots[0];
 
         KeyInput.instance.onNum += (num) => SelectedIndex = num;
+    }
+
+    public delegate void ItemNotifier(StackData stack);
+
+    /// <summary>
+    /// Get notified when an item is used.
+    /// If the used item needs to change
+    /// its count, update the given stack.
+    /// </summary>
+    public ItemNotifier OnItemUse;
+    private void Update()
+    {
+        // if selected slot has a stack and mouse is pressed
+        if(selectedSlot != null && Input.GetMouseButtonDown(0) && selectedSlot.TryGetStack(out ItemStack stack))
+        {
+            StackData stackData = new(stack);
+            OnItemUse?.Invoke(stackData);
+            if(stackData.count == 0)
+            {
+                selectedSlot.RemoveItem();
+            }
+            else if(stackData.count != stack.ItemCount)
+            {
+                stack.ItemCount = stackData.count;
+            }
+        }
     }
 }
