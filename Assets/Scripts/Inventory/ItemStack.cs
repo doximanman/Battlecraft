@@ -142,17 +142,22 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void EndDrag()
     {
-        beingDragged = null;
         GetComponent<Image>().raycastTarget = true;
 
         // OnDrop of a slot might have already handled the required logic
         if (stopDrag)
         {
             originalSlot = null;
+            beingDragged = null;
             return;
         };
 
-        // not on a slot - bring the item back
+        // not on a slot - throw the item.
+        DroppedStacksManager.instance.Drop(new(beingDragged.Type, beingDragged.ItemCount));
+        Destroy(beingDragged.gameObject);
+        beingDragged = null;
+
+        /*// not on a slot - bring the item back
         // right click - combine into the stack inside of originalSlot
         if (rightClick)
         {
@@ -178,7 +183,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 InventoryLogic.personalInventory.AddStack(this);
             else
                 originalSlot.SetItem(this);
-        }
+        }*/
         originalSlot = null;
     }
 }

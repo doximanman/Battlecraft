@@ -28,7 +28,6 @@ public class BlockPlacer : MonoBehaviour
             // assert a chest is selected
             if (hotbar.SelectedSlot.GetStack() == null) return;
             string selectedItem = hotbar.SelectedSlot.GetStack().Type.name;
-            Debug.Log(selectedItem);
             if (!selectedItem.Contains("Chest") && !selectedItem.Contains("Bench")) return;
             selectedItem = selectedItem.Contains("Chest") ? "Chest" : "Bench";
 
