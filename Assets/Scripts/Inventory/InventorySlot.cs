@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-
+    public enum FilterType { BLACK_LIST, WHITE_LIST };
     public bool canAcceptItems;
+    public FilterType filterType;
+    public List<ItemType> filter;
 
     // initialized on SetItem
     // removed on RemoveItem
@@ -223,15 +226,32 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         ItemStack.CancelDrag();
     }
 
+    public bool CanAccept(ItemType type)
+    {
+        if (!canAcceptItems) return false;
+
+        return filterType switch
+        {
+            FilterType.WHITE_LIST => filter.Contains(type),
+            FilterType.BLACK_LIST => !filter.Contains(type),
+            _ => false,
+        };
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
-        if (ItemStack.stopDrag || eventData.pointerDrag == null || !canAcceptItems) return;
-
-        // notify EndDrag that the dragging operation already happened
-        ItemStack.stopDrag = true;
-
         var item = ItemStack.beingDragged;
         var originalSlot = ItemStack.originalSlot;
+        bool thisCanAccept = CanAccept(item.Type);
+
+        // if drag is stopped or nothing was dragged
+        if (ItemStack.stopDrag || eventData.pointerDrag == null || !thisCanAccept) return;
+
+        bool originalCanAccept = originalSlot.CanAccept(item.Type);
+
+        // notify EndDrag that the dragging operation was handled (by this function)
+        ItemStack.stopDrag = true;
+
         // left click
 
         // if no item here - set it to be the stack.
@@ -252,7 +272,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 // there is a remainder
                 else
                 {
-                    if (originalSlot.canAcceptItems)
+                    if (originalCanAccept)
                     {
                         // right click - add the remainder to the existing amount in the slot
                         if (ItemStack.rightClick)
@@ -267,7 +287,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     SetItem(combinedStacks[0]);
                     Destroy(item.gameObject);
 
-                    if (!originalSlot.canAcceptItems)
+                    if (!originalCanAccept)
                     {
                         // cant accept items - try to place it in the inventory
                         InventoryLogic.personalInventory.AddItems(combinedStacks[1].type, combinedStacks[1].count);
@@ -277,7 +297,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 }
             }
             // otherwise swap only if the original slot is empty now
-            else if (canAcceptItems && originalSlot.canAcceptItems && originalSlot.GetStack()==null)
+            else if (thisCanAccept && originalCanAccept && originalSlot.GetStack() == null)
             {
                 var thisStack = GetStack();
                 DetatchChild();
@@ -295,4 +315,40 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
 
 
+}
+
+[CustomEditor(typeof(InventorySlot))]
+public class SlotEditor : Editor
+{
+    SerializedProperty canAcceptItems;
+    SerializedProperty filterType;
+    SerializedProperty filter;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        var returnValue = base.CreateInspectorGUI();
+        canAcceptItems = serializedObject.FindProperty("canAcceptItems");
+        filterType = serializedObject.FindProperty("filterType");
+        filter = serializedObject.FindProperty("filter");
+        return returnValue;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        EditorGUI.BeginChangeCheck();
+
+        EditorGUILayout.PropertyField(canAcceptItems);
+
+        if (canAcceptItems.boolValue)
+        {
+            EditorGUILayout.PropertyField(filterType);
+            EditorGUILayout.PropertyField(filter);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
 }
