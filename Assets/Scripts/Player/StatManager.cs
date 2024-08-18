@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StatManager : MonoBehaviour
 {
+    public static string Health = "Health";
+    public static string Food = "Food";
+
     [SerializeField] private List<Stat> stats;
 
     public Stat GetStat(string name)

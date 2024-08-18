@@ -35,17 +35,29 @@ public class EntityMovement : MonoBehaviour
             randomMovementCoroutine = MoveRandomly();
             StartCoroutine(MoveRandomly());
         }
+
+        rightRotation= new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        leftRotation= new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+
+        waitUntilGrounded = new WaitUntil(() => grounded);
+        waitForJumpTime = new WaitForSeconds(jumpTime);
+        waitForFixedUpdate = new();
     }
 
-    public void Launch(Vector3 force)
+    private Quaternion rightRotation;
+    private Quaternion leftRotation;
+
+    public void Launch(Vector2 force)
     {
         // move up so that the entity is off the ground
-        transform.position += 0.05f*force;
+        Vector3 moveUp = new(0.05f * force.x, 0.05f * force.y, 0);
+        transform.position += moveUp;
         stopUntilGrounded = true;
         // then apply the force, with random knockback
         System.Random rand = new();
         body.velocity = force * (float)(rand.NextDouble()+1);
     }
+
 
     private bool stopUntilGrounded = false;
 
@@ -62,9 +74,9 @@ public class EntityMovement : MonoBehaviour
 
         // flip sprite accordingly
         if (moving == Direction.RIGHT)
-            transform.rotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+            transform.rotation = rightRotation;
         else if (moving == Direction.LEFT)
-            transform.rotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+            transform.rotation = leftRotation;
 
         if (grounded && !isMoving)
         {
@@ -123,6 +135,11 @@ public class EntityMovement : MonoBehaviour
         return MoveUntil(direction, () => Time.time >= stopTime,jump,stayInBiome);
     }
 
+
+
+    private WaitUntil waitUntilGrounded;
+    private WaitForSeconds waitForJumpTime;
+    private WaitForFixedUpdate waitForFixedUpdate;
     public IEnumerator DynamicMoveUntil(Func<Direction> direction, Func<bool> stop, bool jump = true)
     {
         isMoving = true;
@@ -130,7 +147,7 @@ public class EntityMovement : MonoBehaviour
         {
             if (stopUntilGrounded)
             {
-                yield return new WaitUntil(() => grounded);
+                yield return waitUntilGrounded;
             }
 
             // evaluate speed according to current direction
@@ -142,14 +159,14 @@ public class EntityMovement : MonoBehaviour
             if (jump && Logic.WallClose(gameObject, moving))
             {
                 Jump();
-                yield return new WaitForSeconds(jumpTime);
+                yield return waitForJumpTime;
             }
             // if stunned - wait.
             if (stopUntilGrounded)
-                yield return new WaitUntil(() => grounded);
+                yield return waitUntilGrounded;
             // move
             body.velocity = new(xSpeed, body.velocity.y);
-            yield return new WaitForFixedUpdate();
+            yield return waitForFixedUpdate;
         }
         // stop moving
         body.velocity = new(0, body.velocity.y);
@@ -157,7 +174,7 @@ public class EntityMovement : MonoBehaviour
         isMoving = false;
     }
 
-    public IEnumerator FollowUntil(Func<bool> stop, Func<float> targetX,float minDistanceFromTarget, bool jump = true)
+    public IEnumerator FollowUntil(Func<bool> stop, Func<(float,Direction)> getDistance, float minDistanceFromTarget, bool jump = true)
     {
         StopAllCoroutines();
         yield return DynamicMoveUntil(() =>
@@ -165,9 +182,9 @@ public class EntityMovement : MonoBehaviour
             // if target is to the right - move right.
             // if target is to the left - move left.
             // if target is close enough - stay in position.
-            float distance = targetX() - transform.position.x;
-            if (distance > minDistanceFromTarget) return Direction.RIGHT;
-            if (distance < -minDistanceFromTarget) return Direction.LEFT;
+            var distanceAndDirection = getDistance();
+            float distance = distanceAndDirection.Item1;
+            if (distance > minDistanceFromTarget) return distanceAndDirection.Item2;
             return Direction.ZERO;
         }, stop, jump);
         if (randomMovement) StartCoroutine(randomMovementCoroutine);
