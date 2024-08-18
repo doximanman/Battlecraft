@@ -117,6 +117,9 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    // variable that is tied to gravity scale
+    // when false, gravity scale is 0 to prevent sliding
+    // when true gravity scale is active
     private bool isMoving = false;
     public IEnumerator Move(Direction direction, float duration)
     {
@@ -213,11 +216,18 @@ public class PlayerControl : MonoBehaviour
     public void Launch(Vector2 force)
     {
         // move up so that the entity is off the ground
-        Vector3 moveUp = new(0.05f * force.x, 0.05f * force.y, 0);
+        isMoving = true;
+        Vector3 moveUp = new(0.1f * force.x, 0.1f * force.y, 0);
         transform.position += moveUp;
         // then apply the force, with random knockback
         System.Random rand = new();
         playerBody.velocity = force * (float)(rand.NextDouble() + 1);
+        Invoke(nameof(StopLaunch), 0.1f);
+    }
+
+    private void StopLaunch()
+    {
+        isMoving = false;
     }
 
     private bool chopping = false;
