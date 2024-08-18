@@ -8,10 +8,15 @@ using UnityEngine.UIElements;
 
 public class Entity : IHitListener
 {
+
     public string entityName;
 
     public StackData[] droppedItems;
     public Vector2 knockback;
+    public bool hostile;
+    public float attackDamage;
+    public float attackKnockback;
+    public float attackDelay;
     public bool getsScared;
     public float runawayTime;
     public bool chasesPlayer;
@@ -19,6 +24,8 @@ public class Entity : IHitListener
     public float chaseUntilCloserThan;
     public int maxHealth;
     private float health=1;
+
+    Rigidbody2D body;
     public float Health
     {
         get { return health; }
@@ -42,6 +49,7 @@ public class Entity : IHitListener
         Health = maxHealth;
         Player.current.RegisterSwingListener(this);
         movement=GetComponent<EntityMovement>();
+        body = GetComponent<Rigidbody2D>();
 
         // random scale (= random size)
         System.Random rand = new();
@@ -49,19 +57,24 @@ public class Entity : IHitListener
         transform.localScale = originalScale * RandomFloat(rand,minSize,maxSize);
         // move up a bit so the entity doesn't phase through the ground
         transform.position += Vector3.up * 0.1f;
+
+        currentAttackDelay = attackDelay;
     }
 
     private float RandomFloat(System.Random rand, float min, float max) => (float) rand.NextDouble() * (max - min) + min;
 
     [SerializeField] float distanceToPlayer;
+    [SerializeField] float currentAttackDelay;
     [SerializeField] bool chasing = false;
     private void FixedUpdate()
     {
+        if(chasesPlayer || hostile)
+            distanceToPlayer = body.Distance(Player.current.playerCollider).distance;
+
         if (chasesPlayer)
         {
             // if this entity is of the type that can chase
             // the player, then always evaluate distanceToPlayer.
-            distanceToPlayer = Mathf.Abs(Player.current.transform.position.x - transform.position.x);
             if (!chasing)
             {
                 chasing = true;
@@ -69,8 +82,24 @@ public class Entity : IHitListener
                 // entity is no longer of the type that can follow the player.
                 StartCoroutine(movement.FollowUntil(
                     () => !(chasing = distanceToPlayer < chaseRange && chasesPlayer),
-                    () => Player.current.transform.position.x,
+                    () => (body.Distance(Player.current.playerCollider).distance,
+                            Player.current.transform.position.x > transform.position.x ? Direction.RIGHT : Direction.LEFT),
                     chaseUntilCloserThan));
+            }
+        }
+
+        if (hostile)
+        {
+            currentAttackDelay -= Time.fixedDeltaTime;
+            if (currentAttackDelay < 0) currentAttackDelay = 0;
+
+            float attackRange = chaseUntilCloserThan * 1.5f;
+
+            if(distanceToPlayer < attackRange && currentAttackDelay == 0)
+            {
+                Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
+                Player.current.HitFrom(attackDamage, attackKnockback, hitFrom);
+                currentAttackDelay = attackDelay;
             }
         }
     }
@@ -82,7 +111,6 @@ public class Entity : IHitListener
 
     public override void OnHit(ItemType hitWith)
     {
-        EntityMovement movement=GetComponent<EntityMovement>();
         // entity was hit
         if (!hitWith.swingable)
         {
@@ -95,11 +123,11 @@ public class Entity : IHitListener
             animator.SetTrigger("Hurt");
         }
         // knockback
-        if(gameObject.TryGetComponent<Rigidbody2D>(out var _))
+        if(body!=null)
         {
 
             bool isRight = Player.current.transform.position.x < transform.position.x;
-            movement.Launch(new Vector3(isRight ? knockback.x : -knockback.x, knockback.y,0));
+            movement.Launch(new Vector3(isRight ? knockback.x : -knockback.x, knockback.y));
 
         }
         // entity runs away
@@ -140,6 +168,10 @@ public class EntityEditor : Editor
 
     SerializedProperty droppedItems;
     SerializedProperty knockback;
+    SerializedProperty hostile;
+    SerializedProperty attackDamage;
+    SerializedProperty attackKnockback;
+    SerializedProperty attackDelay;
     SerializedProperty getsScared;
     SerializedProperty runawayTime;
     SerializedProperty chasesPlayer;
@@ -157,6 +189,10 @@ public class EntityEditor : Editor
         entityName = serializedObject.FindProperty("entityName");
         droppedItems = serializedObject.FindProperty("droppedItems");
         knockback = serializedObject.FindProperty("knockback");
+        hostile = serializedObject.FindProperty("hostile");
+        attackDamage = serializedObject.FindProperty("attackDamage");
+        attackKnockback = serializedObject.FindProperty("attackKnockback");
+        attackDelay = serializedObject.FindProperty("attackDelay");
         getsScared = serializedObject.FindProperty("getsScared");
         runawayTime = serializedObject.FindProperty("runawayTime");
         chasesPlayer = serializedObject.FindProperty("chasesPlayer");
@@ -178,29 +214,42 @@ public class EntityEditor : Editor
         EditorGUILayout.PropertyField(entityName);
         EditorGUILayout.PropertyField(droppedItems);
         EditorGUILayout.PropertyField(knockback);
-        EditorGUILayout.PropertyField(getsScared);
         EditorGUILayout.PropertyField(minSize);
         EditorGUILayout.PropertyField(maxSize);
 
-        if(getsScared.boolValue)
+        EditorGUILayout.PropertyField(getsScared);
+        if (getsScared.boolValue)
         {
             EditorGUILayout.PropertyField(runawayTime);
         }
+
+        EditorGUILayout.PropertyField(hostile);
+
+        if (hostile.boolValue)
+        {
+            EditorGUILayout.PropertyField(attackDamage);
+            EditorGUILayout.PropertyField(attackDelay);
+            EditorGUILayout.PropertyField(attackKnockback);
+        }
+
         EditorGUILayout.PropertyField(chasesPlayer);
-        if(chasesPlayer.boolValue)
+        if (chasesPlayer.boolValue)
         {
             EditorGUILayout.PropertyField(chaseRange);
             EditorGUILayout.PropertyField(chaseUntilCloserThan);
         }
         EditorGUILayout.PropertyField(maxHealth);
 
+        // read only stats
+        EditorGUI.BeginDisabledGroup(true);
+
         if (chasesPlayer.boolValue)
         {
-            EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.PropertyField(distanceToPlayer);
             EditorGUILayout.PropertyField(chasing);
-            EditorGUI.EndDisabledGroup();
         }
+
+        EditorGUI.EndDisabledGroup();
 
         if (EditorGUI.EndChangeCheck())
         {

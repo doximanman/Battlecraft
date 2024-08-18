@@ -5,14 +5,14 @@ using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : IHitListener
 {
     public Vector3 spawnPoint;
 
     public static Player current;
 
     private Animator animator;
-    private BoxCollider2D playerCollider;
+    public BoxCollider2D playerCollider;
     private void Start()
     {
         current = this;
@@ -22,6 +22,12 @@ public class Player : MonoBehaviour
         spawnPoint= transform.position;
 
         GetComponent<StatManager>().GetStat("Food").OnValueChanged += (value) =>
+        {
+            if (value == 0)
+                Death();
+        };
+
+        GetComponent<StatManager>().GetStat("Health").OnValueChanged += (value) =>
         {
             if (value == 0)
                 Death();
@@ -122,6 +128,32 @@ public class Player : MonoBehaviour
             if (hitObjects.Contains(listener.gameObject))
                 listener.OnHit(swingItem);
         }
+    }
+
+    // cache - only get once
+    private Stat health = null;
+    public override void OnHit(ItemType hitWith)
+    {
+        if (health == null)
+            health = GetComponent<StatManager>().GetStat(StatManager.Health);
+        float dmg = hitWith.swingable ? 0 : hitWith.stats.damage;
+        health.Value -= dmg;
+        
+    }
+
+    // hit the player from which direction
+    // and with what damage
+    PlayerControl control = null;
+    public void HitFrom(float dmg, float knockback, Direction direction)
+    {
+        animator.SetTrigger("Hurt");
+        if (control == null)
+            control = GetComponent<PlayerControl>();
+        Vector2 launchDirection = new(direction == Direction.LEFT ? 1 : direction == Direction.RIGHT ? -1 : 0, 1);
+        control.Launch(knockback * launchDirection);
+        if(health == null)
+            health = GetComponent<StatManager>().GetStat(StatManager.Health);
+        health.Value -= dmg;
     }
 
     [ContextMenu("Death")]
