@@ -144,7 +144,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         GetComponent<Image>().raycastTarget = true;
 
-        // OnDrop of a slot might have already handled the required logic
+        // OnDrop of a slot had already handled the required logic
         if (stopDrag)
         {
             originalSlot = null;
