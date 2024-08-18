@@ -165,10 +165,12 @@ public class Player : IHitListener
         GetComponent<StatManager>().ResetStats();
     }
 
+    // makes swing hitbox bigger
+    public Vector2 hitLeniency;
     private (Vector3,Vector3) BoxSize()
     {
         var center = new Vector3(startPoint.x+size.x*direction.x/2,startPoint.y+size.y*direction.y/2);
-        var boxSize = new Vector3(size.x,size.y);
+        var boxSize = new Vector3(size.x+hitLeniency.x,size.y+hitLeniency.y);
         return (center, boxSize);
     }
 
