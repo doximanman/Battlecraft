@@ -48,6 +48,7 @@ public class DroppedStacksManager : MonoBehaviour
         // Remove null gameObjects.
         // Could have been removed.
         closeListeners.RemoveAll(listener => listener.Item1 == null);
+
     }
 
     public void Drop(StackData stack)

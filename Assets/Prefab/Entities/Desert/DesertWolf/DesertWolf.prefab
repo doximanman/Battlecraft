@@ -131,15 +131,20 @@ MonoBehaviour:
   entityName: DesertWolf
   droppedItems: []
   knockback: {x: 2, y: 2}
+  hostile: 1
+  attackDamage: 1
+  attackKnockback: 2
+  attackDelay: 0.5
   getsScared: 0
   runawayTime: 4
   chasesPlayer: 1
   chaseRange: 10
-  chaseUntilCloserThan: 1
+  chaseUntilCloserThan: 0.4
   maxHealth: 8
   minSize: 0.9
   maxSize: 1.1
   distanceToPlayer: 0
+  currentAttackDelay: 0
   chasing: 0
 --- !u!114 &8379696114543419996
 MonoBehaviour:
