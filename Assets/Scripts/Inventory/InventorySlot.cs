@@ -200,9 +200,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // dont destroy item object
-    public void DetatchChild()
+    public void DetatchStack()
     {
-        transform.DetachChildren();
+        foreach(Transform t in transform)
+            if(t.TryGetComponent<ItemStack>(out ItemStack stack))
+                t.parent = null;
+
+        //transform.DetachChildren();
         stack = null;
         NotifyChange();
     }
@@ -300,7 +304,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             else if (thisCanAccept && originalCanAccept && originalSlot.GetStack() == null)
             {
                 var thisStack = GetStack();
-                DetatchChild();
+                DetatchStack();
                 originalSlot.SetItem(thisStack);
                 SetItem(item);
             }
