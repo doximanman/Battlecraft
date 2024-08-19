@@ -1,3 +1,4 @@
+using Codice.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,49 +11,71 @@ public class FurnaceLogic : MonoBehaviour
     [InspectorName("Furnace")]
     [SerializeField] private Furnace _furnace;
 
-    private static bool enableFurnace = false;
+    // default values for the fields.
+    // an uninitialized furnace will have these values at first.
+    [InspectorName("Default Minimum Fuel")]
+    [SerializeField] private float _defaultMinFuel;
+    [InspectorName("Default Maximum Fuel")]
+    [SerializeField] private float _defaultMaxFuel;
+    [InspectorName("Default Fuel")]
+    [SerializeField] private float _defaultFuel;
+
+    public static FurnaceState defaultValues;
+
+    public static bool enableFurnace = false;
+
+    public delegate void FurnaceListener(bool open);
+    /// <summary>
+    /// notify when furnace is opened/closed
+    /// </summary>
+    public static FurnaceListener furnaceListeners;
 
     private void Start()
     {
         furnace = _furnace;
+        defaultValues = new(_defaultMinFuel,_defaultMaxFuel,_defaultFuel);
 
         furnace.gameObject.SetActive(false);
 
         InventoryLogic.invListeners += (on) =>
         {
             // it is my responsibility to handle the second inventory
-            if (InventoryLogic.responsible != InventoryLogic.Responsible.FURNACE){
-                if (enableFurnace)
-                    DisableFurnace();
-            }
-            if (on && enableFurnace)
+            if (InventoryLogic.responsible != InventoryLogic.Responsible.FURNACE) return;
+
+            // if the furnace is enabled - notify when the inventory opens and closes
+            if (enableFurnace && on)
             {
+                furnaceListeners?.Invoke(true);
                 furnace.gameObject.SetActive(true);
+                InventoryLogic.externalInventory.SetSlots(furnace.GetComponent<SlotList>().slots);
             }
-            if(!on && onlyOnce)
+            else
             {
-                DisableFurnace();
+                furnaceListeners?.Invoke(false);
+                furnace.gameObject.SetActive(false);
             }
         };
     }
 
-    private static bool onlyOnce;
-    // onlyOnce disables the furnace after opening once
-    // saves the caller from having to add an invListener
-    public static void EnableFurnace(bool onlyOnce = true)
+    public static void LoadState(FurnaceState state)
+    {
+        furnace.State = state;
+    }
+
+    public static FurnaceState GetState()
+    {
+        return furnace.State;
+    }
+
+    public static void EnableFurnace()
     {
         enableFurnace = true;
         InventoryLogic.responsible = InventoryLogic.Responsible.FURNACE;
-        FurnaceLogic.onlyOnce = onlyOnce;
     }
 
     public static void DisableFurnace()
     {
-        // disable furnace from being enabled next time the listener runs
-        // and change the inventory responsibility to the default one
         enableFurnace = false;
-        onlyOnce = false;
-        furnace.gameObject.SetActive(false);
         InventoryLogic.responsible = InventoryLogic.defaultResponsible;
     }
 }

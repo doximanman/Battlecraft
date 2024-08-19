@@ -6,10 +6,9 @@ public class FuelMeter : MonoBehaviour
 {
     [SerializeField] private VisualSlider fuelSlider;
 
-    public float minFuel;
-    public float maxFuel;
-
-    [SerializeField] private float fuel;
+    private float minFuel;
+    private float maxFuel;
+    private float fuel;
 
     public float Fuel
     {
@@ -20,13 +19,37 @@ public class FuelMeter : MonoBehaviour
         }
     }
 
+    public float MinFuel
+    {
+        get => minFuel;
+        set
+        {
+            // sets the minimum fuel and updates the current fuel if necessary
+            minFuel = value;
+            Fuel = fuel;
+        }
+    }
+
+    public float MaxFuel
+    {
+        get => maxFuel;
+        set
+        {
+            // sets the maximum fuel and updates the current fuel if necessary
+            maxFuel = value;
+            Fuel = fuel;
+        }
+    }
+
     public float Remainder => maxFuel - fuel;
+
+
 
     private void Start()
     {
-        fuel=0;
+        // values should have already been set by the enabling object
         fuelSlider.ValueLimits = ((0, 1), (minFuel, maxFuel));
-        fuelSlider.Values = (1, minFuel);
+        fuelSlider.Values = (1, fuel);
     }
 
     

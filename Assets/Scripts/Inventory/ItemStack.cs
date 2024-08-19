@@ -157,33 +157,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Destroy(beingDragged.gameObject);
         beingDragged = null;
 
-        /*// not on a slot - bring the item back
-        // right click - combine into the stack inside of originalSlot
-        if (rightClick)
-        {
-            // no stack inside of original slot
-            if (originalSlot.GetStack() == null)
-            {
-                originalSlot.SetItem(this);
-            }
-            // original slot has a stack
-            else
-            {
-                originalSlot.CombineFrom(this);
-            }
-        }
-        // left click - move the stack back
-        else
-        {
-            // original slot already has an item
-            // or doesnt accept items.
-            // add anywhere in the inventory
-            if (originalSlot.HasItem() || 
-                !originalSlot.canAcceptItems)
-                InventoryLogic.personalInventory.AddStack(this);
-            else
-                originalSlot.SetItem(this);
-        }*/
+
         originalSlot = null;
     }
 }
