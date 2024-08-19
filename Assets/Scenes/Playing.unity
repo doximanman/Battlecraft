@@ -113908,6 +113908,7 @@ GameObject:
   - component: {fileID: 756312747}
   - component: {fileID: 756312746}
   - component: {fileID: 756312748}
+  - component: {fileID: 756312749}
   m_Layer: 5
   m_Name: ExternalInventory
   m_TagString: ExternalInventory
@@ -115695,6 +115696,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _crafting: {fileID: 1287480989926681125}
   _bigCrafting: {fileID: 232623199}
+--- !u!114 &756312749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618209992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8279e816c10264d8441b9f3479407e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _furnace: {fileID: 1227044445}
 --- !u!4 &760751523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6378726406499494203, guid: d850cff532de245418bb14c96826bbc8, type: 3}
@@ -117238,6 +117252,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3954cc4828b174842a85902ee10eccb3, type: 3}
+--- !u!1001 &923315545
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 775027379980843726, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_Name
+      value: Furnace
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.195
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.428
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972828962062789590, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 766a6319664958e4cb613fbb43b4f14d, type: 3}
 --- !u!1 &927381641
 GameObject:
   m_ObjectHideFlags: 0
@@ -121149,7 +121220,7 @@ MonoBehaviour:
   itemSlot: {fileID: 736048844}
   outSlot: {fileID: 41202975}
   cookProgress: {fileID: 927381644}
-  cookSpeed: 0
+  fuelUsageSpeed: 0.5
 --- !u!1001 &1227146318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134757,7 +134828,7 @@ MonoBehaviour:
   chestPrefab: {fileID: 1000283188367386434, guid: 3eb7015238a688643a705cadd735ea7e, type: 3}
   benchPrefab: {fileID: 775027379980843726, guid: 6e485386a79d8454cb49baa7f7ff2af7, type: 3}
   yOffsetChest: 0.1
-  yOffsetBench: -0.2
+  yOffsetBench: 0
   maxHeightDifference: 0.5
   maxPlaceDistance: 1.2
 --- !u!61 &1826195908 stripped
@@ -140018,3 +140089,4 @@ SceneRoots:
   - {fileID: 563174091}
   - {fileID: 738833228}
   - {fileID: 1360605380}
+  - {fileID: 923315545}

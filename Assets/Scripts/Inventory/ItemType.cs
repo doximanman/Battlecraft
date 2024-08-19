@@ -62,6 +62,10 @@ public class ItemType : ScriptableObject
     public bool fuel = false;
     public FuelStats fuelStats;
 
+    public bool cookable = false;
+    public StackData cookResult;
+    public float cookTime;
+
     public override string ToString()
     {
         StringBuilder builder = new();
@@ -153,6 +157,16 @@ public class ItemTypeEditor : Editor
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("fuelStats"), new GUIContent("Fuel Stats"));
+            EditorGUI.indentLevel--;
+        }
+
+        item.cookable = EditorGUILayout.Toggle("Cookable", item.cookable);
+
+        if (item.cookable)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("cookResult"), new GUIContent("Cook Result"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("cookTime"), new GUIContent("Cook Time"));
             EditorGUI.indentLevel--;
         }
 

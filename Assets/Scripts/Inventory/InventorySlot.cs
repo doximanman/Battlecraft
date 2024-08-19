@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -202,9 +203,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     // dont destroy item object
     public void DetatchStack()
     {
-        foreach(Transform t in transform)
-            if(t.TryGetComponent<ItemStack>(out ItemStack stack))
-                t.parent = null;
+        foreach (Transform t in transform)
+            if (t.TryGetComponent<ItemStack>(out ItemStack _))
+                t.SetParent(null);
 
         //transform.DetachChildren();
         stack = null;
@@ -230,6 +231,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         ItemStack.CancelDrag();
     }
 
+    // general, whether the slot can in general accept this type,
+    // doesn't take into account current slot state.
     public bool CanAccept(ItemType type)
     {
         if (!canAcceptItems) return false;
@@ -240,6 +243,31 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             FilterType.BLACK_LIST => !filter.Contains(type),
             _ => false,
         };
+    }
+
+    // whether the slot can fit adding the stack to it
+    // also does the normal filter check
+    // returns null if it cannot fit, the remainder of combining the stacks if it can.
+    public int? CanAccept(StackData stack)
+    {
+        if (TryGetStack(out ItemStack currentStack))
+        {
+            // there is a stack in the slot currently - check whether the stack
+            // can be combined into the stack already inside the slot.
+            // i.e. check types, if they are the same return remainder of combining.
+            if (currentStack.Type == stack.type)
+            {
+                int combinedCount = stack.count + currentStack.ItemCount;
+                if (combinedCount > stack.type.maxStack)
+                    return combinedCount - stack.type.maxStack;
+                return 0;
+            }
+            // items not of the same type, cannot fit
+            return null;
+        }
+        // slot is empty - return whether the slot accepts the type.
+        // 0 means no remainder - because the entire stack can be added with no remainder.
+        else return CanAccept(stack.type)? 0 : null;
     }
 
     public void OnDrop(PointerEventData eventData)
