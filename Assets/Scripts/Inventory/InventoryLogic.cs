@@ -106,7 +106,6 @@ public class InventoryLogic : MonoBehaviour
         chestListeners?.Invoke(false);
         responsible = Responsible.CRAFTING;
         enableChestInventory = false;
-        //externalInventory.SetSlots(crafting.GetComponent<SlotList>().slots);
     }
 
     public static ToggleListener secondInventoryListeners;
@@ -152,15 +151,10 @@ public class InventoryLogic : MonoBehaviour
         // only necessary because the inventory crafting grid
         // doesn't have its own class like the crafting
         // bench
-        //if (crafting.activeSelf)
-        //Inventory.MoveInventory(crafting.GetComponent<CraftingGrid>().inSlots.Flatten(),personalInventory);
         mainInventory.SetActive(false);
-        //crafting.SetActive(false);
-        //bigCrafting.SetActive(false);
         chestInventory.SetActive(false);
         DisableSecondInventory();
         MetaLogic.UndarkenBackground();
         inventoryIsOpen = false;
-        //closeInvListeners.Clear();
     }
 }

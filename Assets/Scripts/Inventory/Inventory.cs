@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
+            // stack isn't null and is equal to this type
             if (itemStack != null && itemStack.Type.Equals(item))
             {
                 if (itemStack.ItemCount < item.maxStack)
@@ -41,7 +42,8 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         // place it in an unused slot
         foreach (var slot in slots)
         {
-            if (slot.GetStack() == null)
+            // slot is empty and it can accept this item
+            if (slot.GetStack() == null && slot.CanAccept(item))
             {
                 slot.SetItem(item);
                 return slot;
@@ -95,7 +97,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
-            if (itemStack != null && itemStack.Type.Equals(item))
+            if (itemStack != null && itemStack.Type.Equals(item) && slot.CanAccept(stack.Type))
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
@@ -114,7 +116,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         // add the remainder to any empty slots
         foreach(var slot in slots)
         {
-            if(slot.GetStack()==null)
+            if(slot.GetStack()==null && slot.CanAccept(stack.Type))
             {
                 slot.SetItem(stack);
                 return null;
@@ -127,9 +129,12 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     {
         foreach(var slot in slots)
         {
-            // empty slot or existing slot with non full stack
-            if (slot.GetStack() == null) return true;
-            if (slot.GetStack().Type.Equals(item)) return slot.GetStack().ItemCount < item.maxStack;
+            if (slot.CanAccept(item))
+            {
+                // empty slot or existing slot with non full stack
+                if (slot.GetStack() == null) return true;
+                if (slot.GetStack().Type.Equals(item)) return slot.GetStack().ItemCount < item.maxStack;
+            }
         }
         return false;
     }
