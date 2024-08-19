@@ -86,7 +86,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // and remove it from the slot
             originalSlot = transform.parent.GetComponent<InventorySlot>();
             transform.SetParent(transform.root);
-            originalSlot.DetatchChild();
+            originalSlot.DetatchStack();
 
         }
         // right mouse button

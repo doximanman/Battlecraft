@@ -33,6 +33,17 @@ public class FoodStats
     }
 }
 
+[Serializable]
+public class FuelStats
+{
+    public float fuelAmount;
+
+    public override string ToString()
+    {
+        return "Fuel: "+fuelAmount;
+    }
+}
+
 [CreateAssetMenu(menuName = "Scriptable object/Item")]
 public class ItemType : ScriptableObject
 {
@@ -48,14 +59,21 @@ public class ItemType : ScriptableObject
     public bool food = false;
     public FoodStats foodStats;
 
+    public bool fuel = false;
+    public FuelStats fuelStats;
+
     public override string ToString()
     {
         StringBuilder builder = new();
-        builder.Append("Name: " + name + "Max Stack: " + maxStack);
+        builder.Append("Name: " + name + " Max Stack: " + maxStack);
         if (swingable)
             builder.Append(" Swingable. Stats: " + stats);
-        if (invData != null && !invData.Equals(null))
+        if (hasInventory)
             builder.Append(" Inventory Data: " + invData);
+        if (food)
+            builder.Append(" Food Stats: " + foodStats);
+        if (fuel)
+            builder.Append(" Fuel: " + fuelStats);
         return builder.ToString();
     }
 
@@ -126,6 +144,15 @@ public class ItemTypeEditor : Editor
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("foodStats"), new GUIContent("Food Stats"));
+            EditorGUI.indentLevel--;
+        }
+
+        item.fuel = EditorGUILayout.Toggle("Fuel", item.fuel);
+
+        if (item.fuel)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("fuelStats"), new GUIContent("Fuel Stats"));
             EditorGUI.indentLevel--;
         }
 

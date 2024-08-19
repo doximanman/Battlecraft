@@ -14,7 +14,7 @@ public class InventoryLogic : MonoBehaviour
     /// will open some crafting grid, and this class will not do 
     /// anything.
     /// </summary>
-    public enum Responsible { INVENTORY, CRAFTING };
+    public enum Responsible { INVENTORY, CRAFTING, FURNACE };
     public static Responsible responsible;
 
     public delegate void ToggleListener(bool on);

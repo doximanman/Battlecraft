@@ -14,8 +14,8 @@ public class VisualSlider : MonoBehaviour
     [SerializeField] private float maxValueX;
     [SerializeField] private float maxValueY;
 
-    [SerializeField] private float dimensionX;
-    [SerializeField] private float dimensionY;
+    [SerializeField] private float valueX;
+    [SerializeField] private float valueY;
 
     private Vector2 originalDimension;
 
@@ -25,15 +25,34 @@ public class VisualSlider : MonoBehaviour
         originalDimension = transform.parent.GetComponent<GridLayoutGroup>().cellSize;
     }
 
-    public (float,float) Dimension
+    // set/get limits of dimensions
+    // 
+    public ((float,float),(float,float)) ValueLimits
     {
-        get => new(dimensionX,dimensionY);
+        get => ((minValueX, maxValueX), (minValueY, maxValueY));
+        set
+        {
+            minValueX = value.Item1.Item1;
+            maxValueX = value.Item1.Item2;
+            minValueY = value.Item2.Item1;
+            maxValueY = value.Item2.Item2;
+
+            float newX = Mathf.Clamp(valueX, minValueX, maxValueX);
+            float newY = Mathf.Clamp(valueY, minValueY, maxValueY);
+
+            Values = (newX,newY);
+        }
+    }
+
+    public (float,float) Values
+    {
+        get => new(valueX,valueY);
         set
         {
             if(rectTransform == null)
                 rectTransform = GetComponent<RectTransform>();
-            dimensionX = value.Item1;
-            dimensionY = value.Item2;
+            valueX = value.Item1;
+            valueY = value.Item2;
             //originalDimension = new(1, 1);
             // go from [minValueX,maxValueX] to [0,maxHeight]
             // to go from [a,b] range to [c,d] given x in [a,b]
@@ -49,42 +68,30 @@ public class VisualSlider : MonoBehaviour
 [CustomEditor(typeof(VisualSlider))]
 public class SliderEditor : Editor
 {
-    SerializedProperty minValueX;
-    SerializedProperty maxValueX;
-    SerializedProperty minValueY;
-    SerializedProperty maxValueY;
-    SerializedProperty dimensionX;
-    SerializedProperty dimensionY;
-
-    public override VisualElement CreateInspectorGUI()
-    {
-        var returnVal = base.CreateInspectorGUI();
-        minValueX = serializedObject.FindProperty("minValueX");
-        maxValueX = serializedObject.FindProperty("maxValueX");
-        minValueY = serializedObject.FindProperty("minValueY");
-        maxValueY = serializedObject.FindProperty("maxValueY");
-        dimensionX = serializedObject.FindProperty("dimensionX");
-        dimensionY = serializedObject.FindProperty("dimensionY");
-        return returnVal;
-    }
-
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
         EditorGUI.BeginChangeCheck();
 
-        EditorGUILayout.PropertyField(minValueX);
-        EditorGUILayout.PropertyField(maxValueX);
-        EditorGUILayout.PropertyField(minValueY);
-        EditorGUILayout.PropertyField(maxValueY);
+        VisualSlider slider = (VisualSlider)target;
+        var valueLimits = slider.ValueLimits;
+        var values = slider.Values;
 
-        var Dimension = ((VisualSlider)target).Dimension;
+        float minX = EditorGUILayout.FloatField("Minimum X Value", valueLimits.Item1.Item1);
+        float maxX = EditorGUILayout.FloatField("Maximum X Value", valueLimits.Item1.Item2);
+        float minY = EditorGUILayout.FloatField("Minimum Y Value", valueLimits.Item2.Item1);
+        float maxY = EditorGUILayout.FloatField("Maximum X Value", valueLimits.Item2.Item2);
 
-        float xValue = EditorGUILayout.Slider("Width", Dimension.Item1, minValueX.floatValue, maxValueX.floatValue);
-        float yValue = EditorGUILayout.Slider("Height", Dimension.Item2, minValueY.floatValue, maxValueY.floatValue);
+        var newLimits = ((minX, maxX), (minY, maxY));
+        if(newLimits != valueLimits)
+            slider.ValueLimits = newLimits;
 
-        if(xValue != Dimension.Item1 || yValue != Dimension.Item2)
-            ((VisualSlider)target).Dimension = (xValue, yValue);
+        float x = EditorGUILayout.Slider("Width", values.Item1, minX, maxX);
+        float y = EditorGUILayout.Slider("Height", values.Item2, minY, maxY);
+
+        var newValues = (x, y);
+        if(newValues != values)
+            ((VisualSlider)target).Values = newValues;
 
         if (EditorGUI.EndChangeCheck())
         {
