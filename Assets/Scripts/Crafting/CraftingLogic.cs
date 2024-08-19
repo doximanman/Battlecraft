@@ -62,12 +62,12 @@ public class CraftingLogic : MonoBehaviour
         };
     }
 
-    public static ToggleListener craftingListeners;
+    //public static ToggleListener craftingListeners;
     public static bool enableBigCrafting = false;
 
     public static void EnableCraftingBench()
     {
-        craftingListeners?.Invoke(true);
+        //craftingListeners?.Invoke(true);
         // "I am responsible for the second inventory"
         InventoryLogic.responsible = InventoryLogic.Responsible.CRAFTING;
         enableBigCrafting = true;
@@ -77,7 +77,7 @@ public class CraftingLogic : MonoBehaviour
 
     public static void DisableCraftingBench()
     {
-        craftingListeners?.Invoke(false);
+        //craftingListeners?.Invoke(false);
         enableBigCrafting = false;
     }
 }

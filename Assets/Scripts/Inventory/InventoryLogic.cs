@@ -16,6 +16,7 @@ public class InventoryLogic : MonoBehaviour
     /// </summary>
     public enum Responsible { INVENTORY, CRAFTING, FURNACE };
     public static Responsible responsible;
+    public static Responsible defaultResponsible = Responsible.CRAFTING;
 
     public delegate void ToggleListener(bool on);
 
