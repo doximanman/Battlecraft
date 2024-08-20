@@ -112888,9 +112888,37 @@ PrefabInstance:
       value: Out
       objectReference: {fileID: 0}
     - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
-      propertyPath: canAcceptItems
-      value: 0
+      propertyPath: filterType
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: canAcceptItems
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b725bfdd9401cfb44915a190ec279083, type: 2}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 18c15cad86f023c419ac1006820e627a, type: 2}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 537c6e15b17009e4cb8b3bc2bf3a8b21, type: 2}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 72249b872dfca2b41b726ec987bd0b7c, type: 2}
+    - target: {fileID: 6306739166376580983, guid: aa77b940d27d7624babfa28c7216737c, type: 3}
+      propertyPath: filter.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5dbd5418545063f4ea3aa9a903bc045f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115706,9 +115734,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _furnace: {fileID: 1227044445}
+  _fuelUpdateRate: 1
+  _fuelUsageSpeed: 1
   _defaultMinFuel: 0
   _defaultMaxFuel: 20
   _defaultFuel: 0
+  _defaultCookProgress: 0
+  _defaultFuelSlot:
+    stack:
+      type: {fileID: 0}
+      count: 0
+    canAcceptItems: 1
+    filterType: 1
+    filter:
+    - {fileID: 11400000, guid: 0c71141172164b04e8914ff29b155488, type: 2}
+    - {fileID: 11400000, guid: d67bd72e059dd2244994bd129a9d83cf, type: 2}
+    - {fileID: 11400000, guid: 352f42709ffb11d4599c39887d9081cb, type: 2}
+    - {fileID: 11400000, guid: 0052fc9e9e573ac47897883a08df8410, type: 2}
+  _defaultItemSlot:
+    stack:
+      type: {fileID: 0}
+      count: 0
+    canAcceptItems: 1
+    filterType: 0
+    filter: []
+  _defaultOutSlot:
+    stack:
+      type: {fileID: 0}
+      count: 0
+    canAcceptItems: 1
+    filterType: 1
+    filter:
+    - {fileID: 11400000, guid: b725bfdd9401cfb44915a190ec279083, type: 2}
+    - {fileID: 11400000, guid: 5dbd5418545063f4ea3aa9a903bc045f, type: 2}
+    - {fileID: 11400000, guid: 72249b872dfca2b41b726ec987bd0b7c, type: 2}
+    - {fileID: 11400000, guid: 537c6e15b17009e4cb8b3bc2bf3a8b21, type: 2}
+    - {fileID: 11400000, guid: 18c15cad86f023c419ac1006820e627a, type: 2}
 --- !u!4 &760751523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6378726406499494203, guid: d850cff532de245418bb14c96826bbc8, type: 3}
@@ -117470,7 +117531,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -129110,7 +129171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 25.000015, y: -47.68999}
-  m_SizeDelta: {x: 45, y: 45}
+  m_SizeDelta: {x: 45, y: 0.45}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1563458593
 MonoBehaviour:
@@ -129129,7 +129190,7 @@ MonoBehaviour:
   maxValueX: 1
   maxValueY: 100
   valueX: 1
-  valueY: 100
+  valueY: 1
 --- !u!114 &1563458594
 MonoBehaviour:
   m_ObjectHideFlags: 0

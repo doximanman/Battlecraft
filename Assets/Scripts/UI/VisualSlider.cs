@@ -80,7 +80,7 @@ public class SliderEditor : Editor
         float minX = EditorGUILayout.FloatField("Minimum X Value", valueLimits.Item1.Item1);
         float maxX = EditorGUILayout.FloatField("Maximum X Value", valueLimits.Item1.Item2);
         float minY = EditorGUILayout.FloatField("Minimum Y Value", valueLimits.Item2.Item1);
-        float maxY = EditorGUILayout.FloatField("Maximum X Value", valueLimits.Item2.Item2);
+        float maxY = EditorGUILayout.FloatField("Maximum Y Value", valueLimits.Item2.Item2);
 
         var newLimits = ((minX, maxX), (minY, maxY));
         if(newLimits != valueLimits)

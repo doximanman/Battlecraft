@@ -10,6 +10,26 @@ public class StackData
     public ItemType type;
     public int count;
 
+    /// <summary>
+    /// empty stack.
+    /// meaning null type and 0 count.
+    /// </summary>
+    public StackData()
+    {
+        type = null;
+        count = 0;
+    }
+
+    /// <summary>
+    /// copy constructor
+    /// </summary>
+    /// <param name="other">to copy from</param>
+    public StackData(StackData other)
+    {
+        type = other.type;
+        count = other.count;
+    }
+
     public StackData(ItemType type, int count)
     {
         this.type = type;
@@ -51,6 +71,16 @@ public class StackData
         if (obj is not StackData other) return type == null || count == 0;
 
         return type==other.type && count== other.count;
+    }
+
+    public static bool operator==(StackData obj1, object obj2)
+    {
+        return AreEqual(obj1, obj2);
+    }
+
+    public static bool operator!=(StackData obj1, object obj2)
+    {
+        return !AreEqual(obj1, obj2);
     }
 
     public override int GetHashCode()

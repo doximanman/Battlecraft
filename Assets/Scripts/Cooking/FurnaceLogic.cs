@@ -11,16 +11,29 @@ public class FurnaceLogic : MonoBehaviour
     [InspectorName("Furnace")]
     [SerializeField] private Furnace _furnace;
 
-    // default values for the fields.
-    // an uninitialized furnace will have these values at first.
-    [InspectorName("Default Minimum Fuel")]
-    [SerializeField] private float _defaultMinFuel;
-    [InspectorName("Default Maximum Fuel")]
-    [SerializeField] private float _defaultMaxFuel;
-    [InspectorName("Default Fuel")]
-    [SerializeField] private float _defaultFuel;
+    // how many times per second will the fuel level update (times/second)
+    [SerializeField] private float _fuelUpdateRate;
+    public static float fuelUpdateRate;
+    // how fast the level will update (amount lost/second)
+    [SerializeField] private float _fuelUsageSpeed;
+    public static float fuelUsageSpeed;
 
-    public static FurnaceState defaultValues;
+    #region Default Values
+
+    [SerializeField] private float _defaultMinFuel;
+    [SerializeField] private float _defaultMaxFuel;
+
+    public static FurnaceProperties defaultProperties;
+
+    [SerializeField] private float _defaultFuel;
+    [SerializeField] private float _defaultCookProgress;
+    [SerializeField] private SlotData _defaultFuelSlot;
+    [SerializeField] private SlotData _defaultItemSlot;
+    [SerializeField] private SlotData _defaultOutSlot;
+
+    public static FurnaceState defaultState;
+
+    #endregion
 
     public static bool enableFurnace = false;
 
@@ -33,7 +46,10 @@ public class FurnaceLogic : MonoBehaviour
     private void Start()
     {
         furnace = _furnace;
-        defaultValues = new(_defaultMinFuel,_defaultMaxFuel,_defaultFuel);
+        fuelUpdateRate = _fuelUpdateRate;
+        fuelUsageSpeed = _fuelUsageSpeed;
+        defaultProperties = new(_defaultMinFuel, _defaultMaxFuel);
+        defaultState = new(defaultProperties,_defaultFuel, _defaultCookProgress, _defaultFuelSlot, _defaultItemSlot, _defaultOutSlot);
 
         furnace.gameObject.SetActive(false);
 
@@ -57,14 +73,29 @@ public class FurnaceLogic : MonoBehaviour
         };
     }
 
-    public static void LoadState(FurnaceState state)
+    public static void SetProperties(FurnaceProperties props)
     {
-        furnace.State = state;
+        furnace.Props = props;
     }
 
-    public static FurnaceState GetState()
+    public static FurnaceProperties GetProperties()
     {
-        return furnace.State;
+        return furnace.Props;
+    }
+
+    public static void LoadState(FurnaceState state)
+    {
+        furnace.LoadState(state);
+    }
+
+    public static void SetProps(FurnaceProperties props)
+    {
+        furnace.Props = props;
+    }
+
+    public static void UnloadState()
+    {
+        furnace.UnloadState();
     }
 
     public static void EnableFurnace()

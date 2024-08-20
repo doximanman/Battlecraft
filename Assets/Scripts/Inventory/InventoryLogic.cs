@@ -128,11 +128,12 @@ public class InventoryLogic : MonoBehaviour
     public static bool inventoryIsOpen = false;
     public static ToggleListener invListeners;
 
-    public static void OpenInventory()
+    public static void OpenInventory(bool pause = true)
     {
         invListeners?.Invoke(true);
 
-        MetaLogic.Pause();
+        if(pause)
+            MetaLogic.Pause();
         mainInventory.SetActive(true);
         if (responsible == Responsible.INVENTORY && enableChestInventory)
             chestInventory.SetActive(true);
@@ -142,11 +143,12 @@ public class InventoryLogic : MonoBehaviour
         inventoryIsOpen = true;
     }
 
-    public static void CloseInventory()
+    public static void CloseInventory(bool unpause = true)
     {
         invListeners?.Invoke(false);
 
-        MetaLogic.Unpause();
+        if(unpause && MetaLogic.paused)
+            MetaLogic.Unpause();
         // move items from crafting grid to inventory
         // only necessary because the inventory crafting grid
         // doesn't have its own class like the crafting

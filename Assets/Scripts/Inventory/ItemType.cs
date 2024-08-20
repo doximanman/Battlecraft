@@ -90,6 +90,16 @@ public class ItemType : ScriptableObject
         return obj1.Equals(obj2);
     }
 
+    public static bool operator==(ItemType obj1, object obj2)
+    {
+        return AreEqual(obj1, obj2);
+    }
+
+    public static bool operator!=(ItemType obj1, object obj2)
+    {
+        return !AreEqual(obj1, obj2);
+    }
+
     public override bool Equals(object other)
     {
         // 'as' returns null if the types aren't equal
