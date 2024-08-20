@@ -21,14 +21,14 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     // adds 1 of the item
     public InventorySlot AddItem(ItemType item)
     {
-        if(item == null || item.Equals(null)) return null;
+        if(item == null) return null;
 
         // if the item is in the inventory, add it to an existing stack
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
             // stack isn't null and is equal to this type
-            if (itemStack != null && itemStack.Type.Equals(item))
+            if (itemStack != null && itemStack.Type == item)
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
@@ -97,7 +97,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         foreach (var slot in slots)
         {
             ItemStack itemStack = slot.GetStack();
-            if (itemStack != null && itemStack.Type.Equals(item) && slot.CanAccept(stack.Type))
+            if (itemStack != null && slot.CanAccept(stack.Type))
             {
                 if (itemStack.ItemCount < item.maxStack)
                 {
@@ -133,7 +133,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
             {
                 // empty slot or existing slot with non full stack
                 if (slot.GetStack() == null) return true;
-                if (slot.GetStack().Type.Equals(item)) return slot.GetStack().ItemCount < item.maxStack;
+                if (slot.GetStack().Type == item) return slot.GetStack().ItemCount < item.maxStack;
             }
         }
         return false;

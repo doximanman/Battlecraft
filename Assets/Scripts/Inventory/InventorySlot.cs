@@ -11,7 +11,6 @@ using static UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    public enum FilterType { BLACK_LIST, WHITE_LIST };
     public bool canAcceptItems;
     public FilterType filterType;
     public List<ItemType> filter;
@@ -32,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public bool TryGetStack(out ItemStack stack)
     {
         stack = this.stack;
-        if (this.stack == null || this.stack.Equals(null))
+        if (this.stack == null)
             return false;
         else
             return true;
@@ -99,7 +98,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     // create new stack
     public void SetItem(StackData stack)
     {
-        if (stack == null || !stack.IsDefined())
+        if (stack == null)
         {
             RemoveItem();
             return;
@@ -270,6 +269,41 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         else return CanAccept(stack.type)? 0 : null;
     }
 
+    /// <summary>
+    /// whether the slot has this stack, at the exact amount. <br/>
+    /// meaning, same type and count.
+    /// </summary>
+    /// <param name="stack">to compare to</param>
+    /// <returns>true if stack has this stack at the exact amount, false otherwise.</returns>
+    public bool HasExact(StackData stack)
+    {
+        // if stack is empty return if this slot is empty
+        if(stack == null)
+            return GetStack() == null;
+
+        // otherwise, stack is not empty, therefore if this slot is empty
+        // it doesn't contain the stack.
+        if (GetStack() == null) return false;
+
+        ItemStack currentStack = GetStack();
+        return currentStack.Type == stack.type && currentStack.ItemCount == stack.count;
+    }
+
+    /// <summary>
+    /// get SlotData representation of the slot
+    /// </summary>
+    /// <returns>slot data with all properties of the slot</returns>
+    public SlotData ToData()
+    {
+        // slot data with the properties of this slot
+        SlotData data = new(null,canAcceptItems,filterType,filter);
+
+        // appropriate stack - if null then null,
+        // otherwise the existing stack.
+        if (GetStack() != null)
+            data.stack = new(GetStack());
+        return data;
+    }
     public void OnDrop(PointerEventData eventData)
     {
         var item = ItemStack.beingDragged;
@@ -292,7 +326,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         else
         {
             // otherwise try to combine
-            if (item.Type.Equals(GetStack().Type))
+            if (item.Type == GetStack().Type)
             {
                 var combinedStacks = CombineStacks(new StackData(item));
                 // there is no remainder
