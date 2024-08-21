@@ -20,11 +20,13 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         set
         {
-
-            type = value;
-            GetComponent<Image>().sprite = value.icon;
-            name = type.name;
-            ItemCount = 1;
+            if (type != value)
+            {
+                type = value;
+                GetComponent<Image>().sprite = value.icon;
+                name = type.name;
+                ItemCount = 1;
+            }
         }
     }
 

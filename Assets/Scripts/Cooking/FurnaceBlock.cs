@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Threading;
+using UnityEditor.Graphs;
 using UnityEngine;
 
 public class FurnaceBlock : MonoBehaviour
@@ -30,99 +31,122 @@ public class FurnaceBlock : MonoBehaviour
         state = new(FurnaceLogic.defaultState);
         thisId = id++;
 
-        state.itemChangeListener += (FurnaceItemSnapshot _, FurnaceItemSnapshot newItems) =>
+        state.stateChangeListener += (FurnaceState.StateChangeType type) =>
         {
-            SlotData fuelSlot = newItems.fuelSlot;
-            SlotData inSlot = newItems.inSlot;
-            SlotData outSlot = newItems.outSlot;
+            SlotData fuelSlot = state.FuelSlot;
 
-            // consume fuel if possible
-            if(fuelSlot.stack!=null && fuelSlot.stack.type.fuel)
+            switch (type)
             {
-                StackData fuelStack = fuelSlot.stack;
-                FuelStats fuelStats = fuelSlot.stack.type.fuelStats;
-                // 'possible' means adding the new fuel won't exceed
-                // the maximum fuel amount of the furnace.
-                float fuelRemainder = properties.maxFuel - state.Fuel;
-                // maximum amount that it is possible to add of this fuel type
-                int maxToAdd = Mathf.FloorToInt(fuelRemainder / fuelStats.fuelAmount);
-                // add as many as possible as long it is less than the maximum possible amount
-                int toAdd = Mathf.Min(maxToAdd, fuelStack.count);
-
-                // add fuel and remove from stack
-                float fuelToAdd = toAdd * fuelStats.fuelAmount;
-                if (fuelToAdd > 0)
-                {
-                    // new stack after removal
-                    StackData newFuelStack = new(fuelStack.type, fuelStack.count - toAdd);
-                    fuelSlot.stack = newFuelStack;
-                    // start timer of fuel usage
-                    if (state.Fuel == 0)
-                        fuelTimer = 0;
-                    // update state
-                    state.Fuel += fuelToAdd;
-                    state.FuelItem = fuelSlot;
-                }
+                // when only fuel is updated, no need to do the entire cook check
+                case FurnaceState.StateChangeType.FUEL:
+                    UpdateFuel();
+                    break;
+                default:
+                    UpdateCook();
+                    break;
             }
+        };
+    }
 
-            // start cooking item
-            // or keep cooking, if it's the same item
-            if(inSlot.stack!=null && inSlot.stack.type.cookable)
+    /// <summary>
+    /// try to consume fuel if possible.<br/>
+    /// updates according to current state.
+    /// </summary>
+    public void UpdateFuel()
+    {
+        if (state.FuelSlot.stack == null)
+            return;
+
+        StackData fuelStack = state.FuelSlot.stack;
+        FuelStats fuelStats = state.FuelSlot.stack.type.fuelStats;
+        // 'possible' means adding the new fuel won't exceed
+        // the maximum fuel amount of the furnace.
+        float fuelRemainder = properties.maxFuel - state.Fuel;
+        // maximum amount that it is possible to add of this fuel type
+        int maxToAdd = Mathf.FloorToInt(fuelRemainder / fuelStats.fuelAmount);
+        // add as many as possible as long it is less than the maximum possible amount
+        int toAdd = Mathf.Min(maxToAdd, fuelStack.count);
+
+        // add fuel and remove from stack
+        float fuelToAdd = toAdd * fuelStats.fuelAmount;
+        if (fuelToAdd > 0)
+        {
+            // new stack after removal
+            StackData newFuelStack = new(fuelStack.type, fuelStack.count - toAdd);
+            state.FuelSlot.stack = newFuelStack;
+            // start timer of fuel usage
+            if (state.Fuel == 0)
+                fuelTimer = 0;
+            // update state
+            state.Fuel += fuelToAdd;
+            state.FuelSlot = state.FuelSlot;
+        }
+    }
+
+    /// <summary>
+    /// Checks if done cooking or starts new cooking and does
+    /// consequent operations
+    /// </summary>
+    public void UpdateCook()
+    {
+        SlotData inSlot = state.InSlot;
+        SlotData outSlot = state.OutSlot;
+
+        // inslot has cookable item
+        if (inSlot.stack != null && inSlot.stack.type.cookable)
+        {
+            StackData itemStack = inSlot.stack;
+            // if it is the same type of the type that is currently
+            // cooking - keep cooking it and don't change anything.
+            // otherwise stop the cooking.
+            if (itemStack.type != cooking)
             {
-                StackData itemStack = inSlot.stack;
-                // if it is the same type of the type that is currently
-                // cooking - keep cooking it and don't change anything.
-                // otherwise stop the cooking.
-                if (itemStack.type != cooking)
+                // if outslot can accept the cooking result start cooking
+                if (outSlot.CanAccept(itemStack.type.cookResult))
                 {
-                    // if outslot can accept the cooking result start cooking
-                    if(outSlot.CanAccept(itemStack.type.cookResult))
-                    {
-                        cookTimer = 0;
-                        cooking = itemStack.type;
-                        cookSpeed = 1.0f/itemStack.type.cookTime;
-                        state.CookProgress = 0;
-                    }
-                    else
-                    {
-                        // outslot can't accept - stop cooking.
-                        cooking = null;
-                        cookSpeed = 0;
-                        state.CookProgress = 0;
-                    }
+                    cookTimer = 0;
+                    cooking = itemStack.type;
+                    cookSpeed = 1.0f / itemStack.type.cookTime;
+                    state.CookProgress = 0;
                 }
-            }
-            // inslot is empty or not cookable - stop cooking
-            else
-            {
-                if(cooking != null)
+                else
                 {
+                    // outslot can't accept - stop cooking.
                     cooking = null;
                     cookSpeed = 0;
                     state.CookProgress = 0;
                 }
             }
-        };
-
-        state.progressChangeListener += (float _, float progress) =>
+        }
+        // inslot is empty or not cookable - stop cooking
+        else
         {
-            // done cooking
-            // note: all the other listeners ensure that if
-            // progress is 1, necessarily something is being cooked,
-            // and the outslot can accept it.
-            if (Mathf.Approximately(progress, 1))
+            if (cooking != null)
             {
-                // reset cook progress
+                cooking = null;
+                cookSpeed = 0;
                 state.CookProgress = 0;
-                // remove from inSlot and add to outSlot
-                SlotData outSlot = state.OutItem;
-                SlotData inSlot = state.InItem;
-                inSlot.Remove(1);
-                outSlot.Add(cooking.cookResult);
-                state.InItem = inSlot;
-                state.OutItem = outSlot;
             }
-        };
+        }
+
+        // check if done cooking
+
+        float progress = state.CookProgress;
+
+        // done cooking
+        // note: all the other listeners ensure that if
+        // progress is 1, necessarily something is being cooked,
+        // and the outslot can accept it.
+        if (Mathf.Approximately(progress, 1))
+        {
+            // reset cook progress
+            state.CookProgress = 0;
+            // remove from inSlot and add to outSlot
+            inSlot.Remove(1);
+            outSlot.Add(cooking.cookResult);
+            state.InSlot = inSlot;
+            state.OutSlot = outSlot;
+        }
     }
 
     private bool mouseDown = false;
@@ -186,8 +210,11 @@ public class FurnaceBlock : MonoBehaviour
         if(cookTimer >= 1.0f / FurnaceLogic.fuelUpdateRate)
         {
             // increase cook progress
-            if(state.Fuel > 0)
+            if (state.Fuel > 0)
                 state.CookProgress += cookSpeed * FurnaceLogic.fuelUpdateRate;
+            else
+                // reset progress when fuel runs out
+                state.CookProgress = 0;
             cookTimer = 0;
         }
     }
