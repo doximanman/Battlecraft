@@ -115632,6 +115632,9 @@ PrefabInstance:
       addedObject: {fileID: 1826195916}
     - targetCorrespondingSourceObject: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1826195923}
+    - targetCorrespondingSourceObject: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1826195917}
     - targetCorrespondingSourceObject: {fileID: 5129119448046159661, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       insertIndex: -1
@@ -135026,9 +135029,6 @@ MonoBehaviour:
   value: 10
   maxValue: 10
   minValue: 0
-  changeOvertime: 1
-  changeInterval: 0.1
-  changeAmount: -0.001
 --- !u!114 &1826195921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135063,9 +135063,22 @@ MonoBehaviour:
   value: 20
   maxValue: 20
   minValue: 0
-  changeOvertime: 0
-  changeInterval: 0
-  changeAmount: 0
+--- !u!114 &1826195923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826195898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564c670024fbac04b90a23cceb0d7940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statUpdateRate: 4
+  healAboveFood: 5
+  healRate: 0.1
+  loseFoodRate: 0.01
 --- !u!1001 &1836027253
 PrefabInstance:
   m_ObjectHideFlags: 0
