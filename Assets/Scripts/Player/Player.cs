@@ -69,8 +69,6 @@ public class Player : IHitListener
         AudioManager.instance.Stop("Player",name);
     }
 
-    
-
     public void Consume(StackData stack)
     {
         Stat food = GetComponent<StatManager>().GetStat("Food");
