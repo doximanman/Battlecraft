@@ -68,6 +68,10 @@ public class Hotbar : MonoBehaviour
     public ItemNotifier OnItemUse;
     private void Update()
     {
+        // if paused don't do anything
+        if (MetaLogic.paused || InventoryLogic.inventoryIsOpen) return;
+
+
         // if selected slot has a stack and mouse is pressed
         if(selectedSlot != null && Input.GetMouseButtonDown(0) && selectedSlot.TryGetStack(out ItemStack stack))
         {

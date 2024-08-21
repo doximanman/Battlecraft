@@ -40,53 +40,67 @@ public class Furnace : MonoBehaviour
         // unregister from old state
         if(this.state != null)
         {
-            this.state.fuelChangeListenerHighPriority -= OnFuelChange;
-            this.state.itemChangeListenerHighPriority -= OnItemChange;
-            this.state.progressChangeListenerHighPriority -= OnProgressChange;
+            this.state.stateChangeListenerHighPriority -= OnStateChange;
         }
 
         // register to new state
         // set values
         this.state = state;
         fuel.Fuel = state.Fuel;
-        fuelSlot.SetItem(state.FuelItem.stack);
-        itemSlot.SetItem(state.InItem.stack);
-        outSlot.SetItem(state.OutItem.stack);
+        fuelSlot.SetItem(state.FuelSlot.stack);
+        itemSlot.SetItem(state.InSlot.stack);
+        outSlot.SetItem(state.OutSlot.stack);
 
         // register listeners
-        state.fuelChangeListenerHighPriority += OnFuelChange;
-        state.itemChangeListenerHighPriority += OnItemChange;
-        state.progressChangeListenerHighPriority += OnProgressChange;
+        state.stateChangeListenerHighPriority += OnStateChange;
     }
 
     public void UnloadState()
     {
         if(state != null)
         {
-            state.fuelChangeListener -= OnFuelChange;
-            state.itemChangeListener -= OnItemChange;
-            state.progressChangeListener -= OnProgressChange;
+            state.stateChangeListenerHighPriority -= OnStateChange;
         }
         state = null;
     }
 
-    public void OnFuelChange(float oldFuel, float newFuel)
+    public void OnStateChange(FurnaceState.StateChangeType type)
     {
+        switch (type)
+        {
+            case FurnaceState.StateChangeType.FUEL:
+                OnFuelChange();
+                break;
+            case FurnaceState.StateChangeType.COOK_PROGRESS:
+                OnProgressChange();
+                break;
+            default:
+                OnItemChange();
+                break;
+        }
+    }
+
+    public void OnFuelChange()
+    {
+        float newFuel = state.Fuel;
+
         if (fuel.Fuel != newFuel)
             fuel.Fuel = newFuel;
     }
 
-    public void OnProgressChange(float oldProgress, float newProgress)
+    public void OnProgressChange()
     {
+        float newProgress = state.CookProgress;
+
         if (cookProgress.value != newProgress)
             cookProgress.value = newProgress;
     }
 
-    public void OnItemChange(FurnaceItemSnapshot oldState, FurnaceItemSnapshot newState)
+    public void OnItemChange()
     {
-        SlotData fuelItem = newState.fuelSlot;
-        SlotData inItem = newState.inSlot;
-        SlotData outItem = newState.outSlot;
+        SlotData fuelItem = state.FuelSlot;
+        SlotData inItem = state.InSlot;
+        SlotData outItem = state.OutSlot;
 
         // update everything
         if(!fuelSlot.HasExact(fuelItem.stack))
@@ -103,7 +117,7 @@ public class Furnace : MonoBehaviour
         fuelSlot.slotChangeListeners += (StackData _,StackData _) =>
         {
             // set state's fuel item to have this value.
-            state.FuelItem = fuelSlot.ToData();
+            state.FuelSlot = fuelSlot.ToData();
             /*if (newStack == null) return;
             ItemType type = newStack.type;
             // try to use the fuel item
@@ -117,7 +131,7 @@ public class Furnace : MonoBehaviour
 
         itemSlot.slotChangeListeners += (StackData _, StackData _) =>
         {
-            state.InItem = itemSlot.ToData();
+            state.InSlot = itemSlot.ToData();
             /*// item slot changed - reset cooking process
             cookProgress.value = 0;
             cooking = null;
@@ -144,7 +158,7 @@ public class Furnace : MonoBehaviour
 
         outSlot.slotChangeListeners += (StackData _, StackData _) =>
         {
-            state.OutItem = outSlot.ToData();
+            state.OutSlot = outSlot.ToData();
         };
     }
 

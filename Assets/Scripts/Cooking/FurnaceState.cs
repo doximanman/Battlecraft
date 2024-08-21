@@ -33,26 +33,6 @@ public class FurnaceProperties
     }
 }
 
-public struct FurnaceItemSnapshot
-{
-    public SlotData fuelSlot;
-    public SlotData inSlot;
-    public SlotData outSlot;
-
-    public FurnaceItemSnapshot(SlotData fuelSlot, SlotData inSlot, SlotData outSlot)
-    {
-        this.fuelSlot = fuelSlot;
-        this.inSlot = inSlot;
-        this.outSlot = outSlot;
-    }
-
-    public FurnaceItemSnapshot(FurnaceItemSnapshot other)
-    {
-        fuelSlot = other.fuelSlot;
-        inSlot = other.inSlot;
-        outSlot = other.outSlot;
-    }
-}
 
 /// <summary>
 /// Entire state of a furnace.
@@ -60,13 +40,9 @@ public struct FurnaceItemSnapshot
 /// </summary>
 public class FurnaceState
 {
-    public delegate void FuelChangeListener(float oldFuel, float newFuel);
+    public enum StateChangeType {FUEL,COOK_PROGRESS,FUEL_SLOT,IN_SLOT,OUT_SLOT};
 
-    public delegate void ProgressChangeListener(float oldProgress, float newProgress);
-
-    public delegate void ItemChangeListener(FurnaceItemSnapshot oldState,
-                                                FurnaceItemSnapshot newState);
-
+    public delegate void StateChangeListener(StateChangeType type);
 
     public FurnaceProperties props;
 
@@ -107,39 +83,26 @@ public class FurnaceState
         this.outSlot = outSlot;
     }
 
-    // seperation between fuel changes and item changes
-    // to make it more lightweight
-    // (otherwise you had to check every time fuel changes whether
-    // the items changed, which is a comparison of complex objects,
-    // and fuel changes a lot (every fixedupdate)).
-
     /// <summary>
-    /// listen to fuel amount changes.
+    /// Get notified when state changes.
+    /// Receive what was changed in function parameter.
+    /// By having a reference to the state, the listener
+    /// has access to the new values.
     /// </summary>
-    public FuelChangeListener fuelChangeListener;
-    // higher priority delegate, for example for UI.
-    public FuelChangeListener fuelChangeListenerHighPriority;
+    public StateChangeListener stateChangeListener;
     /// <summary>
-    /// listen to any change in the items in the slots.
-    /// not notified of other changes (like fuel).
+    /// Higher priority delegate, called before normal delegate.
     /// </summary>
-    public ItemChangeListener itemChangeListener;
-    public ItemChangeListener itemChangeListenerHighPriority;
-    /// <summary>
-    /// listen to cook progress changes
-    /// </summary>
-    public ProgressChangeListener progressChangeListener;
-    public ProgressChangeListener progressChangeListenerHighPriority;
+    public StateChangeListener stateChangeListenerHighPriority;
 
     public float Fuel
     {
         get => fuel;
         set
         {
-            float oldFuel = fuel;
             fuel = Mathf.Clamp(value,props.minFuel,props.maxFuel);
-            fuelChangeListenerHighPriority?.Invoke(oldFuel, fuel);
-            fuelChangeListener?.Invoke(oldFuel,fuel);
+            stateChangeListenerHighPriority?.Invoke(StateChangeType.FUEL);
+            stateChangeListener?.Invoke(StateChangeType.FUEL);
         }
     }
 
@@ -149,49 +112,42 @@ public class FurnaceState
         set
         {
             // progress is 0 to 1
-            float oldCookProgress = cookProgress;
             cookProgress = Mathf.Clamp(value,0,1);
-            progressChangeListenerHighPriority?.Invoke(oldCookProgress, cookProgress);
-            progressChangeListener?.Invoke(oldCookProgress,cookProgress);
+            stateChangeListenerHighPriority?.Invoke(StateChangeType.COOK_PROGRESS);
+            stateChangeListener?.Invoke(StateChangeType.COOK_PROGRESS);
         }
     }
 
-    public SlotData FuelItem
+    public SlotData FuelSlot
     {
         get => fuelSlot;
         set
         {
-            FurnaceItemSnapshot oldState = new(fuelSlot, inSlot, outSlot);
-            FurnaceItemSnapshot newState = new(value, inSlot, outSlot);
             fuelSlot = value;
-            itemChangeListenerHighPriority?.Invoke(oldState, newState);
-            itemChangeListener?.Invoke(oldState, newState);
+            stateChangeListenerHighPriority?.Invoke(StateChangeType.FUEL_SLOT);
+            stateChangeListener?.Invoke(StateChangeType.FUEL_SLOT);
         }
     }
 
-    public SlotData InItem
+    public SlotData InSlot
     {
         get => inSlot;
         set
         {
-            FurnaceItemSnapshot oldState = new(fuelSlot, inSlot, outSlot);
-            FurnaceItemSnapshot newState = new(fuelSlot, value, outSlot);
             inSlot = value;
-            itemChangeListenerHighPriority?.Invoke(oldState, newState);
-            itemChangeListener?.Invoke(oldState, newState);
+            stateChangeListenerHighPriority?.Invoke(StateChangeType.IN_SLOT);
+            stateChangeListener?.Invoke(StateChangeType.IN_SLOT);
         }
     }
 
-    public SlotData OutItem
+    public SlotData OutSlot
     {
         get => outSlot;
         set
         {
-            FurnaceItemSnapshot oldState = new(fuelSlot, inSlot, outSlot);
-            FurnaceItemSnapshot newState = new(fuelSlot, inSlot, value);
             outSlot = value;
-            itemChangeListenerHighPriority?.Invoke(oldState, newState);
-            itemChangeListener?.Invoke(oldState, newState);
+            stateChangeListenerHighPriority?.Invoke(StateChangeType.OUT_SLOT);
+            stateChangeListener?.Invoke(StateChangeType.OUT_SLOT);
         }
     }
 

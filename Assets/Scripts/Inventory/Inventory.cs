@@ -58,12 +58,54 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     // 0 on successs, > 0 if there was a remainder
     public int AddItems(ItemType type,int count)
     {
-        for(int i = 0; i < count; i++)
+        /*for(int i = 0; i < count; i++)
         {
             var success=AddItem(type);
             if (success==null) return count-i;
         }
-        return 0;
+        return 0;*/
+
+        // add to existing stacks
+        foreach(var slot in slots)
+        {
+            ItemStack stack = slot.GetStack();
+            // how much of the stack is left
+            if (stack != null && stack.Type == type)
+            {
+                int combinedCounts = stack.ItemCount + count;
+                int remainder = 0;
+                if(combinedCounts <= type.maxStack)
+                {
+                    // combined counts can fit in one stack
+                    // add everything
+                    stack.ItemCount = combinedCounts;
+                    return 0;
+                }
+                else
+                {
+                    // more items in combined count than maximum count
+                    remainder = combinedCounts - type.maxStack;
+                    stack.ItemCount = type.maxStack;
+                }
+                // set count to be the amount left in the stack
+                count = remainder;
+                if (count == 0)
+                    return 0;
+            }
+        }
+
+        // add to free slots
+        foreach(var slot in slots)
+        {
+            if(slot.GetStack() == null)
+            {
+                StackData newStack = new(type, count);
+                slot.SetItem(newStack);
+                return 0;
+            }
+        }
+
+        return count;
     }
 
     /// <summary>
@@ -182,7 +224,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         return slots.GetEnumerator();
     }
 
-
+    #region Inspector
     public InventorySlot slot;
     public int addCount;
     public ItemType itemToAdd;
@@ -221,7 +263,7 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
             }
         }
     }
-
+    #endregion
     public override string ToString()
     {
         StringBuilder str=  new();
