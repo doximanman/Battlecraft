@@ -47,6 +47,7 @@ public class Furnace : MonoBehaviour
         // set values
         this.state = state;
         fuel.Fuel = state.Fuel;
+        cookProgress.value = state.CookProgress;
         fuelSlot.SetItem(state.FuelSlot.stack);
         itemSlot.SetItem(state.InSlot.stack);
         outSlot.SetItem(state.OutSlot.stack);
@@ -104,11 +105,11 @@ public class Furnace : MonoBehaviour
 
         // update everything
         if(!fuelSlot.HasExact(fuelItem.stack))
-            fuelSlot.SetItem(fuelItem.stack);
+            fuelSlot.SetItem(fuelItem.stack,false);
         if(!itemSlot.HasExact(inItem.stack))
-            itemSlot.SetItem(inItem.stack);
+            itemSlot.SetItem(inItem.stack, false);
         if(!outSlot.HasExact(outItem.stack))
-            outSlot.SetItem(outItem.stack);
+            outSlot.SetItem(outItem.stack, false);
     }
 
     private void Start()
@@ -118,55 +119,16 @@ public class Furnace : MonoBehaviour
         {
             // set state's fuel item to have this value.
             state.FuelSlot = fuelSlot.ToData();
-            /*if (newStack == null) return;
-            ItemType type = newStack.type;
-            // try to use the fuel item
-            // if type is a fuel and the amount it gives is less than the available fuel capacity
-            if (newStack.type.fuel && type.fuelStats.fuelAmount < fuel.Remainder)
-            {
-                fuel.Fuel += type.fuelStats.fuelAmount;
-                fuelSlot.RemoveOne();
-            }*/
         };
 
         itemSlot.slotChangeListeners += (StackData _, StackData _) =>
         {
             state.InSlot = itemSlot.ToData();
-            /*// item slot changed - reset cooking process
-            cookProgress.value = 0;
-            cooking = null;
-
-            // if nothing in the item slot don't do anything
-            if (newStack == null) return;
-            ItemType type = newStack.type;
-            
-            // if item can't be cooked don't do anything
-            if (!type.cookable) return;
-
-            // check whether cooking result can be placed in out slot
-            // (can happen if there is an item from a previous cooking)
-            // also, remainder must be 0. you cannot partially cook an item.
-            int? canFit = outSlot.CanAccept(type.cookResult);
-            if ((!canFit.HasValue) || (canFit.Value > 0)) return;
-
-            // set the speed to be such that after cookTime seconds
-            // the cooking will be done
-            cookSpeed = 1.0f/newStack.type.cookTime;
-            // item being cooked
-            cooking = newStack.type;*/
         };
 
         outSlot.slotChangeListeners += (StackData _, StackData _) =>
         {
             state.OutSlot = outSlot.ToData();
         };
-    }
-
-    private ItemType cooking;
-    private float cookSpeed;
-
-    private void FixedUpdate()
-    {
-        /**/
     }
 }

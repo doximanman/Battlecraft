@@ -40,6 +40,8 @@ public class PlayerControl : MonoBehaviour
         bool leftHeld = false;
         KeyInput.instance.onRight += (down,held,_) =>
         {
+            if (InventoryLogic.inventoryIsOpen) return;
+
             rightHeld = held;
             // once key is first pressed - start moving until it is not pressed
             if (down || (held && !isMoving))
@@ -50,6 +52,8 @@ public class PlayerControl : MonoBehaviour
         };
         KeyInput.instance.onLeft += (down,held,_) =>
         {
+            if (InventoryLogic.inventoryIsOpen) return;
+
             leftHeld = held;
             if (down || (held && !isMoving))
             {
@@ -60,6 +64,8 @@ public class PlayerControl : MonoBehaviour
         
         bool jump = true;
         KeyInput.instance.onJump += (down,held,up) => {
+
+            if (InventoryLogic.inventoryIsOpen) return;
             // jump logic: at first you can just jump.
             // if you were able to jump (i.e. you're grounded)
             // then you have to let go of the jump key before the next jump.

@@ -143,3 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65548f7afa5c604390376e2f08166a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  furnaceType: {fileID: 11400000, guid: d7211ec0320800e4fb23faed3c7b2940, type: 2}
+  openRange: 1.5
+  holdDownTime: 0.2

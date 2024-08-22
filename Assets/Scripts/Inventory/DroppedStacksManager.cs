@@ -51,10 +51,18 @@ public class DroppedStacksManager : MonoBehaviour
 
     }
 
-    public void Drop(StackData stack)
+    public void Drop(IEnumerable<StackData> stacks,Vector2? position = null)
     {
+        foreach (var stack in stacks)
+            Drop(stack,position);
+    }
+
+    public void Drop(StackData stack, Vector2? dropPosition = null)
+    {
+        if (stack == null) return;
+
         DroppedStack droppedStack = Instantiate(droppedStackPrefab, transform).GetComponent<DroppedStack>();
-        droppedStack.transform.position = dropPosition();
+        droppedStack.transform.position = dropPosition == null? this.dropPosition() : dropPosition.Value;
         if (dropVelocity != null)
             droppedStack.GetComponent<Rigidbody2D>().velocity = dropVelocity();
         droppedStack.Stack = stack;

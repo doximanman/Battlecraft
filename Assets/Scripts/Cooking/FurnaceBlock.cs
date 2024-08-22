@@ -20,16 +20,24 @@ public class FurnaceBlock : MonoBehaviour
     public FurnaceState state;
 
     // for debugging
-    public static int id = 0;
-    private int thisId;
+    //public static int id = 0;
+    //private int thisId;
+
+    private Transform player;
+
+    [SerializeField] private ItemType furnaceType;
+    [SerializeField] private float openRange;
+    [SerializeField] private float holdDownTime;
 
     private ItemType cooking = null;
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         // initialize with default values
         properties = new(FurnaceLogic.defaultProperties);
         state = new(FurnaceLogic.defaultState);
-        thisId = id++;
+        //thisId = id++;
 
         state.stateChangeListener += (FurnaceState.StateChangeType type) =>
         {
@@ -39,6 +47,9 @@ public class FurnaceBlock : MonoBehaviour
             {
                 // when only fuel is updated, no need to do the entire cook check
                 case FurnaceState.StateChangeType.FUEL:
+                    UpdateFuel();
+                    break;
+                case FurnaceState.StateChangeType.FUEL_SLOT:
                     UpdateFuel();
                     break;
                 default:
@@ -153,20 +164,25 @@ public class FurnaceBlock : MonoBehaviour
     private void OnMouseDown()
     {
         mouseDown = true;
+        // notify others so that they don't execute their mousedown
+        // function (for example a sword swing).
+        MetaLogic.mouseDownOnBlock = true;
     }
 
     private void OnMouseUp()
     {
-        // if mouse wasnt pressed down on the block, ignore
-        if (!mouseDown) return;
         mouseDown = false;
+        MetaLogic.mouseDownOnBlock = false;
 
         // if paused ignore
-        if (MetaLogic.paused) return;
+        if (MetaLogic.paused || InventoryLogic.inventoryIsOpen) return;
 
-        FurnaceLogic.EnableFurnace();
-        FurnaceLogic.furnaceListeners += OnFurnace;
-        InventoryLogic.OpenInventory(false);
+        if (Vector2.Distance(transform.position, player.position) < openRange)
+        {
+            FurnaceLogic.EnableFurnace();
+            FurnaceLogic.furnaceListeners += OnFurnace;
+            InventoryLogic.OpenInventory(false);
+        }
     }
 
     public void OnFurnace(bool open)
@@ -188,8 +204,41 @@ public class FurnaceBlock : MonoBehaviour
 
     private float fuelTimer = 0;
     private float cookTimer = 0;
+    private float holdDownTimer = 0;
     private void Update()
     {
+        // holddown to get the furnace
+        if (mouseDown) holdDownTimer += Time.deltaTime;
+        else holdDownTimer = 0;
+
+        if (holdDownTimer >= holdDownTime)
+        {
+            if (Vector2.Distance(transform.position, player.position) > openRange)
+            {
+                holdDownTimer = 0;
+                return;
+            }
+
+            MetaLogic.mouseDownOnBlock = false;
+            // mouse held down for holdDownTime seconds
+
+            // drop all items
+            DroppedStacksManager.instance.Drop(new List<StackData>(){state.FuelSlot.stack,
+                                                            state.InSlot.stack,
+                                                            state.OutSlot.stack },transform.position);
+
+            // create itemtype to be dropped when destroyed
+            ItemType furnace = Instantiate(furnaceType);
+            furnace.name = furnaceType.name;
+            // drop the furnace
+            DroppedStacksManager.instance.Drop(new StackData(furnace, 1), transform.position);
+
+            // remove chest block from the scene.
+            Destroy(gameObject);
+            return;
+        }
+
+        // otherwise - fuel check and cook progress
         fuelTimer += Time.deltaTime;
         // if fuel update rate is x,
         // then every 1/x seconds an update should be done.
@@ -217,20 +266,5 @@ public class FurnaceBlock : MonoBehaviour
                 state.CookProgress = 0;
             cookTimer = 0;
         }
-    }
-
-
-    //private int counter = 0; // debugging
-    private void FixedUpdate()
-    {
-        
-
-        // debugging
-        /*counter++;
-        if(counter == 20)
-        {
-            Debug.Log("Id " + thisId + ": " + state);
-            counter = 0;
-        }*/
     }
 }
