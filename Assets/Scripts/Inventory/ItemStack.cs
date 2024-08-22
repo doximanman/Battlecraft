@@ -20,11 +20,13 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         set
         {
-
-            type = value;
-            GetComponent<Image>().sprite = value.icon;
-            name = type.name;
-            ItemCount = 1;
+            if (type != value)
+            {
+                type = value;
+                GetComponent<Image>().sprite = value.icon;
+                name = type.name;
+                ItemCount = 1;
+            }
         }
     }
 
@@ -34,6 +36,8 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         get { return itemCount; }
         set
         {
+            if (value == 0)
+                Destroy(gameObject);
             itemCount = value;
             // update count on screen
             var text = transform.GetChild(0);
@@ -86,7 +90,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // and remove it from the slot
             originalSlot = transform.parent.GetComponent<InventorySlot>();
             transform.SetParent(transform.root);
-            originalSlot.DetatchChild();
+            originalSlot.DetatchStack();
 
         }
         // right mouse button
@@ -144,7 +148,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         GetComponent<Image>().raycastTarget = true;
 
-        // OnDrop of a slot might have already handled the required logic
+        // OnDrop of a slot had already handled the required logic
         if (stopDrag)
         {
             originalSlot = null;
@@ -153,37 +157,11 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         };
 
         // not on a slot - throw the item.
-        DroppedStacksManager.instance.Drop(new(beingDragged.Type, beingDragged.ItemCount));
+        DroppedStacksManager.instance.Drop(new StackData(beingDragged.Type, beingDragged.ItemCount));
         Destroy(beingDragged.gameObject);
         beingDragged = null;
 
-        /*// not on a slot - bring the item back
-        // right click - combine into the stack inside of originalSlot
-        if (rightClick)
-        {
-            // no stack inside of original slot
-            if (originalSlot.GetStack() == null)
-            {
-                originalSlot.SetItem(this);
-            }
-            // original slot has a stack
-            else
-            {
-                originalSlot.CombineFrom(this);
-            }
-        }
-        // left click - move the stack back
-        else
-        {
-            // original slot already has an item
-            // or doesnt accept items.
-            // add anywhere in the inventory
-            if (originalSlot.HasItem() || 
-                !originalSlot.canAcceptItems)
-                InventoryLogic.personalInventory.AddStack(this);
-            else
-                originalSlot.SetItem(this);
-        }*/
+
         originalSlot = null;
     }
 }

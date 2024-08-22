@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [Serializable]
@@ -15,20 +16,22 @@ public class Stat : MonoBehaviour
 
     [SerializeField] float initialValue;
     public float InitialValue => initialValue;
+
     [SerializeField] private float value;
     public float Value
     {
         get => value;
         set
         {
-            bool different = valueSlider.value != value;
-            this.value = value < MinValue ? MinValue : value;
-            this.value = this.value > MaxValue ? MaxValue : value;
-            valueSlider.value = this.value;
+            bool different = this.value != value;
+            this.value = Mathf.Clamp(value, MinValue, MaxValue);
+            valueSlider.value = value;
             if (different)
                 OnValueChanged?.Invoke(this.value);
         }
     }
+
+    public float Range => MaxValue - MinValue;
 
     public void SetValueWithoutNotify(float value)
     {
@@ -43,6 +46,7 @@ public class Stat : MonoBehaviour
         set
         {
             maxValue = value;
+            Value = Mathf.Clamp(Value,MinValue,MaxValue);
             valueSlider.maxValue = maxValue;
         }
     }
@@ -54,6 +58,7 @@ public class Stat : MonoBehaviour
         set
         {
             minValue = value;
+            Value = Mathf.Clamp(Value, MinValue, MaxValue);
             valueSlider.minValue = minValue;
         }
     }
@@ -61,30 +66,9 @@ public class Stat : MonoBehaviour
 
     #region Functionality
 
-    [SerializeField] private bool changeOvertime;
-    public bool ChangeOvertime => changeOvertime;
-    [SerializeField] private float changeInterval;
-    public float ChangeInterval => changeInterval;
-    [SerializeField] private float changeAmount;
-    public float ChangeAmount => changeAmount;
-
     private void Start()
     {
         SetValueWithoutNotify(initialValue);
-    }
-
-    private float timer;
-    private void Update()
-    {
-        if (changeOvertime)
-        {
-            timer += Time.deltaTime;
-            if (timer > changeInterval)
-            {
-                Value += changeAmount;
-                timer = 0;
-            }
-        }
     }
 
     public Action<float> OnValueChanged;
@@ -103,9 +87,6 @@ public class StatEditor : Editor
     SerializedProperty value;
     SerializedProperty minValue;
     SerializedProperty maxValue;
-    SerializedProperty changeOvertime;
-    SerializedProperty changeInterval;
-    SerializedProperty changeAmount;
     #endregion
 
     public override UnityEngine.UIElements.VisualElement CreateInspectorGUI()
@@ -118,9 +99,6 @@ public class StatEditor : Editor
         valueSlider = serializedObject.FindProperty("valueSlider");
         minValue = serializedObject.FindProperty("minValue");
         maxValue = serializedObject.FindProperty("maxValue");
-        changeOvertime = serializedObject.FindProperty("changeOvertime");
-        changeInterval = serializedObject.FindProperty("changeInterval");
-        changeAmount = serializedObject.FindProperty("changeAmount");
         return result;
     }
 
@@ -138,7 +116,6 @@ public class StatEditor : Editor
         {
             // slider reference
             EditorGUI.indentLevel++;
-            //SerializedProperty valueSlider = serializedObject.FindProperty("valueSlider");
             EditorGUILayout.PropertyField(valueSlider, new GUIContent(name + " Slider"));
             EditorGUI.indentLevel--;
         }
@@ -158,18 +135,6 @@ public class StatEditor : Editor
         // set current food value
         value.floatValue = EditorGUILayout.Slider(name, stat.Value,stat.MinValue,stat.MaxValue);
         if (value.floatValue != stat.Value) stat.Value = value.floatValue;
-
-        //SerializedProperty loseOvertime = serializedObject.FindProperty("loseOvertime");
-        EditorGUILayout.PropertyField(changeOvertime, new GUIContent("Change Overtime"));
-        if(changeOvertime.boolValue)
-        {
-            //SerializedProperty loseInterval = serializedObject.FindProperty("loseInterval");
-            //SerializedProperty loseAmount = serializedObject.FindProperty("loseAmount");
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(changeInterval, new GUIContent("Change Interval (Change every X seconds)"));
-            EditorGUILayout.PropertyField(changeAmount, new GUIContent("Change Amount (Add X every interval)"));
-            EditorGUI.indentLevel--;
-        }
 
         if (EditorGUI.EndChangeCheck())
         {

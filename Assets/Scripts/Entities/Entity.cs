@@ -140,12 +140,24 @@ public class Entity : IHitListener
         Health -= hitWith.stats.damage;
     }
 
+    private void Drop(IEnumerable<StackData> stacks)
+    {
+        foreach(StackData stack in stacks)
+        {
+            Drop(stack);
+        }
+    }
+
+    private void Drop(StackData stack)
+    {
+        DroppedStacksManager.instance.Drop(stack, transform.position);
+    }
 
     [ContextMenu("Death")]
     public void Death()
     {
-        // entity died, just adds items to inventory
-        InventoryLogic.personalInventory.AddItems(droppedItems);
+        // entity died, drop the items
+        Drop(droppedItems);
         Player.current.RemoveSwingListener(this);
         Invoke(nameof(KillEntity), 0.1f);
     }

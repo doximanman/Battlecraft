@@ -139,7 +139,7 @@ MonoBehaviour:
   runawayTime: 4
   chasesPlayer: 1
   chaseRange: 10
-  chaseUntilCloserThan: 0.4
+  chaseUntilCloserThan: 0.2
   maxHealth: 8
   minSize: 0.9
   maxSize: 1.1

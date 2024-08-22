@@ -17,7 +17,7 @@ public class CraftingBench : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    [SerializeField] private float holdDownTime = 0.2f;
+    [SerializeField] private float holdDownTime;
     private float holdDownTimer = 0;
     private void Update()
     {
@@ -26,21 +26,20 @@ public class CraftingBench : MonoBehaviour
 
         if (holdDownTimer >= holdDownTime)
         {
+            if (Vector2.Distance(transform.position, player.position) > openRange)
+            {
+                holdDownTimer = 0;
+                return;
+            }
+
             ItemType bench = Instantiate(benchType);
-            bench.name = "CraftingBench";
+            bench.name = benchType.name;
             // mouse held down for holdDownTime seconds
-            Inventory playerInventory = InventoryLogic.personalInventory;
-            var success = playerInventory.AddItem(bench);
-            if (success == null)
-            {
-                // inventory full, bench cant be added
-            }
-            else
-            {
-                // remove bench from the scene, it is now inside of the player's inventory.
-                Destroy(gameObject);
-            }
+            DroppedStacksManager.instance.Drop(new StackData(bench, 1), transform.position);
+
+            Destroy(gameObject);
         }
+
 
 
     }

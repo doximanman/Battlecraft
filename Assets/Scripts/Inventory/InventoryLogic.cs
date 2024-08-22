@@ -14,8 +14,9 @@ public class InventoryLogic : MonoBehaviour
     /// will open some crafting grid, and this class will not do 
     /// anything.
     /// </summary>
-    public enum Responsible { INVENTORY, CRAFTING };
+    public enum Responsible { INVENTORY, CRAFTING, FURNACE };
     public static Responsible responsible;
+    public static Responsible defaultResponsible = Responsible.CRAFTING;
 
     public delegate void ToggleListener(bool on);
 
@@ -105,7 +106,6 @@ public class InventoryLogic : MonoBehaviour
         chestListeners?.Invoke(false);
         responsible = Responsible.CRAFTING;
         enableChestInventory = false;
-        //externalInventory.SetSlots(crafting.GetComponent<SlotList>().slots);
     }
 
     public static ToggleListener secondInventoryListeners;
@@ -128,11 +128,12 @@ public class InventoryLogic : MonoBehaviour
     public static bool inventoryIsOpen = false;
     public static ToggleListener invListeners;
 
-    public static void OpenInventory()
+    public static void OpenInventory(bool pause = true)
     {
         invListeners?.Invoke(true);
 
-        MetaLogic.Pause();
+        if(pause)
+            MetaLogic.Pause();
         mainInventory.SetActive(true);
         if (responsible == Responsible.INVENTORY && enableChestInventory)
             chestInventory.SetActive(true);
@@ -142,24 +143,20 @@ public class InventoryLogic : MonoBehaviour
         inventoryIsOpen = true;
     }
 
-    public static void CloseInventory()
+    public static void CloseInventory(bool unpause = true)
     {
         invListeners?.Invoke(false);
 
-        MetaLogic.Unpause();
+        if(unpause && MetaLogic.paused)
+            MetaLogic.Unpause();
         // move items from crafting grid to inventory
         // only necessary because the inventory crafting grid
         // doesn't have its own class like the crafting
         // bench
-        //if (crafting.activeSelf)
-        //Inventory.MoveInventory(crafting.GetComponent<CraftingGrid>().inSlots.Flatten(),personalInventory);
         mainInventory.SetActive(false);
-        //crafting.SetActive(false);
-        //bigCrafting.SetActive(false);
         chestInventory.SetActive(false);
         DisableSecondInventory();
         MetaLogic.UndarkenBackground();
         inventoryIsOpen = false;
-        //closeInvListeners.Clear();
     }
 }

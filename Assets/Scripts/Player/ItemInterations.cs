@@ -58,7 +58,7 @@ public class ItemInterations : MonoBehaviour
         // drop the item
         if(slot.TryGetStack(out ItemStack stack))
         {
-            DroppedStacksManager.instance.Drop(new(stack));
+            DroppedStacksManager.instance.Drop(new StackData(stack));
         }
 
         // remove the stack from the slot

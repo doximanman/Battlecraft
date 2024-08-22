@@ -13,7 +13,7 @@ public class Chest : MonoBehaviour
     [SerializeField] private InventoryData chestItems;
     [SerializeField] private ItemType chestType;
 
-    public float openRange = 0.5f;
+    public float openRange;
 
     private void Start()
     {
@@ -40,21 +40,23 @@ public class Chest : MonoBehaviour
 
         if(holdDownTimer >= holdDownTime)
         {
-            ItemType chest = Instantiate(chestType);
-            chest.name = "Chest";
-            chest.invData = chestItems;
+            if (Vector2.Distance(transform.position, player.position) > openRange)
+            {
+                holdDownTimer = 0;
+                return;
+            }
             // mouse held down for holdDownTime seconds
-            Inventory playerInventory = inventoryInteract.mainInventory;
-            var success=playerInventory.AddItem(chest);
-            if (success == null)
-            {
-                // inventory full, chest cant be added
-            }
-            else
-            {
-                // remove chest from the scene, it is now inside of the player's inventory.
-                Destroy(gameObject);
-            }
+
+            // drop all items
+            DroppedStacksManager.instance.Drop(chestItems.GetItems(),transform.position);
+
+            ItemType chest = Instantiate(chestType);
+            chest.name = chestType.name;
+            // drop the chest
+            DroppedStacksManager.instance.Drop(new StackData(chest, 1), transform.position);
+
+            // remove chest block from the scene.
+            Destroy(gameObject);
         }
 
 
