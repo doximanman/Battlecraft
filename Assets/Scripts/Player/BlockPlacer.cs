@@ -9,18 +9,64 @@ public class BlockPlacer : MonoBehaviour
 {
     [SerializeField] private Transform interactables;
     [SerializeField] private Hotbar hotbar;
-    [SerializeField] private BoxCollider2D player;
-    [SerializeField] private GameObject chestPrefab;
-    [SerializeField] private GameObject benchPrefab;
-    [SerializeField] private float yOffsetChest;
-    [SerializeField] private float yOffsetBench;
 
-    public float maxHeightDifference;
-    public float maxPlaceDistance;
+    private void Start()
+    {
+        hotbar.OnItemUse += (ItemStack stack)=>
+        {
+
+            if (stack == null || !stack.Type.placable) return;
+            ItemType stackType = stack.Type;
+            // stack is not null and is placable - try to place it.
+
+            // close enough to player and not inside ground
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // get ground levels of x=mousePosition.x
+            var groundMaybeNull = Logic.GetGroundHeightBelow(mousePosition);
+
+            // can't get ground
+            if (groundMaybeNull == null) return;
+            float ground = groundMaybeNull.Value;
+
+            // assert chest/bench can fit
+            float yOffset = stackType.placableProps.placeYOffset;
+            float maxPlaceDistance = stackType.placableProps.maxPlaceDistance;
+            float maxHeightDifference = stackType.placableProps.maxHeightDifference;
+            var collider = stackType.placableProps.blockPrefab.GetComponent<BoxCollider2D>();
+
+            Vector2 centerOfCollider = new(mousePosition.x, ground + collider.size.y / 2 + 0.01f);
+            Vector2 placePosition = new(mousePosition.x, ground + collider.size.y / 2 + yOffset);
+            //Vector2 boxSize = (Vector2)collider.bounds.size - leniency * Vector2.up;
+            Vector2 boxSize = collider.size;
+
+            // for gizmos
+            _boxCenter = centerOfCollider;
+            _boxSize = boxSize;
+
+            BoxCollider2D playerCollider = Player.current.playerCollider;
+
+            // assert place position close enough to player
+            if (Vector2.Distance(playerCollider.bounds.center, placePosition) > maxPlaceDistance) return;
+            // assert close enough to mouse position
+            if (Mathf.Abs(centerOfCollider.y - mousePosition.y) > maxHeightDifference) return;
+
+            var result = Physics2D.BoxCast(centerOfCollider, boxSize, 0, Vector2.zero, 0f, LayerMask.GetMask("Game"));
+            if (result) return;
+
+            // place block according to its prefab
+            stack.ItemCount--;
+            var block = Instantiate(stackType.placableProps.blockPrefab,
+                placePosition,
+                new Quaternion(0, 0, 0, 0),
+                interactables);
+            block.name = stackType.name;
+        };
+    }
 
     private void Update()
     {
-        // cant place down a chest when the game is paused
+        /*// cant place down a chest when the game is paused
         if (MetaLogic.paused) return;
 
         if(Input.GetMouseButtonDown(0))
@@ -32,11 +78,6 @@ public class BlockPlacer : MonoBehaviour
             selectedItem = selectedItem.Contains("Chest") ? "Chest" : "Bench";
 
             InventoryData items=null;
-            if (selectedItem.Equals("Chest"))
-            {
-                // get chest items
-                items = hotbar.SelectedSlot.GetStack().Type.invData.Copy();
-            }
 
             // close enough to player and not inside ground
             Vector2 mousePosition=Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -83,7 +124,7 @@ public class BlockPlacer : MonoBehaviour
                 bench.name = "CraftingBench";
             }
         }
-
+*/
     }
 
     private Vector2 _boxCenter=new();

@@ -129,7 +129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityName: Deer
-  droppedItems: []
+  droppedItems:
+  - type: {fileID: 11400000, guid: 2fbdab1450dda16429a00d1b39250800, type: 2}
+    count: 3
   knockback: {x: 2, y: 2}
   hostile: 1
   attackDamage: 1

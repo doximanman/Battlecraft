@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,12 +6,14 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-
     public bool canAcceptItems;
+    public FilterType filterType;
+    public List<ItemType> filter;
 
     // initialized on SetItem
     // removed on RemoveItem
@@ -28,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public bool TryGetStack(out ItemStack stack)
     {
         stack = this.stack;
-        if (this.stack == null || this.stack.Equals(null))
+        if (this.stack == null)
             return false;
         else
             return true;
@@ -93,11 +96,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // create new stack
-    public void SetItem(StackData stack)
+    public void SetItem(StackData stack, bool notify = true)
     {
-        if (stack == null || !stack.IsDefined())
+        if (stack == null)
         {
-            RemoveItem();
+            RemoveItem(notify);
             return;
         }
 
@@ -108,7 +111,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
         this.stack.Type = stack.type;
         this.stack.ItemCount = stack.count;
-        NotifyChange();
+        if(notify)
+            NotifyChange();
     }
 
     // predefined stack
@@ -189,17 +193,22 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // destroy item object
-    public void RemoveItem()
+    public void RemoveItem(bool notify = true)
     {
         if (GetStack() != null) Destroy(GetStack().gameObject);
         stack = null;
-        NotifyChange();
+        if(notify)
+            NotifyChange();
     }
 
     // dont destroy item object
-    public void DetatchChild()
+    public void DetatchStack()
     {
-        transform.DetachChildren();
+        foreach (Transform t in transform)
+            if (t.TryGetComponent<ItemStack>(out ItemStack _))
+                t.SetParent(null);
+
+        //transform.DetachChildren();
         stack = null;
         NotifyChange();
     }
@@ -223,15 +232,94 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         ItemStack.CancelDrag();
     }
 
+    // general, whether the slot can in general accept this type,
+    // doesn't take into account current slot state.
+    public bool CanAccept(ItemType type)
+    {
+        if (!canAcceptItems) return false;
+
+        return filterType switch
+        {
+            FilterType.WHITE_LIST => filter.Contains(type),
+            FilterType.BLACK_LIST => !filter.Contains(type),
+            _ => false,
+        };
+    }
+
+    // whether the slot can fit adding the stack to it
+    // also does the normal filter check
+    // returns null if it cannot fit, the remainder of combining the stacks if it can.
+    public int? CanAccept(StackData stack)
+    {
+        if (TryGetStack(out ItemStack currentStack))
+        {
+            // there is a stack in the slot currently - check whether the stack
+            // can be combined into the stack already inside the slot.
+            // i.e. check types, if they are the same return remainder of combining.
+            if (currentStack.Type == stack.type)
+            {
+                int combinedCount = stack.count + currentStack.ItemCount;
+                if (combinedCount > stack.type.maxStack)
+                    return combinedCount - stack.type.maxStack;
+                return 0;
+            }
+            // items not of the same type, cannot fit
+            return null;
+        }
+        // slot is empty - return whether the slot accepts the type.
+        // 0 means no remainder - because the entire stack can be added with no remainder.
+        else return CanAccept(stack.type)? 0 : null;
+    }
+
+    /// <summary>
+    /// whether the slot has this stack, at the exact amount. <br/>
+    /// meaning, same type and count.
+    /// </summary>
+    /// <param name="stack">to compare to</param>
+    /// <returns>true if stack has this stack at the exact amount, false otherwise.</returns>
+    public bool HasExact(StackData stack)
+    {
+        // if stack is empty return if this slot is empty
+        if(stack == null)
+            return GetStack() == null;
+
+        // otherwise, stack is not empty, therefore if this slot is empty
+        // it doesn't contain the stack.
+        if (GetStack() == null) return false;
+
+        ItemStack currentStack = GetStack();
+        return currentStack.Type == stack.type && currentStack.ItemCount == stack.count;
+    }
+
+    /// <summary>
+    /// get SlotData representation of the slot
+    /// </summary>
+    /// <returns>slot data with all properties of the slot</returns>
+    public SlotData ToData()
+    {
+        // slot data with the properties of this slot
+        SlotData data = new(null,canAcceptItems,filterType,filter);
+
+        // appropriate stack - if null then null,
+        // otherwise the existing stack.
+        if (GetStack() != null)
+            data.stack = new(GetStack());
+        return data;
+    }
     public void OnDrop(PointerEventData eventData)
     {
-        if (ItemStack.stopDrag || eventData.pointerDrag == null || !canAcceptItems) return;
-
-        // notify EndDrag that the dragging operation already happened
-        ItemStack.stopDrag = true;
-
         var item = ItemStack.beingDragged;
         var originalSlot = ItemStack.originalSlot;
+        bool thisCanAccept = CanAccept(item.Type);
+
+        // if drag is stopped or nothing was dragged
+        if (ItemStack.stopDrag || eventData.pointerDrag == null || !thisCanAccept) return;
+
+        bool originalCanAccept = originalSlot.CanAccept(item.Type);
+
+        // notify EndDrag that the dragging operation was handled (by this function)
+        ItemStack.stopDrag = true;
+
         // left click
 
         // if no item here - set it to be the stack.
@@ -240,7 +328,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         else
         {
             // otherwise try to combine
-            if (item.Type.Equals(GetStack().Type))
+            if (item.Type == GetStack().Type)
             {
                 var combinedStacks = CombineStacks(new StackData(item));
                 // there is no remainder
@@ -252,7 +340,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 // there is a remainder
                 else
                 {
-                    if (originalSlot.canAcceptItems)
+                    if (originalCanAccept)
                     {
                         // right click - add the remainder to the existing amount in the slot
                         if (ItemStack.rightClick)
@@ -267,7 +355,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     SetItem(combinedStacks[0]);
                     Destroy(item.gameObject);
 
-                    if (!originalSlot.canAcceptItems)
+                    if (!originalCanAccept)
                     {
                         // cant accept items - try to place it in the inventory
                         InventoryLogic.personalInventory.AddItems(combinedStacks[1].type, combinedStacks[1].count);
@@ -277,10 +365,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 }
             }
             // otherwise swap only if the original slot is empty now
-            else if (canAcceptItems && originalSlot.canAcceptItems && originalSlot.GetStack()==null)
+            else if (thisCanAccept && originalCanAccept && originalSlot.GetStack() == null)
             {
                 var thisStack = GetStack();
-                DetatchChild();
+                DetatchStack();
                 originalSlot.SetItem(thisStack);
                 SetItem(item);
             }
@@ -295,4 +383,40 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
 
 
+}
+
+[CustomEditor(typeof(InventorySlot))]
+public class SlotEditor : Editor
+{
+    SerializedProperty canAcceptItems;
+    SerializedProperty filterType;
+    SerializedProperty filter;
+
+    public override VisualElement CreateInspectorGUI()
+    {
+        var returnValue = base.CreateInspectorGUI();
+        canAcceptItems = serializedObject.FindProperty("canAcceptItems");
+        filterType = serializedObject.FindProperty("filterType");
+        filter = serializedObject.FindProperty("filter");
+        return returnValue;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        EditorGUI.BeginChangeCheck();
+
+        EditorGUILayout.PropertyField(canAcceptItems);
+
+        if (canAcceptItems.boolValue)
+        {
+            EditorGUILayout.PropertyField(filterType);
+            EditorGUILayout.PropertyField(filter);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Player : IHitListener
 {
+    [SerializeField] private SpriteRenderer playerSprite;
+
     public Vector3 spawnPoint;
 
     public static Player current;
@@ -17,7 +19,6 @@ public class Player : IHitListener
     {
         current = this;
         animator = GetComponent<Animator>();
-        playerCollider=GetComponent<BoxCollider2D>();
 
         spawnPoint= transform.position;
 
@@ -35,12 +36,12 @@ public class Player : IHitListener
 
         Hotbar.instance.OnItemUse += (stack) =>
         {
-            if (stack.type.swingable && swingTimer > swingDelay)
+            if (stack.Type.swingable && swingTimer > swingDelay)
             {
-                StartSwing(stack);
+                StartSwing(stack.Type);
                 swingTimer = 0;
             }
-            else if (stack.type.food)
+            else if (stack.Type.food)
                 Consume(stack);
         };
     }
@@ -69,20 +70,23 @@ public class Player : IHitListener
         AudioManager.instance.Stop("Player",name);
     }
 
-    
-
-    public void Consume(StackData stack)
+    public void Consume(ItemStack stack)
     {
+        PlaySound("Eat");
         Stat food = GetComponent<StatManager>().GetStat("Food");
-        food.Value += stack.type.foodStats.saturation;
-        stack.count--;
+        Stat health = GetComponent<StatManager>().GetStat("Health");
+        food.Value += stack.Type.foodStats.saturation;
+        health.Value += stack.Type.foodStats.heal;
+        stack.ItemCount--;
     }
 
     private readonly List<IHitListener> hitListeners=new();
 
-    public void StartSwing(StackData stack)
+    public void StartSwing(ItemType type)
     {
-        swingItem = stack.type;
+        if (InventoryLogic.inventoryIsOpen) return;
+
+        swingItem = type;
         // hit animation
         // the animation triggers swing
         animator.SetTrigger("Attack");
@@ -130,6 +134,11 @@ public class Player : IHitListener
         }
     }
 
+    public void StopAnimations()
+    {
+        animator.SetTrigger("ResetAnimation");
+    }
+
     // cache - only get once
     private Stat health = null;
     public override void OnHit(ItemType hitWith)
@@ -141,12 +150,30 @@ public class Player : IHitListener
         
     }
 
+    [SerializeField] private float hurtDuration;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material hurtMaterial;
+    public void Hurt()
+    {
+        PlaySound("Hurt");
+        // can't walk while hurt (looks bad)
+        animator.SetBool("Hurt", true);
+        playerSprite.material = hurtMaterial;
+        Invoke(nameof(Unhurt), hurtDuration);
+    }
+
+    public void Unhurt()
+    {
+        animator.SetBool("Hurt", false);
+        playerSprite.material = defaultMaterial;
+    }
+
     // hit the player from which direction
     // and with what damage
     PlayerControl control = null;
     public void HitFrom(float dmg, float knockback, Direction direction)
     {
-        animator.SetTrigger("Hurt");
+        Hurt();
         if (control == null)
             control = GetComponent<PlayerControl>();
         Vector2 launchDirection = new(direction == Direction.LEFT ? 1 : direction == Direction.RIGHT ? -1 : 0, 1);
@@ -165,10 +192,12 @@ public class Player : IHitListener
         GetComponent<StatManager>().ResetStats();
     }
 
+    // makes swing hitbox bigger
+    public Vector2 hitLeniency;
     private (Vector3,Vector3) BoxSize()
     {
         var center = new Vector3(startPoint.x+size.x*direction.x/2,startPoint.y+size.y*direction.y/2);
-        var boxSize = new Vector3(size.x,size.y);
+        var boxSize = new Vector3(size.x+hitLeniency.x,size.y+hitLeniency.y);
         return (center, boxSize);
     }
 

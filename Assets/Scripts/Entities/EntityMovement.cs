@@ -190,6 +190,7 @@ public class EntityMovement : MonoBehaviour
         if (randomMovement) StartCoroutine(randomMovementCoroutine);
     }
 
+
     public IEnumerator MoveUntil(Direction initialDirection, Func<bool> stop, bool jump = true, bool stayInBiome = false)
     {
         Direction currentDirection = initialDirection;

@@ -17,6 +17,8 @@ public class MetaLogic : MonoBehaviour
 
     public static bool pauseMenuEnabled = false;
 
+    public static bool mouseDownOnBlock = false;
+
     private void Start()
     {
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");

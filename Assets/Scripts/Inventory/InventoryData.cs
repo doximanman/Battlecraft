@@ -19,6 +19,11 @@ public class InventoryData
         }
     }
 
+    public IEnumerable<StackData> GetItems()
+    {
+        return items;
+    }
+
     public void Fix()
     {
         // unity inserts empty stacks to the list instead of
