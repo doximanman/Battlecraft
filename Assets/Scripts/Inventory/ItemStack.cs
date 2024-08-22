@@ -36,6 +36,8 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         get { return itemCount; }
         set
         {
+            if (value == 0)
+                Destroy(gameObject);
             itemCount = value;
             // update count on screen
             var text = transform.GetChild(0);
@@ -155,7 +157,7 @@ public class ItemStack : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         };
 
         // not on a slot - throw the item.
-        DroppedStacksManager.instance.Drop(new(beingDragged.Type, beingDragged.ItemCount));
+        DroppedStacksManager.instance.Drop(new StackData(beingDragged.Type, beingDragged.ItemCount));
         Destroy(beingDragged.gameObject);
         beingDragged = null;
 

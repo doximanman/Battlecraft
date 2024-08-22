@@ -26,10 +26,11 @@ public class WeaponStats
 public class FoodStats
 {
     public float saturation;
+    public float heal;
 
     public override string ToString()
     {
-        return "Saturation: " + saturation;
+        return "Saturation: " + saturation + " Heal: "+heal;
     }
 }
 
@@ -44,6 +45,23 @@ public class FuelStats
     }
 }
 
+[Serializable]
+public class PlacableProps
+{
+    public float maxHeightDifference;
+    public float maxPlaceDistance;
+    public float placeYOffset;
+    public GameObject blockPrefab;
+
+    public PlacableProps(float maxHeightDifference, float maxPlaceDistance,float placeYOffset, GameObject blockPrefab)
+    {
+        this.maxHeightDifference = maxHeightDifference;
+        this.maxPlaceDistance = maxPlaceDistance;
+        this.placeYOffset = placeYOffset;
+        this.blockPrefab = blockPrefab;
+    }
+}
+
 [CreateAssetMenu(menuName = "Scriptable object/Item")]
 public class ItemType : ScriptableObject
 {
@@ -52,9 +70,6 @@ public class ItemType : ScriptableObject
 
     public bool swingable = false;
     public WeaponStats stats;
-
-    public bool hasInventory = false;
-    public InventoryData invData;
 
     public bool food = false;
     public FoodStats foodStats;
@@ -66,14 +81,15 @@ public class ItemType : ScriptableObject
     public StackData cookResult;
     public float cookTime;
 
+    public bool placable = false;
+    public PlacableProps placableProps;
+
     public override string ToString()
     {
         StringBuilder builder = new();
         builder.Append("Name: " + name + " Max Stack: " + maxStack);
         if (swingable)
             builder.Append(" Swingable. Stats: " + stats);
-        if (hasInventory)
-            builder.Append(" Inventory Data: " + invData);
         if (food)
             builder.Append(" Food Stats: " + foodStats);
         if (fuel)
@@ -107,7 +123,7 @@ public class ItemType : ScriptableObject
 
         if (newOther == null) return icon == null;
 
-        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name && invData.Equals(newOther.invData);
+        return newOther.icon == icon && newOther.maxStack == maxStack && newOther.name == name;
     }
 
     public override int GetHashCode()
@@ -115,9 +131,7 @@ public class ItemType : ScriptableObject
 
         if (icon == null) return maxStack;
 
-        if (invData == null) return icon.GetHashCode() ^ maxStack;
-
-        else return icon.GetHashCode() ^ maxStack ^ invData.GetHashCode();
+        else return icon.GetHashCode() ^ maxStack;
     }
 
 }
@@ -140,15 +154,6 @@ public class ItemTypeEditor : Editor
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("stats"), new GUIContent("Weapon Stats"));
-            EditorGUI.indentLevel--;
-        }
-
-        item.hasInventory= EditorGUILayout.Toggle("Inventory", item.hasInventory);
-
-        if (item.hasInventory)
-        {
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("invData"), new GUIContent("Inventory Data"));
             EditorGUI.indentLevel--;
         }
 
@@ -177,6 +182,15 @@ public class ItemTypeEditor : Editor
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(serializedObject.FindProperty("cookResult"), new GUIContent("Cook Result"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("cookTime"), new GUIContent("Cook Time"));
+            EditorGUI.indentLevel--;
+        }
+
+        item.placable = EditorGUILayout.Toggle("Placable", item.placable);
+
+        if (item.placable)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("placableProps"), new GUIContent("Placable Properties"));
             EditorGUI.indentLevel--;
         }
 

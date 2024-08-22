@@ -110834,8 +110834,8 @@ MonoBehaviour:
   - {fileID: 1457926122}
   - {fileID: 256789433}
   slot: {fileID: 0}
-  addCount: 1
-  itemToAdd: {fileID: 11400000, guid: 0052fc9e9e573ac47897883a08df8410, type: 2}
+  addCount: 21
+  itemToAdd: {fileID: 11400000, guid: b173d160e2d3abc46878b63691bf596f, type: 2}
 --- !u!1001 &387839199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114197,6 +114197,16 @@ MonoBehaviour:
       volume: 0.05
       pitch: 1
       audioSource: {fileID: 0}
+    - name: Hurt
+      audioClip: {fileID: 8300000, guid: f9f37f17d8eb6ec4d9a3e84513197a26, type: 3}
+      volume: 0.2
+      pitch: 1
+      audioSource: {fileID: 0}
+    - name: Eat
+      audioClip: {fileID: 8300000, guid: f6f28be27d12b14499980597df0559f4, type: 3}
+      volume: 0.9
+      pitch: 1.3
+      audioSource: {fileID: 0}
   - type: Cow
     sounds:
     - name: Hurt
@@ -115477,6 +115487,10 @@ PrefabInstance:
       propertyPath: m_SpriteSortPoint
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2931271011692116140, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: -449860041209910390, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
       propertyPath: animator
       value: 
@@ -134945,13 +134959,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactables: {fileID: 1961973118}
   hotbar: {fileID: 1292982504}
-  player: {fileID: 1826195908}
-  chestPrefab: {fileID: 1000283188367386434, guid: 3eb7015238a688643a705cadd735ea7e, type: 3}
-  benchPrefab: {fileID: 775027379980843726, guid: 6e485386a79d8454cb49baa7f7ff2af7, type: 3}
-  yOffsetChest: 0.1
-  yOffsetBench: 0
-  maxHeightDifference: 0.5
-  maxPlaceDistance: 1.2
 --- !u!61 &1826195908 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 8733985812443073592, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
@@ -134990,9 +134997,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08e9b738654c254db205e00c3a0a2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSprite: {fileID: 1826195925}
   spawnPoint: {x: 0, y: 0, z: 0}
-  playerCollider: {fileID: 0}
+  playerCollider: {fileID: 1826195908}
   swingDelay: 0.48
+  hurtDuration: 0.1
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  hurtMaterial: {fileID: 2100000, guid: c76b7fdc00be7f3428a773538d70d86a, type: 2}
   hitLeniency: {x: 0.4, y: 0.8}
 --- !u!114 &1826195916
 MonoBehaviour:
@@ -135079,6 +135090,11 @@ MonoBehaviour:
   healAboveFood: 5
   healRate: 0.1
   loseFoodRate: 0.01
+--- !u!212 &1826195925 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -2931271011692116140, guid: f893dbd0d2db7d040b650a63110609ba, type: 3}
+  m_PrefabInstance: {fileID: 754536188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1836027253
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -96,11 +96,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // create new stack
-    public void SetItem(StackData stack)
+    public void SetItem(StackData stack, bool notify = true)
     {
         if (stack == null)
         {
-            RemoveItem();
+            RemoveItem(notify);
             return;
         }
 
@@ -111,7 +111,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
         this.stack.Type = stack.type;
         this.stack.ItemCount = stack.count;
-        NotifyChange();
+        if(notify)
+            NotifyChange();
     }
 
     // predefined stack
@@ -192,11 +193,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     }
 
     // destroy item object
-    public void RemoveItem()
+    public void RemoveItem(bool notify = true)
     {
         if (GetStack() != null) Destroy(GetStack().gameObject);
         stack = null;
-        NotifyChange();
+        if(notify)
+            NotifyChange();
     }
 
     // dont destroy item object

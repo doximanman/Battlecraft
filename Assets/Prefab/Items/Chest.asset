@@ -19,52 +19,20 @@ MonoBehaviour:
     range: 0
     damage: 0
     stun: 0
-  hasInventory: 0
-  invData:
-    items:
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
-    - type: {fileID: 0}
-      count: 0
   food: 0
   foodStats:
     saturation: 0
   fuel: 1
   fuelStats:
     fuelAmount: 16
+  cookable: 0
+  cookResult:
+    type: {fileID: 0}
+    count: 0
+  cookTime: 0
+  placable: 1
+  placableProps:
+    maxHeightDifference: 0.5
+    maxPlaceDistance: 1.2
+    placeYOffset: 0.1
+    blockPrefab: {fileID: 1000283188367386434, guid: 3eb7015238a688643a705cadd735ea7e, type: 3}

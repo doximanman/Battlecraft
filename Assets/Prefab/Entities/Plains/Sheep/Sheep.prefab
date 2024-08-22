@@ -129,8 +129,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityName: Sheep
-  droppedItems: []
+  droppedItems:
+  - type: {fileID: 11400000, guid: 2fbdab1450dda16429a00d1b39250800, type: 2}
+    count: 3
   knockback: {x: 2, y: 2}
+  hostile: 0
+  attackDamage: 0
+  attackKnockback: 0
+  attackDelay: 0
   getsScared: 1
   runawayTime: 2
   chasesPlayer: 0
@@ -140,6 +146,7 @@ MonoBehaviour:
   minSize: 0.9
   maxSize: 1.1
   distanceToPlayer: 0
+  currentAttackDelay: 0
   chasing: 0
 --- !u!114 &8379696114543419996
 MonoBehaviour:

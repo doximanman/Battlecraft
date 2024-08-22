@@ -97,11 +97,23 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         // add to free slots
         foreach(var slot in slots)
         {
-            if(slot.GetStack() == null)
+            if(slot.GetStack() == null && slot.CanAccept(type))
             {
-                StackData newStack = new(type, count);
-                slot.SetItem(newStack);
-                return 0;
+                // if count is more than maximum stack count of the type
+                if (count > type.maxStack)
+                {
+                    // add the stack to this slot and subtract from count
+                    StackData newStack = new(type, type.maxStack);
+                    slot.SetItem(newStack);
+                    count -= type.maxStack;
+                }
+                else
+                {
+                    // add the stack to this slot and return
+                    StackData newStack = new(type, count);
+                    slot.SetItem(newStack);
+                    return 0;
+                }
             }
         }
 
@@ -232,10 +244,6 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     public void AddCurrentItem()
     {
         if (addCount == 0) return;
-
-        // unity stuff (see "Fix")
-        if (itemToAdd.name == "Chest")
-            itemToAdd.invData.Fix();
 
         if (slot == null)
         {

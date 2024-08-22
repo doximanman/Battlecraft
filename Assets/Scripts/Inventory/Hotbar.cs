@@ -58,7 +58,7 @@ public class Hotbar : MonoBehaviour
         KeyInput.instance.onNum += (num) => SelectedIndex = num;
     }
 
-    public delegate void ItemNotifier(StackData stack);
+    public delegate void ItemNotifier(ItemStack stack);
 
     /// <summary>
     /// Get notified when an item is used.
@@ -66,25 +66,25 @@ public class Hotbar : MonoBehaviour
     /// its count, update the given stack.
     /// </summary>
     public ItemNotifier OnItemUse;
+
     private void Update()
     {
         // if paused don't do anything
-        if (MetaLogic.paused || InventoryLogic.inventoryIsOpen) return;
+        if (MetaLogic.paused || InventoryLogic.inventoryIsOpen || MetaLogic.mouseDownOnBlock) return;
 
 
         // if selected slot has a stack and mouse is pressed
         if(selectedSlot != null && Input.GetMouseButtonDown(0) && selectedSlot.TryGetStack(out ItemStack stack))
         {
-            StackData stackData = new(stack);
-            OnItemUse?.Invoke(stackData);
-            if(stackData.count == 0)
+            OnItemUse?.Invoke(stack);
+            /*if(stackData.count == 0)
             {
                 selectedSlot.RemoveItem();
             }
             else if(stackData.count != stack.ItemCount)
             {
                 stack.ItemCount = stackData.count;
-            }
+            }*/
         }
     }
 }

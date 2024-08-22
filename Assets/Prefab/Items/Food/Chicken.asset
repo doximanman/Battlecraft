@@ -19,9 +19,21 @@ MonoBehaviour:
     range: 0
     damage: 0
     stun: 0
-  hasInventory: 0
-  invData:
-    items: []
   food: 1
   foodStats:
     saturation: 3
+    heal: 1
+  fuel: 0
+  fuelStats:
+    fuelAmount: 0
+  cookable: 0
+  cookResult:
+    type: {fileID: 0}
+    count: 0
+  cookTime: 0
+  placable: 0
+  placableProps:
+    maxHeightDifference: 0
+    maxPlaceDistance: 0
+    placeYOffset: 0
+    blockPrefab: {fileID: 0}
