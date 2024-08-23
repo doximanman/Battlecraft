@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Login : MonoBehaviour
 {
-    
+    // login logic
 }
