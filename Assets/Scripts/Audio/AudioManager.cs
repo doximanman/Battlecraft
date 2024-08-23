@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    [SerializeField] private Settings settings;
+
     [Serializable]
     public class SoundList : List<Sound> { }
     [Serializable]
@@ -29,9 +31,12 @@ public class AudioManager : MonoBehaviour
     {
         instance = this;
 
-        foreach(var pair in stringSoundsPairs)
-            foreach(var sound in pair.sounds)
+        foreach (var pair in stringSoundsPairs)
+            foreach (var sound in pair.sounds)
+            {
                 sound.SetSource(gameObject.AddComponent<AudioSource>());
+                sound.settings = settings;
+            }
 
     }
 

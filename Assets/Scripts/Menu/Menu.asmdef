@@ -1,8 +1,8 @@
 {
-    "name": "Audio",
+    "name": "Menu",
     "rootNamespace": "",
     "references": [
-        "GUID:faaf2e79aa6703e4cae2686508e229cb",
+        "GUID:eafba6bd3156df841baaa036fe2d8fbe",
         "GUID:87e2b9cd66233434b8d8449c2296ec96"
     ],
     "includePlatforms": [],

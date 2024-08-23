@@ -65,6 +65,7 @@ public class Player : IHitListener
         AudioManager.instance.Play("Player",name);
     }
 
+
     public void StopSound(string name)
     {
         AudioManager.instance.Stop("Player",name);
