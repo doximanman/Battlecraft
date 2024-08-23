@@ -2063,7 +2063,7 @@ MonoBehaviour:
   sceneLoader: {fileID: 194131603}
   settingsTab: {fileID: 541065048}
   buttonsTab: {fileID: 306859523}
-  loginTab: {fileID: 0}
+  loginTab: {fileID: 87302223}
 --- !u!1 &1076664405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,8 +2571,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -3743,7 +3743,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2228688262530470926, guid: c9d32529fe138db4886e2fc7114a2278, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2228688262530470926, guid: c9d32529fe138db4886e2fc7114a2278, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3759,7 +3759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2228688262530470926, guid: c9d32529fe138db4886e2fc7114a2278, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ExitToDesktop
+      value: OpenLogin
       objectReference: {fileID: 0}
     - target: {fileID: 2228688262530470926, guid: c9d32529fe138db4886e2fc7114a2278, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -3959,7 +3959,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1041765118}
         m_TargetAssemblyTypeName: MenuLogic, Menu
-        m_MethodName: CloseSettingsTab
+        m_MethodName: CloseLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

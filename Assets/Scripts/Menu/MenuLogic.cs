@@ -39,11 +39,11 @@ public class MenuLogic : MonoBehaviour
 
     public void OpenLogin()
     {
-
+        loginTab.gameObject.SetActive(true);
     }
 
     public void CloseLogin()
     {
-
+        loginTab.gameObject.SetActive(false);
     }
 }
