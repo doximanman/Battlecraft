@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    public static Settings current;
-
     [SerializeField] private Slider volumeSlider;
-    [SerializeField] private Button backButton;
 
     private float volume;
     public float Volume
@@ -21,18 +18,28 @@ public class Settings : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Run when settings tab is opened
+    /// </summary>
+    public void Open()
+    {
+        // set slider if volume changed externally
+        volumeSlider.SetValueWithoutNotify(volume);
+    }
+
+    /// <summary>
+    /// Run when settings tab is closed
+    /// </summary>
+    public void Close()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         if (PlayerPrefs.HasKey("Volume"))
             Volume = PlayerPrefs.GetFloat("Volume");
-
-        current = this;
-        MenuLogic.onSettingsTabAfter += (on) =>
-        {
-            // set slider if volume changed externally
-            if(on) volumeSlider.SetValueWithoutNotify(volume);
-        };
 
         volumeSlider.onValueChanged.AddListener((value) =>
         {
