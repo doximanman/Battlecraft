@@ -18,21 +18,10 @@ public class Settings : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Run when settings tab is opened
-    /// </summary>
-    public void Open()
+    private void OnEnable()
     {
         // set slider if volume changed externally
         volumeSlider.SetValueWithoutNotify(volume);
-    }
-
-    /// <summary>
-    /// Run when settings tab is closed
-    /// </summary>
-    public void Close()
-    {
-        
     }
 
     // Start is called before the first frame update
