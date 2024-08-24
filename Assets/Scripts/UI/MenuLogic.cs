@@ -17,18 +17,12 @@ public class MenuLogic : MonoBehaviour
     private void Start()
     {
         settingsTabEnabled = true;
-        print(settingsTab == null);
 
         MetaLogic.pauseMenuListeners += (on) =>
         {
             if (on) return;
             if (!on && settingsTabEnabled) DisableSettingsTab();
         };
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void DisableButtons()
@@ -49,14 +43,12 @@ public class MenuLogic : MonoBehaviour
     {
         settingsTab.gameObject.SetActive(true);
         DisableButtons();
-        settingsTab.Open();
         settingsTabEnabled = true;
     }
 
 
     public void DisableSettingsTab()
     {
-        settingsTab.Close();
         settingsTab.gameObject.SetActive(false);
         EnableButtons();
         settingsTabEnabled = false;
