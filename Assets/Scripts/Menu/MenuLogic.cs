@@ -1,11 +1,6 @@
-using PlasticGui.Configuration.CloudEdition.Welcome;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static MenuLogic;
 
 public enum TabType { MAIN,SETTINGS,LOGIN,REGISTER};
 
@@ -65,7 +60,7 @@ public class MenuLogic : MonoBehaviour
 
     public void StartPlaying()
     {
-        sceneLoader.Load(SceneLoader.playingScene);
+        sceneLoader.LoadPlaying();
     }
 
     public void ExitToDesktop()

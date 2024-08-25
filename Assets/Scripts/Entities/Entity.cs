@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class Entity : IHitListener
 {
@@ -168,6 +171,7 @@ public class Entity : IHitListener
     }
 }
 
+#if UNITY_EDITOR
 /// <summary>
 /// Editor script to hide irrelavent properties
 /// (for example when "getsScared" is off, the
@@ -269,3 +273,4 @@ public class EntityEditor : Editor
         }
     }
 }
+#endif

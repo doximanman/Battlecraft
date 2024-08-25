@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// for opening or closing tabs
@@ -45,6 +46,7 @@ public class TabButton : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(TabButton))]
 public class ButtonEditor : Editor
 {
@@ -82,3 +84,4 @@ public class ButtonEditor : Editor
         }
     }
 }
+#endif

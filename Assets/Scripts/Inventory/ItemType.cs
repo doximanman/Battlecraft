@@ -1,13 +1,10 @@
-using Codice.CM.Client.Differences.Merge;
-using JetBrains.Annotations;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.UI;
-using System.Runtime.CompilerServices;
 using System.Text;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 [Serializable]
 public class WeaponStats
@@ -136,7 +133,7 @@ public class ItemType : ScriptableObject
 
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(ItemType))]
 public class ItemTypeEditor : Editor
 {
@@ -201,3 +198,4 @@ public class ItemTypeEditor : Editor
         }
     }
 }
+#endif

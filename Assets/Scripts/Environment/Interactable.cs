@@ -1,10 +1,5 @@
-using PlasticPipe.PlasticProtocol.Messages;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.Video;
 
 [Serializable]
 public abstract class Interactable : MonoBehaviour
@@ -93,5 +88,10 @@ public abstract class Interactable : MonoBehaviour
     public void OnMouseExit()
     {
         OnMouseUp();
+    }
+
+    private void OnDestroy()
+    {
+        Interactables.current.OnRemove(this);
     }
 }
