@@ -6,11 +6,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class WorldSaver
 {
+    /// <summary>
+    /// save path of the default world
+    /// </summary>
+    public static string defaultWorldPath = Path.Combine(Application.streamingAssetsPath,"defaults","env.save");
+
     public static void SaveWorld(InteractableData[] data)
     {
-        string playerName = PlayerPrefs.GetString("PlayerName", "default");
+        string playerName = PlayerPrefs.GetString("PlayerName", "player1");
 
-        string path = Application.persistentDataPath + "/" + playerName + "_env.save";
+        string path = Path.Combine(Application.persistentDataPath,playerName,"env.save");
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
 
         FileStream fs = new(path, FileMode.Create);
         BinaryFormatter bf = new();
@@ -21,11 +27,19 @@ public static class WorldSaver
         
     }
 
-    public static InteractableData[] LoadWorld()
+    public static InteractableData[] LoadWorld(bool defaultWorld = false)
     {
-        string playerName = PlayerPrefs.GetString("PlayerName", "default");
-        string path = Application.persistentDataPath + "/" + playerName + "_env.save";
-        FileStream fs = new(path,FileMode.Open);
+        string playerName = PlayerPrefs.GetString("PlayerName", "player1");
+        string path = Path.Combine(Application.persistentDataPath,playerName,"env.save");
+        FileStream fs;
+        if (!defaultWorld && File.Exists(path))
+        {
+            fs = new(path, FileMode.Open);
+        }
+        else
+        {
+            fs = new(defaultWorldPath, FileMode.Open);
+        }
         BinaryFormatter bf = new();
         InteractableData[] data = bf.Deserialize(fs) as InteractableData[];
 

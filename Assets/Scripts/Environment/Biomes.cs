@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Biomes : MonoBehaviour
 {
@@ -144,6 +146,7 @@ public class Biomes : MonoBehaviour
         return biomeAtCache[x] = borders[^1].rightBiome;
     }
 
+#if UNITY_EDITOR
     // keep the borders sorted by x position
     [CustomEditor(typeof(Biomes))]
     public class BordersEditor : Editor
@@ -157,4 +160,5 @@ public class Biomes : MonoBehaviour
             instance._borders=instance._borders.OrderBy(border => border.Position).ToArray();
         }
     }
+#endif
 }

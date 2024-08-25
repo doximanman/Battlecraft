@@ -1,8 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Threading;
-using UnityEditor.Graphs;
 using UnityEngine;
 
 public class FurnaceBlock : MonoBehaviour

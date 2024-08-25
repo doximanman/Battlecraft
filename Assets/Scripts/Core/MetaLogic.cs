@@ -95,6 +95,6 @@ public class MetaLogic : MonoBehaviour
     {
         ClosePauseMenu();
         DataManager.instance.Save();
-        sceneLoader.Load(SceneLoader.mainMenuScene);
+        //sceneLoader.Load(SceneLoader.mainMenuScene);
     }
 }

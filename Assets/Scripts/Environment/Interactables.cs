@@ -1,10 +1,7 @@
-using Codice.Client.BaseCommands;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [Serializable]
 public class Interactables : MonoBehaviour
@@ -40,18 +37,28 @@ public class Interactables : MonoBehaviour
         return typePrefabs.Find(x => x.type == type).prefab;
     }
 
+    public void OnRemove(Interactable interactable)
+    {
+        interactables.Remove(interactable);
+    }
+
     /// <summary>
     /// destroy all interactables in the game
     /// </summary>
     public void Clear()
     {
-        foreach(Transform t in transform)
+        // destroy the children!!
+        while(transform.childCount > 0)
         {
-            Destroy(t.gameObject);
+            if(Application.isEditor)
+                DestroyImmediate(transform.GetChild(0).gameObject);
+            else
+                Destroy(transform.GetChild(0).gameObject);
         }
         transform.DetachChildren();
         interactables = new();
     }
+
 
     [ContextMenu("Load From File")]
     public void Load()
@@ -64,6 +71,7 @@ public class Interactables : MonoBehaviour
         {
             GameObject typePrefab = GetPrefab(interactableData.type);
             Interactable interactable = Instantiate(typePrefab,transform).GetComponent<Interactable>();
+            interactable.name = typePrefab.name;
 
             Vector3 position = new(interactableData.position[0], interactableData.position[1], interactableData.position[2]);
             Vector3 scale = new(interactableData.scale[0], interactableData.scale[1], interactableData.scale[2]);
@@ -84,4 +92,26 @@ public class Interactables : MonoBehaviour
         WorldSaver.SaveWorld(data);
     }
 
+    [ContextMenu("Load Default World")]
+    public void LoadDefault()
+    {
+        Clear();
+
+        InteractableData[] data = WorldSaver.LoadWorld(true);
+
+        foreach (InteractableData interactableData in data)
+        {
+            GameObject typePrefab = GetPrefab(interactableData.type);
+            Interactable interactable = Instantiate(typePrefab, transform).GetComponent<Interactable>();
+            interactable.name = typePrefab.name;
+
+            Vector3 position = new(interactableData.position[0], interactableData.position[1], interactableData.position[2]);
+            Vector3 scale = new(interactableData.scale[0], interactableData.scale[1], interactableData.scale[2]);
+
+            interactable.transform.position = position;
+            interactable.transform.localScale = scale;
+
+            interactables.Add(interactable);
+        }
+    }
 }

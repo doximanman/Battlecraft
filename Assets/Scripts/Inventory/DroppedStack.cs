@@ -1,9 +1,3 @@
-using PlasticPipe.PlasticProtocol.Messages;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]

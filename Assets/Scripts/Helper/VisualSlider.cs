@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class VisualSlider : MonoBehaviour
 {
@@ -65,6 +68,7 @@ public class VisualSlider : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(VisualSlider))]
 public class SliderEditor : Editor
 {
@@ -99,4 +103,4 @@ public class SliderEditor : Editor
         }
     }
 }
-
+#endif
