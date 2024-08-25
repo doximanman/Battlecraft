@@ -9,7 +9,9 @@ using UnityEngine.Video;
 [Serializable]
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] enum ChoppingStatus { START, ONGOING, STOP }
+    public InteractableType type;
+
+    enum ChoppingStatus { START, ONGOING, STOP }
 
     [SerializeField] protected float maxDistance;
     [SerializeField] protected ItemType requiredTool;

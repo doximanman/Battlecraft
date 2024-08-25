@@ -91,9 +91,10 @@ public class MetaLogic : MonoBehaviour
         pauseMenuEnabled = false;
     }
 
-    public void Quit()
+    public void SaveAndQuit()
     {
         ClosePauseMenu();
+        DataManager.instance.Save();
         sceneLoader.Load(SceneLoader.mainMenuScene);
     }
 }
