@@ -40,7 +40,7 @@ public class InventoryLogic : MonoBehaviour
     [InspectorName("Darken Hotbar Object")]
     [SerializeField] private GameObject _darkenHotbar;
 
-    private void Start()
+    private void Awake()
     {
         personalInventory = _personalInventory;
         externalInventory = _externalInventory;
@@ -48,7 +48,10 @@ public class InventoryLogic : MonoBehaviour
         chestInventory = _chestInventory;
         mainInventory = _mainInventory;
         darkenHotbar = _darkenHotbar;
+    }
 
+    private void Start()
+    {
         responsible = Responsible.CRAFTING;
 
         KeyInput.instance.onInventory += (down,_,_) =>

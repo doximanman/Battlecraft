@@ -14,13 +14,11 @@ public class DroppedStacksManager : MonoBehaviour
     public Func<Vector2> dropPosition = null;
     public Func<Vector2> dropVelocity=null;
 
-    [InspectorName("Instance")]
-    [SerializeField] private DroppedStacksManager _instance;
     [SerializeReference] public static DroppedStacksManager instance;
 
-    private void OnValidate()
+    private void Awake()
     {
-        instance = _instance;
+        instance = this;
     }
 
     void FixedUpdate()

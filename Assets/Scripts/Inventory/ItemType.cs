@@ -59,6 +59,7 @@ public class PlacableProps
     }
 }
 
+[Serializable]
 [CreateAssetMenu(menuName = "Scriptable object/Item")]
 public class ItemType : ScriptableObject
 {

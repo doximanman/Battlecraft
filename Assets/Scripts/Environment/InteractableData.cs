@@ -5,7 +5,18 @@ using UnityEngine;
 
 
 [Serializable]
-public enum InteractableType { ICE_TREE1, ICE_TREE2, ICE_TREE3, LAVENDAR, ORANGE_BUSH, PLAINS_TREE, PLAINS_TREE2 }
+public enum InteractableType { 
+    ICE_TREE1,
+    ICE_TREE2,
+    ICE_TREE3,
+    LAVENDAR,
+    ORANGE_BUSH,
+    PLAINS_TREE,
+    PLAINS_TREE2,
+    CHEST,
+    FURNACE,
+    CRAFTING_BENCH
+}
 
 [Serializable]
 public class InteractableData
@@ -13,6 +24,7 @@ public class InteractableData
     public InteractableType type;
     public float[] position;
     public float[] scale;
+    public string internalData;
 
     public InteractableData(Interactable interactable)
     {
@@ -29,5 +41,7 @@ public class InteractableData
         scale[0] = interactable.transform.localScale.x;
         scale[1] = interactable.transform.localScale.y;
         scale[2] = interactable.transform.localScale.z;
+
+        internalData = interactable.SerializeData();
     }
 }

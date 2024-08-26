@@ -50,10 +50,10 @@ public class Interactables : MonoBehaviour
         // destroy the children!!
         while(transform.childCount > 0)
         {
-            if(Application.isEditor)
+            //if(Application.isEditor)
                 DestroyImmediate(transform.GetChild(0).gameObject);
-            else
-                Destroy(transform.GetChild(0).gameObject);
+            //else
+            //    Destroy(transform.GetChild(0).gameObject);
         }
         transform.DetachChildren();
         interactables = new();
@@ -72,14 +72,13 @@ public class Interactables : MonoBehaviour
             GameObject typePrefab = GetPrefab(interactableData.type);
             Interactable interactable = Instantiate(typePrefab,transform).GetComponent<Interactable>();
             interactable.name = typePrefab.name;
+            interactable.DeserializeData(interactableData.internalData);
 
             Vector3 position = new(interactableData.position[0], interactableData.position[1], interactableData.position[2]);
             Vector3 scale = new(interactableData.scale[0], interactableData.scale[1], interactableData.scale[2]);
 
             interactable.transform.position = position;
             interactable.transform.localScale = scale;
-
-            interactables.Add(interactable);
         }
     }
 
@@ -104,14 +103,22 @@ public class Interactables : MonoBehaviour
             GameObject typePrefab = GetPrefab(interactableData.type);
             Interactable interactable = Instantiate(typePrefab, transform).GetComponent<Interactable>();
             interactable.name = typePrefab.name;
+            interactable.DeserializeData(interactableData.internalData);
 
             Vector3 position = new(interactableData.position[0], interactableData.position[1], interactableData.position[2]);
             Vector3 scale = new(interactableData.scale[0], interactableData.scale[1], interactableData.scale[2]);
 
             interactable.transform.position = position;
             interactable.transform.localScale = scale;
-
-            interactables.Add(interactable);
         }
+    }
+
+    [ContextMenu("Save Default World")]
+    public void SaveDefault()
+    {
+        // create InteractableData for every Interactable
+        InteractableData[] data = interactables.Select(interactable => new InteractableData(interactable)).ToArray();
+
+        WorldSaver.SaveWorld(data,true);
     }
 }

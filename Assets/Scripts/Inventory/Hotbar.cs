@@ -71,10 +71,11 @@ public class Hotbar : MonoBehaviour
     {
         // if paused don't do anything
         if (MetaLogic.paused || InventoryLogic.inventoryIsOpen || MetaLogic.mouseDownOnBlock) return;
-
-
+        
         // if selected slot has a stack and mouse is pressed
-        if(selectedSlot != null && Input.GetMouseButtonDown(0) && selectedSlot.TryGetStack(out ItemStack stack))
+        if(selectedSlot != null
+            && Input.GetMouseButtonDown(0)
+            && selectedSlot.TryGetStack(out ItemStack stack))
         {
             OnItemUse?.Invoke(stack);
             /*if(stackData.count == 0)
