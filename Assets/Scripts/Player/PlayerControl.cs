@@ -218,7 +218,7 @@ public class PlayerControl : MonoBehaviour
     {
         // move up so that the entity is off the ground
         isMoving = true;
-        Vector3 moveUp = new(0.1f * force.x, 0.1f * force.y, 0);
+        Vector3 moveUp = new(0,0.1f * force.y, 0);
         transform.position += moveUp;
         // then apply the force, with random knockback
         System.Random rand = new();

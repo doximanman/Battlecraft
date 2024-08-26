@@ -27,11 +27,13 @@ public class GameTree : Interactable
 
     public override void OnFinishChopping()
     {
-        // time has passed - break the tree and add wood and sticks to inventory.
-        InventoryLogic.personalInventory.AddItems(InteractableConstants.wood,
+        // time has passed - break the tree and drop wood and sticks.
+        StackData wood = new(InteractableConstants.wood,
             Mathf.FloorToInt(length / InteractableConstants.lengthToWood));
-        InventoryLogic.personalInventory.AddItems(InteractableConstants.sticks,
+        StackData sticks = new(InteractableConstants.sticks,
             Mathf.FloorToInt(width / InteractableConstants.widthToSticks));
+        DroppedStacksManager.instance.Drop(wood, transform.position);
+        DroppedStacksManager.instance.Drop(sticks, transform.position);
 
         // destroy the tree world object
         Destroy(gameObject);

@@ -9,7 +9,6 @@ public class SceneLoader : MonoBehaviour
     public static int mainMenuScene = 0;
 
     public float rotateSpeed;
-    public float updateRate;
 
     [SerializeField] private Canvas canvas;
     public VisualSlider loadingBar;
@@ -27,18 +26,17 @@ public class SceneLoader : MonoBehaviour
         loadingCircle.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// loading the world takes time
+    /// therefore, show a loading screen
+    /// </summary>
     public void LoadPlaying()
     {
         canvas.gameObject.SetActive(true);
-        updateInterval = 1.0f / updateRate;
-        waitForInterval = new WaitForSeconds(updateInterval);
 
         StartCoroutine(LoadPlayingScene());
     }
 
-
-    private float updateInterval;
-    private WaitForSeconds waitForInterval;
     private IEnumerator LoadPlayingScene()
     {
         AsyncOperation loadScene = SceneManager.LoadSceneAsync(playingScene);
@@ -47,7 +45,16 @@ public class SceneLoader : MonoBehaviour
         {
             loadingBar.Values = (loadScene.progress, 1);
 
-            yield return waitForInterval;
+            yield return null;
         }
+    }
+
+    /// <summary>
+    /// main menu loading is immediate.
+    /// therefore, use 
+    /// </summary>
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(mainMenuScene);
     }
 }
