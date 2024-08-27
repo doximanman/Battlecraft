@@ -44,6 +44,9 @@ public class Player : IHitListener
             else if (stack.Type.food)
                 Consume(stack);
         };
+
+        DataManager.instance.onSave += Save;
+        DataManager.instance.onLoad += Load;
     }
 
     public float swingDelay;
@@ -210,6 +213,35 @@ public class Player : IHitListener
     public void RemoveSwingListener(IHitListener listener)
     {
         hitListeners.Remove(listener);
+    }
+
+    [ContextMenu("Save As Default")]
+    public void SaveDefault()
+    {
+        PlayerData data = new(this);
+        PlayerSaver.SavePlayer(data,true);
+    }
+
+    [ContextMenu("Load From Default")]
+    public void LoadDefault()
+    {
+        PlayerData data = PlayerSaver.LoadPlayer(true);
+        data.LoadInto(this);
+    }
+
+
+    [ContextMenu("Save To File")]
+    public void Save()
+    {
+        PlayerData data = new(this);
+        PlayerSaver.SavePlayer(data);
+    }
+
+    [ContextMenu("Load From File")]
+    public void Load()
+    {
+        PlayerData data = PlayerSaver.LoadPlayer();
+        data.LoadInto(this);
     }
 
     private void OnDrawGizmos()

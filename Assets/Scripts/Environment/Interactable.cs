@@ -19,8 +19,7 @@ public abstract class Interactable : MonoBehaviour
         playerControl=Player.current.GetComponent<PlayerControl>();
         maxDistance = InteractableConstants.maxInteractDistance;
 
-        if(!Interactables.current.interactables.Contains(this))
-            Interactables.current.interactables.Add(this);
+        Interactables.current.interactables.Add(this);
     }
 
     // gives the ability to an interactable to save internal data
@@ -28,7 +27,7 @@ public abstract class Interactable : MonoBehaviour
     /// save internal data of the interactable
     /// </summary>
     /// <returns>serialization of the internal data</returns>
-    public virtual string SerializeData()
+    public virtual string SaveInternal()
     {
         return "";
     }
@@ -37,7 +36,7 @@ public abstract class Interactable : MonoBehaviour
     /// restore internal state from serialized internal data
     /// </summary>
     /// <param name="data">the serialized data</param>
-    public virtual void DeserializeData(string data) { }
+    public virtual void LoadInternal(string data) { }
 
     public bool CloseEnough()
     {
@@ -168,6 +167,6 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnDestroy()
     {
-        Interactables.current.OnRemove(this);
+        Interactables.current.interactables.Remove(this);
     }
 }

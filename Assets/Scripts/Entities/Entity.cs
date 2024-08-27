@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -11,6 +13,8 @@ using UnityEditor;
 
 public class Entity : IHitListener
 {
+
+    public EntityType type;
 
     public string entityName;
 
@@ -62,6 +66,8 @@ public class Entity : IHitListener
         transform.position += Vector3.up * 0.1f;
 
         currentAttackDelay = attackDelay;
+
+        Entities.current.entities.Add(this);
     }
 
     private float RandomFloat(System.Random rand, float min, float max) => (float) rand.NextDouble() * (max - min) + min;
@@ -169,6 +175,12 @@ public class Entity : IHitListener
     {
         Destroy(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        Player.current.RemoveSwingListener(this);
+        Entities.current.entities.Remove(this);
+    }
 }
 
 #if UNITY_EDITOR
@@ -180,8 +192,8 @@ public class Entity : IHitListener
 [CustomEditor(typeof(Entity))]
 public class EntityEditor : Editor
 {
+    SerializedProperty entityType;
     SerializedProperty entityName;
-
     SerializedProperty droppedItems;
     SerializedProperty knockback;
     SerializedProperty hostile;
@@ -202,6 +214,7 @@ public class EntityEditor : Editor
     public override VisualElement CreateInspectorGUI()
     {
         VisualElement returnValue= base.CreateInspectorGUI();
+        entityType = serializedObject.FindProperty("type");
         entityName = serializedObject.FindProperty("entityName");
         droppedItems = serializedObject.FindProperty("droppedItems");
         knockback = serializedObject.FindProperty("knockback");
@@ -227,6 +240,7 @@ public class EntityEditor : Editor
         serializedObject.Update();
         EditorGUI.BeginChangeCheck();
 
+        EditorGUILayout.PropertyField(entityType);
         EditorGUILayout.PropertyField(entityName);
         EditorGUILayout.PropertyField(droppedItems);
         EditorGUILayout.PropertyField(knockback);
