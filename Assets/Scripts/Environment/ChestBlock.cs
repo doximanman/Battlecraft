@@ -55,12 +55,12 @@ public class ChestBlock : Interactable
         Destroy(gameObject);
     }
 
-    public override string SerializeData()
+    public override string SaveInternal()
     {
         return JsonUtility.ToJson(chestItems);
     }
 
-    public override void DeserializeData(string data)
+    public override void LoadInternal(string data)
     {
         if (data != "")
             chestItems = JsonUtility.FromJson<InventoryData>(data);

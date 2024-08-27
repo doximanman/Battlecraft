@@ -12,6 +12,11 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
         this.slots = new(slots);
     }
 
+    public int Capacity()
+    {
+        return this.slots.Count;
+    }
+
     // returns the slot item was added in3
     // adds 1 of the item
     public InventorySlot AddItem(ItemType item)
@@ -232,9 +237,9 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     }
 
     #region Inspector
-    public InventorySlot slot;
-    public int addCount;
-    public ItemType itemToAdd;
+    [SerializeField] private InventorySlot slot;
+    [SerializeField] private int addCount;
+    [SerializeField] private ItemType itemToAdd;
     [ContextMenu("Add Item")]
     public void AddCurrentItem()
     {

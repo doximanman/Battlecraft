@@ -22,26 +22,25 @@ public enum InteractableType {
 public class InteractableData
 {
     public InteractableType type;
-    public float[] position;
-    public float[] scale;
+    public Vector3 position;
+    public Vector3 scale;
+    public Quaternion rotation;
     public string internalData;
 
     public InteractableData(Interactable interactable)
     {
         type = interactable.type;
+        position = interactable.transform.position;
+        scale = interactable.transform.localScale;
+        rotation = interactable.transform.rotation;
+        internalData = interactable.SaveInternal();
+    }
 
-        position = new float[3];
-
-        position[0] = interactable.transform.position.x;
-        position[1] = interactable.transform.position.y;
-        position[2] = interactable.transform.position.z;
-
-        scale = new float[3];
-
-        scale[0] = interactable.transform.localScale.x;
-        scale[1] = interactable.transform.localScale.y;
-        scale[2] = interactable.transform.localScale.z;
-
-        internalData = interactable.SerializeData();
+    public void LoadInto(Interactable interactable)
+    {
+        interactable.type = type;
+        interactable.transform.SetPositionAndRotation(position, rotation);
+        interactable.transform.localScale = scale;
+        interactable.LoadInternal(internalData);
     }
 }
