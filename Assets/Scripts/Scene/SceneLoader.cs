@@ -8,22 +8,13 @@ public class SceneLoader : MonoBehaviour
     public static int playingScene = 1;
     public static int mainMenuScene = 0;
 
-    public float rotateSpeed;
-
     [SerializeField] private Canvas canvas;
     public VisualSlider loadingBar;
-    [SerializeField] private RectTransform loadingCircle;
 
 
     private void Start()
     {
         canvas.gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
-        // spin the circle
-        loadingCircle.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
     /// <summary>
