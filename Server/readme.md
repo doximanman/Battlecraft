@@ -2,11 +2,19 @@
 The server uses websockets to communicate with clients.
 
 How to run:<br/>
-```angular2html
-python3 server.py [ip] [port]
-```
+<pre>
+python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>]
+</pre>
 
 ## API:
+
+* Message ping - ping to check if the server is a valid battlecraft server
+* request:
+  * type: "ping"
+* response:
+  * success: true
+
+
 * Register user - register a user. socket is closed on response.
   * request:
     * type: "user"
@@ -31,7 +39,7 @@ python3 server.py [ip] [port]
   * response:
     * on success:
       * success: true
-      * JWT: [token]
+      * token: [token]
     * on failure:
       * success: false
       * message: [error message]

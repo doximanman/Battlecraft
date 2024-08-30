@@ -1,30 +1,27 @@
-from server import key
 import service.user as user
-import jwt
-from hashlib import sha256
 import json
 
 async def login(websocket,request):
     username = request['username']
     password = request['password']
 
-    success = user.verify_user(username,password)
+    success = await user.verify_user(username,password)
 
     if not success:
-        resultJson = {
+        await websocket.send(json.dumps({
             'success': False,
             'message': 'Incorrect credentials'
-        }
-        websocket.send(json.dumps(resultJson))
+        }))
         return
 
-    passwordHash = sha256(password.encode()).hexdigest()
+    token = await user.gen_token(username,password)
 
-    # create JWT token
-    token = jwt.encode({
-        'username': username,
-        'passwordHash': passwordHash,
-    },key,algorithm='HS256')
+    print(f'User logged in: {username}')
+
+    await websocket.send(json.dumps({
+        'success': True,
+        'token': token
+    }))
 
 
 
@@ -33,6 +30,12 @@ async def login(websocket,request):
 async def register(websocket,request):
     username = request['username']
     password = request['password']
+
+    result = await user.create_user(username,password)
+
+    print(f'User created: {username}')
+
+    await websocket.send(json.dumps(result))
 
     return
 

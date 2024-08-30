@@ -1,5 +1,7 @@
 import asyncio
 import json
+
+import websockets.asyncio.server
 from websockets.asyncio.server import serve
 
 
@@ -44,27 +46,35 @@ if len(sys.argv) >= 5:
 
 print(f'Mongodb address: {mongo_ip}:{mongo_port}')
 
-import pymongo
+import globals
+from motor.motor_asyncio import AsyncIOMotorClient
 print('Connecting to mongodb... ')
-mongo_client = pymongo.MongoClient(mongo_ip,mongo_port)
-db = mongo_client['Battlecraft']
+mongo_client = AsyncIOMotorClient(mongo_ip,mongo_port)
+globals.db = mongo_client['Battlecraft']
 print('Connected')
 
 
-# get key from environment variables
-import os
-key = os.getenv('BATTLECRAFT_JWT_KEY')
-if key is None:
-    print('Run the key setup script before running the server')
-    exit(1)
+# set secret jwt key if not set
+import keyring
+globals.key = keyring.get_password('battlecraft','jwt_key')
+if globals.key is None:
+    import secrets
+    globals.key = secrets.token_bytes(32).hex()
+    keyring.set_password('battlecraft','jwt_key',globals.key)
 
 
 import router
-async def sendToRouter(websocket):
+async def sendToRouter(websocket: websockets.asyncio.server.ServerConnection):
+    print('Connection from '+websocket.remote_address[0] + ":" + str(websocket.remote_address[1]))
     message = await websocket.recv()
     messageObject = json.loads(message)
     requestType = messageObject['type']
-    if requestType == 'user':
+    if requestType == 'ping':
+        print(f'ping from {websocket.remote_address[0]}:{websocket.remote_address[1]}')
+        await websocket.send(json.dumps({
+            'success': True
+        }))
+    elif requestType == 'user':
         await router.user(websocket,messageObject)
     elif requestType == 'player':
         await router.player(websocket,messageObject)
@@ -75,4 +85,7 @@ async def sendToRouter(websocket):
 
 async def main():
     async with serve(sendToRouter,ip,port):
+        print('Listening for clients...')
         await asyncio.get_running_loop().create_future()
+
+asyncio.run(main())

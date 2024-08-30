@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System.Net.WebSockets;
 using UnityEngine;
 
 public class Register : MonoBehaviour
@@ -10,7 +11,7 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField passwordConfirmField;
     [SerializeField] private TMP_Text errorField;
 
-    public void TryRegister()
+    public async void TryRegister()
     {
         string username = usernameField.text;
         string password = passwordField.text;
@@ -24,7 +25,13 @@ public class Register : MonoBehaviour
         }
         else
         {
-            Debug.Log("Register with: " + username + " , " + password);
+            //Debug.Log("Register with: " + username + " , " + password);
+
+            (bool success,string usernameOrMessage) = await UserAPI.Register(username, password);
+            if (success)
+                errorField.text = "Successfully registered!";
+            else
+                errorField.text = usernameOrMessage;
         }
     }
 
