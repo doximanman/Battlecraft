@@ -6,6 +6,8 @@ async def user(websocket,request):
         await controller.login(websocket,request)
     elif subtype == 'register':
         await controller.register(websocket,request)
+    elif subtype == 'login_with_token':
+        await controller.login_with_token(websocket,request)
     else:
         await controller.default(websocket,request)
 

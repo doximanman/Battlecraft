@@ -8,7 +8,29 @@ using System.Threading.Tasks;
 
 public static class UserAPI
 { 
-    public async static Task<(bool success, string JWTOrMessage)> Login(string username,string password)
+    public async static Task<(bool success, string error)> RestoreLogin(string token)
+    {
+        JObject request = new()
+        {
+            ["type"] = "user",
+            ["subtype"] = "login_with_token",
+            ["token"] = token
+        };
+
+        string responseJson = await ServerClient.Request(request.ToString());
+
+        JObject response;
+        try { response = JObject.Parse(responseJson); }
+        catch { return (false,responseJson); }
+
+        if ((bool)response["success"])
+            return (true, response["username"].ToString());
+        else
+            return (false, response["message"].ToString());
+
+    }
+
+    public async static Task<(bool success, string TokenOrMessage)> Login(string username,string password)
     {
         JObject request = new()
         {
@@ -18,7 +40,6 @@ public static class UserAPI
             ["password"] = password
         };
 
-        ServerClient.SyncAddressWithLocal();
         string responseJson = await ServerClient.Request(request.ToString());
 
         // if invalid json - probably means error
@@ -45,7 +66,6 @@ public static class UserAPI
             ["password"] = password
         };
 
-        ServerClient.SyncAddressWithLocal();
         string responseJson = await ServerClient.Request(request.ToString());
 
         // if invalid json - probably means error

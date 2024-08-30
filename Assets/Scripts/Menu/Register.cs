@@ -9,7 +9,12 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField usernameField;
     [SerializeField] private TMP_InputField passwordField;
     [SerializeField] private TMP_InputField passwordConfirmField;
-    [SerializeField] private TMP_Text errorField;
+    [SerializeField] private Feedback feedback;
+
+    private void OnEnable()
+    {
+        feedback.Clear();
+    }
 
     public async void TryRegister()
     {
@@ -18,10 +23,11 @@ public class Register : MonoBehaviour
         string confirm = passwordConfirmField.text;
 
         ClearFields();
+        feedback.StartLoading();
 
         if(password != confirm)
         {
-            errorField.text = "Passwords don't match";
+            feedback.SetFeedback("Passwords don't match");
         }
         else
         {
@@ -29,9 +35,9 @@ public class Register : MonoBehaviour
 
             (bool success,string usernameOrMessage) = await UserAPI.Register(username, password);
             if (success)
-                errorField.text = "Successfully registered!";
+                feedback.SetFeedback("Successfully registered!");
             else
-                errorField.text = usernameOrMessage;
+                feedback.SetFeedback(usernameOrMessage);
         }
     }
 
@@ -40,7 +46,7 @@ public class Register : MonoBehaviour
         usernameField.text = "";
         passwordField.text = "";
         passwordConfirmField.text = "";
-        errorField.text = "";
+        feedback.SetFeedback("");
     }
 
     private void OnDisable()

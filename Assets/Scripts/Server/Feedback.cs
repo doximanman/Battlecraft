@@ -8,10 +8,10 @@ public class Feedback : MonoBehaviour
     [SerializeField] private GameObject spinningCircle;
     [SerializeField] private TMP_Text feedbackText;
 
-    private void OnEnable()
+    public void Clear()
     {
-        StopLoading();
-        SetFeedback(string.Empty);
+        spinningCircle.SetActive(false);
+        feedbackText.text = string.Empty;
     }
 
     public void StartLoading()

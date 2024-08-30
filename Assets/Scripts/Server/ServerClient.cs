@@ -6,13 +6,17 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public static class ServerClient
 {
+    public delegate void OnConnect(bool connected);
+
     private static string ip;
     private static int port;
+    public static OnConnect onConnect;
 
-    public static string ConnectionString(string ip, int port) => $"ws://{ip}:{port}";
+    public static string ConnectionString => $"ws://{ip}:{port}";
 
     public static void SyncAddressWithLocal()
     {
@@ -25,58 +29,92 @@ public static class ServerClient
         }
     }
 
+    private static bool connected;
+    private static bool Connected
+    {
+        get => connected;
+        set {
+            if (connected == value) return;
+
+            connected = value;
+            onConnect?.Invoke(connected);
+        }
+    }
+    private static ClientWebSocket client;
+    public async static Task<(bool success, string errorMessage)> Connect()
+    {
+        client = new ClientWebSocket();
+        Uri serverUri;
+        try { serverUri = new(ConnectionString); }
+        catch { return (false,"Invalid server address"); }
+
+        try { await client.ConnectAsync(serverUri, CancellationToken.None); }
+        catch { return (false,"Couldn't connect to server"); }
+
+        Connected = true;
+        return (true,string.Empty);
+    }
+
+    public async static Task<string> Disconnect()
+    {
+        if (!Connected)
+            return "Not connected";
+
+        try {
+            await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "request to disconnect", CancellationToken.None);
+        }
+        catch {
+            if (client.State != WebSocketState.Open)
+                Connected = false;
+            return "Error while disconnecting";
+        }
+
+        Connected = false;
+        return "Disconnected";
+    }
+
     /// <summary>
-    /// One request, with one response.<br/>
-    /// If different ip or port are provided, it will use
-    /// the given ip and port.<br/>
-    /// meaning: if one is provided, the other must too.
+    /// Send a request using THE CONNECTED client.<br/>
+    /// (must be connected. use Connect function.)
     /// </summary>
     /// <param name="request">json of the request</param>
-    /// <param name="ip">use a different ip than the saved one</param>
-    /// <param name="port">use a different port than the saved one</param>
     /// <returns>json of the response</returns>
-    public async static Task<string> Request(string request, string ip ="", int port = -1)
+    public async static Task<string> Request(string request)
     {
-        string connectionString;
-        if (ip != "")
-            connectionString = ConnectionString(ip, port);
-        else
-            connectionString = ConnectionString(ServerClient.ip, ServerClient.port);
+        if (client == null)
+            return "Not connected";
 
-
-        ClientWebSocket client = new();
-        Uri serverUri;
-        try { serverUri = new(connectionString); }
-        catch { return "Invalid server address"; }
-
-        // connect to server
-        try { await client.ConnectAsync(serverUri, CancellationToken.None); }
-        catch { return "Couldn't connect to server"; }
         // send json as byte array
         byte[] buffer = Encoding.UTF8.GetBytes(request);
         // 'true' means this is the last message
         try { await client.SendAsync(new(buffer), WebSocketMessageType.Text, true, CancellationToken.None); }
-        catch { return "Couldn't send to server"; }
+        catch {
+            // notify of possible disconnect
+            if (client.State != WebSocketState.Open)
+                Connected = false;
+            return "Couldn't send to server";
+        }
 
+        // read until end of message
         List<byte> preResponse = new();
-        // reuse the same buffer (we don't need it anymore)
+        // reuse the same buffer
         buffer = new byte[1024];
         WebSocketReceiveResult result;
         do
         {
             try { result = await client.ReceiveAsync(new(buffer), CancellationToken.None); }
-            catch { return "Couldn't receive from server"; }
+            catch {
+                if(client.State != WebSocketState.Open)
+                    Connected = false;
+                return "Couldn't receive from server";
+            }
             preResponse.AddRange(buffer[0..result.Count]);
         } while (!result.EndOfMessage);
 
-        await client.CloseAsync(WebSocketCloseStatus.NormalClosure,"response received",CancellationToken.None);
-
         // convert to string
-        string response = Encoding.UTF8.GetString(preResponse.ToArray());
-
-
-
-        return response;
+        return Encoding.UTF8.GetString(preResponse.ToArray());
 
     }
+
+
 }
