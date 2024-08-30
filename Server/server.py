@@ -65,23 +65,26 @@ if globals.key is None:
 
 import router
 async def sendToRouter(websocket: websockets.asyncio.server.ServerConnection):
-    print('Connection from '+websocket.remote_address[0] + ":" + str(websocket.remote_address[1]))
-    message = await websocket.recv()
-    messageObject = json.loads(message)
-    requestType = messageObject['type']
-    if requestType == 'ping':
-        print(f'ping from {websocket.remote_address[0]}:{websocket.remote_address[1]}')
-        await websocket.send(json.dumps({
-            'success': True
-        }))
-    elif requestType == 'user':
-        await router.user(websocket,messageObject)
-    elif requestType == 'player':
-        await router.player(websocket,messageObject)
-    elif requestType == 'world':
-        await router.world(websocket,messageObject)
-    else:
-        await router.default(websocket,messageObject)
+    print('connection from '+websocket.remote_address[0] + ":" + str(websocket.remote_address[1]))
+    try:
+        async for message in websocket:
+            messageObject = json.loads(message)
+            requestType = messageObject['type']
+            if requestType == 'ping':
+                print(f'ping from {websocket.remote_address[0]}:{websocket.remote_address[1]}')
+                await websocket.send(json.dumps({
+                    'success': True
+                }))
+            elif requestType == 'user':
+                await router.user(websocket,messageObject)
+            elif requestType == 'player':
+                await router.player(websocket,messageObject)
+            elif requestType == 'world':
+                await router.world(websocket,messageObject)
+            else:
+                await router.default(websocket,messageObject)
+    except websockets.ConnectionClosed:
+        print(f'client disconnected at {websocket.remote_address[0]}:{websocket.remote_address[1]}')
 
 async def main():
     async with serve(sendToRouter,ip,port):

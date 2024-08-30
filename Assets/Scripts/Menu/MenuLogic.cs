@@ -38,6 +38,7 @@ public class MenuLogic : MonoBehaviour
         tabStack = new();
         // default tab is the buttons one
         OpenTab(TabType.MAIN);
+
     }
 
     private void Update()

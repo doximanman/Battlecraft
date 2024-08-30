@@ -45,12 +45,15 @@ public class ServerAddress : MonoBehaviour
         return (PlayerPrefs.GetString("IP"), PlayerPrefs.GetInt("Port"));
     }
 
-    public async void Validate()
+    public async void Connect()
     {
-        // check validity of ip format
+        (string ip, int port) = GetAddress();
+        SetAddress(ip, port);
+
+        // check validity of ip format locally
+        // (if invalid, why involve server?)
         feedback.StartLoading();
 
-        (string oldIP, int oldPort) = GetAddress();
 
         string address = addressInput.text;
 
@@ -80,13 +83,19 @@ public class ServerAddress : MonoBehaviour
         }
 
 
-        // send request to server with this
-        // as the success function:
-        (bool result, string error) = await ServerAPI.VerifyServer(ipPort[0],tryPort);
-        if (result)
+        ServerClient.SyncAddressWithLocal();
+        (bool success, string error) = await ServerClient.Connect();
+        if (!success)
+        {
+            feedback.SetFeedback(error);
+            return;
+        }
+            
+        (success, error) = await ServerAPI.VerifyServer();
+        if (success)
         {
             SetAddress(ipPort[0], tryPort);
-            feedback.SetFeedback("Server is valid!");
+            feedback.SetFeedback("Connected");
         }
         else
         {

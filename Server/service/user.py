@@ -26,6 +26,33 @@ async def gen_token(username: str,password: str):
         'passwordHash': passwordHash,
     },key, algorithm='HS256')
 
+async def verify_token(token: str):
+
+    try:
+        user = jwt.decode(token, key, algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return {
+            'success': False,
+            'message': 'Expired token'
+        }
+    except jwt.InvalidTokenError:
+        return {
+            'success': False,
+            'message': 'Invalid token'
+        }
+
+    exists = await user_exists(user['username'])
+    if exists:
+        return {
+            'success': True,
+            'username': user['username']
+        }
+    else:
+        return {
+            'success': False,
+            'message': 'User not found'
+        }
+
 async def user_exists(username: str):
     result = await users_db.find_one({'username': username})
     return result is not None
