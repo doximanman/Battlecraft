@@ -1,6 +1,7 @@
 import string
 from hashlib import sha256
-from server import db
+import jwt
+from globals import db,key
 import re
 
 users_db = db['Users']
@@ -16,6 +17,15 @@ async def verify_user(username: str, password: str):
 
     return result is not None
 
+async def gen_token(username: str,password: str):
+
+    passwordHash = sha256(password.encode()).hexdigest()
+
+    return jwt.encode({
+        'username': username,
+        'passwordHash': passwordHash,
+    },key, algorithm='HS256')
+
 async def user_exists(username: str):
     result = await users_db.find_one({'username': username})
     return result is not None
@@ -26,14 +36,14 @@ async def create_user(username: str,password: str):
     # at most 20 characters
     if len(username) > 20 or len(password) > 20:
         return {
-            "status": False,
+            "success": False,
             "message": "Credentials must be at most 20 characters long"
         }
 
     # at least 8 characters
     if len(username) < 8 or len(password) < 8:
         return{
-            'status': False,
+            'success': False,
             'message': 'Credentials must be at least 8 characters long'
         }
 
@@ -42,7 +52,7 @@ async def create_user(username: str,password: str):
     username_check = re.fullmatch(check,username)
     if username_check is None:
         return{
-            'status': False,
+            'success': False,
             'message': 'Username can only have letters, numbers and the symbols - and _'
         }
 
@@ -51,7 +61,7 @@ async def create_user(username: str,password: str):
     password_check = re.fullmatch(check,password)
     if password_check is None:
         return{
-            'status': False,
+            'success': False,
             'message': 'Password can only have letters, numbers and symbols'
         }
 
@@ -60,14 +70,14 @@ async def create_user(username: str,password: str):
     letter, number, symbol = re.search(checkLetter,password), re.search(checkNumber,password), re.search(checkSymbol,password)
     if letter is None or number is None or symbol is None:
         return{
-            'status': False,
+            'success': False,
             "message": "Password must contain at least one letter, number and symbol"
         }
 
     # check user doesn't exist
-    if user_exists(username):
+    if await user_exists(username):
         return{
-            'status': False,
+            'success': False,
             "message": "User already exists"
         }
 
@@ -78,6 +88,6 @@ async def create_user(username: str,password: str):
     })
 
     return{
-        'status': True,
+        'success': True,
         'username': username
     }

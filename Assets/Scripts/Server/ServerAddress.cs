@@ -9,8 +9,7 @@ using UnityEditor.Experimental.GraphView;
 public class ServerAddress : MonoBehaviour
 {
     [SerializeField] private TMP_InputField addressInput;
-    [SerializeField] private GameObject loadingCircle;
-    [SerializeField] private TMP_Text errorText;
+    [SerializeField] private Feedback feedback;
 
     private void OnEnable()
     {
@@ -23,21 +22,6 @@ public class ServerAddress : MonoBehaviour
         {
             addressInput.text = string.Empty;
         }
-
-        loadingCircle.SetActive(false);
-        errorText.text = string.Empty;
-    }
-
-    public void StartLoading()
-    {
-        loadingCircle.SetActive(true);
-        errorText.text = string.Empty;
-    }
-
-    public void ShowMessage(string message)
-    {
-        loadingCircle.SetActive(false);
-        errorText.text = message;
     }
 
     private void SetAddress(string ip,int port)
@@ -61,42 +45,52 @@ public class ServerAddress : MonoBehaviour
         return (PlayerPrefs.GetString("IP"), PlayerPrefs.GetInt("Port"));
     }
 
-    public void Validate()
+    public async void Validate()
     {
-        StartLoading();
+        // check validity of ip format
+        feedback.StartLoading();
+
+        (string oldIP, int oldPort) = GetAddress();
 
         string address = addressInput.text;
 
         string[] ipPort = address.Split(':');
         if(ipPort.Length != 2)
         {
-            ShowMessage("Invalid ip address and port");
+            feedback.SetFeedback("Invalid ip address and port");
             return;
         }
 
         if (!IPAddress.TryParse(ipPort[0],out IPAddress _))
         {
-            ShowMessage("Invalid ip address");
+            feedback.SetFeedback("Invalid ip address");
             return;
         }
 
         if (!int.TryParse(ipPort[1],out int tryPort))
         {
-            ShowMessage("Invalid port");
+            feedback.SetFeedback("Invalid port");
             return;
         }
 
         if(tryPort < IPEndPoint.MinPort || tryPort > IPEndPoint.MaxPort)
         {
-            ShowMessage("Port out of range");
+            feedback.SetFeedback("Port out of range");
             return;
         }
 
 
         // send request to server with this
         // as the success function:
-        SetAddress(ipPort[0],tryPort);
-        ShowMessage("Success!");
+        (bool result, string error) = await ServerAPI.VerifyServer(ipPort[0],tryPort);
+        if (result)
+        {
+            SetAddress(ipPort[0], tryPort);
+            feedback.SetFeedback("Server is valid!");
+        }
+        else
+        {
+            feedback.SetFeedback(error);
+        }
     }
-
 }

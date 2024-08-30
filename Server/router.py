@@ -1,13 +1,13 @@
-import controller
+import controller.user as controller
 
 async def user(websocket,request):
     subtype = request['subtype']
     if subtype == 'login':
-        await controller.user.login(websocket,request)
+        await controller.login(websocket,request)
     elif subtype == 'register':
-        await controller.user.register(websocket,request)
+        await controller.register(websocket,request)
     else:
-        await controller.user.default(websocket,request)
+        await controller.default(websocket,request)
 
 async def player(websocket,request):
     return
