@@ -9,11 +9,9 @@ python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>
 ## API:
 
 ### Ping -
-* Ping - ping to check if the server is a valid battlecraft server<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;* request:<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* type: "ping"<br/>
-  * response:
-    * success: true
+* Ping - ping to check if the server is a valid battlecraft server
+  * request: "ping"
+  * response: "pong"
 
 ### User -
 
@@ -51,7 +49,7 @@ python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>
   * request:
     * type: "user"
     * subtype: "login_with_token"
-    * token: <i>token</i>
+    * token: <i>authentication token</i>
   * response:
     * on success:
       * success: true
@@ -61,15 +59,32 @@ python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>
       * message: <i>error message</i>
 
 ### Player -
+* Retrieve Player Inventory
+  * request:
+    * type: "player"
+    * subtype: "get_data"
+    * token: <i>authentication token</i>
+  * response:
+    * if user exists and has data:
+      * success: true
+      * data: <i>player data</i>
+    * if user exists but has no data:
+      * success: true
+      * data: "" (empty string)
+    * if user doesn't exist:
+      * success: false
+      * message: <i>error message</i>
+
+
 * Save Player Inventory
   * request:
     * type: "player"
-    * subtype: "data"
-    * token: <i>token of user</i>
+    * subtype: "save_data"
+    * data: <i>player data</i>
+    * token: <i>authentication token</i>
   * response:
     * on success:
       * success: true
-      * data: <i>player data</i>
     * on failure:
       * success: false
       * message: <i>error message</i>
