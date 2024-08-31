@@ -91,7 +91,7 @@ public class ServerAddress : MonoBehaviour
             return;
         }
             
-        (success, error) = await ServerAPI.VerifyServer();
+        success = await ServerAPI.VerifyServer();
         if (success)
         {
             SetAddress(ipPort[0], tryPort);
@@ -99,7 +99,7 @@ public class ServerAddress : MonoBehaviour
         }
         else
         {
-            feedback.SetFeedback(error);
+            feedback.SetFeedback("Couldn't connect");
         }
     }
 }

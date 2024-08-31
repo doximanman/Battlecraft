@@ -30,16 +30,16 @@ public static class ServerClient
     }
 
     private static bool connected;
-    private static bool Connected
+    public static bool Connected
     {
         get => connected;
         set {
             if (connected == value) return;
-
             connected = value;
             onConnect?.Invoke(connected);
         }
     }
+
     private static ClientWebSocket client;
     public async static Task<(bool success, string errorMessage)> Connect()
     {
@@ -73,6 +73,7 @@ public static class ServerClient
         return "Disconnected";
     }
 
+    private static bool busy = false;
     /// <summary>
     /// Send a request using THE CONNECTED client.<br/>
     /// (must be connected. use Connect function.)
@@ -81,35 +82,53 @@ public static class ServerClient
     /// <returns>json of the response</returns>
     public async static Task<string> Request(string request)
     {
-        if (client == null)
-            return "Not connected";
+        if (!Connected)
+        {
+            // try to restore connection
+            (bool success,string _) = await Connect();
+            if(!success)
+                // if failed - don't try again.
+                return "Not connected";
+        }
+
+        // another request is being handled - wait.
+        while (busy)
+            await Task.Delay(25);
 
         // send json as byte array
         byte[] buffer = Encoding.UTF8.GetBytes(request);
         // 'true' means this is the last message
+        busy = true;
         try { await client.SendAsync(new(buffer), WebSocketMessageType.Text, true, CancellationToken.None); }
-        catch {
+        catch(Exception e){
+            busy = false;
+            UnityEngine.Debug.Log("At send: "+e);
             // notify of possible disconnect
             if (client.State != WebSocketState.Open)
                 Connected = false;
             return "Couldn't send to server";
         }
+        busy = false;
 
         // read until end of message
         List<byte> preResponse = new();
         // reuse the same buffer
-        buffer = new byte[1024];
+        buffer = new byte[4096];
+        busy = true;
         WebSocketReceiveResult result;
         do
         {
             try { result = await client.ReceiveAsync(new(buffer), CancellationToken.None); }
-            catch {
-                if(client.State != WebSocketState.Open)
+            catch(Exception e){
+                busy = false;
+                UnityEngine.Debug.Log("At receive: "+e);
+                if (client.State != WebSocketState.Open)
                     Connected = false;
                 return "Couldn't receive from server";
             }
-            preResponse.AddRange(buffer[0..result.Count]);
+            preResponse.AddRange(buffer.Take(result.Count));
         } while (!result.EndOfMessage);
+        busy = false;
 
         // convert to string
         return Encoding.UTF8.GetString(preResponse.ToArray());

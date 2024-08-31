@@ -8,21 +8,23 @@ using UnityEngine.UIElements;
 
 public class Login : MonoBehaviour
 {
-    public delegate void OnLogin(bool loggedIn, string username);
 
     [SerializeField] private TMP_InputField usernameField;
     [SerializeField] private TMP_InputField passwordField;
     [SerializeField] private Feedback feedback;
 
-    public static OnLogin onLogin;
 
     private void Start()
     {
         // if client is disconnected - not logged in.
-        ServerClient.onConnect += (bool connected) =>
+        ServerClient.onConnect += async (bool connected) =>
         {
-            if (!connected)
-                onLogin?.Invoke(false, string.Empty);
+            if (connected)
+                // try to restore connection
+                await TryLoginWithToken();
+            else
+                LoginStatus.Current = (false, string.Empty);
+
         };
     }
 
@@ -45,7 +47,7 @@ public class Login : MonoBehaviour
         string token = PlayerPrefs.GetString("token");
         (bool success, string username) = await UserAPI.RestoreLogin(token);
         if (success)
-            onLogin?.Invoke(success,username);
+            LoginStatus.Current = (success, username);
         
     }
 
@@ -67,11 +69,11 @@ public class Login : MonoBehaviour
         {
             PlayerPrefs.SetString("token", TokenOrMessage);
             feedback.SetFeedback($"Welcome {username}!");
-            onLogin?.Invoke(true,username);
+            LoginStatus.Current = (true, username);
         }
         else
         {
-            onLogin?.Invoke(false,string.Empty);
+            LoginStatus.Current = (false, string.Empty);
             feedback.SetFeedback(TokenOrMessage);
         }
     }

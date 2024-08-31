@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class EntitySaver
 {
-    public static string defaultEntitiesPath = Path.Combine(Application.streamingAssetsPath, "default", "ent.save");
+    public static string defaultEntitiesPath = Path.Combine(Application.streamingAssetsPath, "defaults", "ent.save");
 
     [Serializable]
     public class EntityDataList

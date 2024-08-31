@@ -28,7 +28,7 @@ async def login(websocket,request):
 async def login_with_token(websocket,request):
     token = request['token']
 
-    check_user = await user.verify_token(token)
+    check_user = await user.verify_with_token(token)
     if check_user['success']:
         print(f'User logged in: {check_user["username"]}')
     await websocket.send(json.dumps(check_user))

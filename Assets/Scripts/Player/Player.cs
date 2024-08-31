@@ -219,13 +219,13 @@ public class Player : IHitListener
     public void SaveDefault()
     {
         PlayerData data = new(this);
-        PlayerSaver.SavePlayer(data,true);
+        PlayerSaver.SavePlayerDataObject(data,true);
     }
 
     [ContextMenu("Load From Default")]
     public void LoadDefault()
     {
-        PlayerData data = PlayerSaver.LoadPlayer(true);
+        PlayerData data = PlayerSaver.LoadPlayerDataObject(true);
         data.LoadInto(this);
     }
 
@@ -234,13 +234,13 @@ public class Player : IHitListener
     public void Save()
     {
         PlayerData data = new(this);
-        PlayerSaver.SavePlayer(data);
+        PlayerSaver.SavePlayerDataObject(data);
     }
 
     [ContextMenu("Load From File")]
     public void Load()
     {
-        PlayerData data = PlayerSaver.LoadPlayer();
+        PlayerData data = PlayerSaver.LoadPlayerDataObject();
         data.LoadInto(this);
     }
 

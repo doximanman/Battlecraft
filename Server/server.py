@@ -62,20 +62,17 @@ if globals.key is None:
     globals.key = secrets.token_bytes(32).hex()
     keyring.set_password('battlecraft','jwt_key',globals.key)
 
-
 import router
 async def sendToRouter(websocket: websockets.asyncio.server.ServerConnection):
     print('connection from '+websocket.remote_address[0] + ":" + str(websocket.remote_address[1]))
     try:
         async for message in websocket:
+            if message == 'ping':
+                await websocket.send('pong')
+                continue
             messageObject = json.loads(message)
             requestType = messageObject['type']
-            if requestType == 'ping':
-                print(f'ping from {websocket.remote_address[0]}:{websocket.remote_address[1]}')
-                await websocket.send(json.dumps({
-                    'success': True
-                }))
-            elif requestType == 'user':
+            if requestType == 'user':
                 await router.user(websocket,messageObject)
             elif requestType == 'player':
                 await router.player(websocket,messageObject)
@@ -83,6 +80,7 @@ async def sendToRouter(websocket: websockets.asyncio.server.ServerConnection):
                 await router.world(websocket,messageObject)
             else:
                 await router.default(websocket,messageObject)
+        print(f'client disconnected at {websocket.remote_address[0]}:{websocket.remote_address[1]}')
     except websockets.ConnectionClosed:
         print(f'client disconnected at {websocket.remote_address[0]}:{websocket.remote_address[1]}')
 
