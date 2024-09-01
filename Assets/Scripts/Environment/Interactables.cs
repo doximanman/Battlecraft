@@ -27,8 +27,8 @@ public class Interactables : MonoBehaviour
 
     private void Start()
     {
-        DataManager.instance.onSave += Save;
-        DataManager.instance.onLoad += Load;
+        //DataManager.instance.onSave += Save;
+        //DataManager.instance.onLoad += Load;
     }
 
     private GameObject GetPrefab(InteractableType type)
@@ -50,13 +50,31 @@ public class Interactables : MonoBehaviour
         interactables = new();
     }
 
+    public InteractableData[] GetData()
+    {
+        return interactables.Select(interactable => new InteractableData(interactable)).ToArray();
+    }
 
-    [ContextMenu("Load From File")]
+    public void LoadData(InteractableData[] data)
+    {
+        Clear();
+
+        foreach (InteractableData interactableData in data)
+        {
+            GameObject typePrefab = GetPrefab(interactableData.type);
+            Interactable interactable = Instantiate(typePrefab, transform).GetComponent<Interactable>();
+            interactable.name = typePrefab.name;
+            interactableData.LoadInto(interactable);
+        }
+    }
+
+
+    /*[ContextMenu("Load From File")]
     public void Load()
     {
         Clear();
 
-        InteractableData[] data = WorldSaver.LoadWorld();
+        InteractableData[] data = InteractableSaver.LoadWorld();
 
         foreach(InteractableData interactableData in data)
         {
@@ -73,7 +91,7 @@ public class Interactables : MonoBehaviour
         // create InteractableData for every Interactable
         InteractableData[] data = interactables.Select(interactable => new InteractableData(interactable)).ToArray();
 
-        WorldSaver.SaveWorld(data);
+        InteractableSaver.SaveWorld(data);
     }
 
     [ContextMenu("Load Default World")]
@@ -81,7 +99,7 @@ public class Interactables : MonoBehaviour
     {
         Clear();
 
-        InteractableData[] data = WorldSaver.LoadWorld(true);
+        InteractableData[] data = InteractableSaver.LoadWorld(true);
 
         foreach (InteractableData interactableData in data)
         {
@@ -98,6 +116,6 @@ public class Interactables : MonoBehaviour
         // create InteractableData for every Interactable
         InteractableData[] data = interactables.Select(interactable => new InteractableData(interactable)).ToArray();
 
-        WorldSaver.SaveWorld(data,true);
-    }
+        InteractableSaver.SaveWorld(data,true);
+    }*/
 }

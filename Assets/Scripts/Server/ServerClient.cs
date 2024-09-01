@@ -8,26 +8,69 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public static class ServerClient
+public class ServerClient : MonoBehaviour
 {
+    public static ServerClient current;
     public delegate void OnConnect(bool connected);
 
-    private static string ip;
-    private static int port;
     public static OnConnect onConnect;
+    private static ClientWebSocket client = null;
 
-    public static string ConnectionString => $"ws://{ip}:{port}";
-
-    public static void SyncAddressWithLocal()
+    private void Awake()
     {
-        var savedAddress = ServerAddress.GetAddress();
+        current = this;
+    }
 
-        if(ip != savedAddress.ip || port != savedAddress.port)
+    private async void OnEnable()
+    {
+        ServerAddress.onAddressChange += OnAddressChange;
+        if (Connected) return;
+        await Connect();
+
+        
+    }
+
+
+    [SerializeField] private float pingInterval;
+    private static float downTime = 0;
+    private void Update()
+    {
+        downTime += Time.deltaTime;
+        if (downTime > pingInterval)
         {
-            ip = savedAddress.ip;
-            port = savedAddress.port;
+            downTime = 0;
+            Heartbeat();
         }
     }
+
+    private bool heartBeating = false;
+    /// <summary>
+    /// preiodically ping the server
+    /// and reconnect if needed
+    /// </summary>
+    public async void Heartbeat()
+    {
+        if (heartBeating) return;
+        // only one heartbeat can be done simultaniously
+        heartBeating = true;
+        string pong = await Request("ping");
+        if(pong != "pong")
+        {
+            Connected = false;
+            await Connect();
+        }
+        heartBeating = false;
+    }
+
+
+    public async void OnAddressChange(string ip, int port)
+    {
+        if (Connected)
+            await Disconnect();
+        await Connect();
+    }
+    public string ConnectionString(string ip,int port) => $"ws://{ip}:{port}";
+
 
     private static bool connected;
     public static bool Connected
@@ -40,22 +83,46 @@ public static class ServerClient
         }
     }
 
-    private static ClientWebSocket client;
-    public async static Task<(bool success, string errorMessage)> Connect()
+    private async Task<(bool success, string errorMessage)> Connect()
     {
-        client = new ClientWebSocket();
+        client = new();
         Uri serverUri;
-        try { serverUri = new(ConnectionString); }
-        catch { return (false,"Invalid server address"); }
+        (string ip, int port) = ServerAddress.Address;
+        try { serverUri = new(ConnectionString(ip, port)); }
+        catch(Exception e)
+        {
+            UnityEngine.Debug.Log("At creating URI: "+e);
+            Connected = false;
+            return (false,"Invalid server address");
+        }
 
-        try { await client.ConnectAsync(serverUri, CancellationToken.None); }
-        catch { return (false,"Couldn't connect to server"); }
+        try
+        {
+            CancellationTokenSource source = new();
+            // try to connect with 5 second timeout
+            source.CancelAfter(5000);
+            await client.ConnectAsync(serverUri, source.Token);
+        }
+        catch(Exception e)
+        {
+            UnityEngine.Debug.Log("At connect: "+e);
+            Connected = false;
+            return (false,"Couldn't connect to server");
+        }
+
+
+        string pong = await Request("ping",true);
+        if (pong != "pong")
+        {
+            Connected = false;
+            return (false, pong);
+        }
 
         Connected = true;
         return (true,string.Empty);
     }
 
-    public async static Task<string> Disconnect()
+    private async Task<string> Disconnect()
     {
         if (!Connected)
             return "Not connected";
@@ -63,7 +130,9 @@ public static class ServerClient
         try {
             await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "request to disconnect", CancellationToken.None);
         }
-        catch {
+        catch(Exception e)
+        {
+            UnityEngine.Debug.Log("At close: "+e);
             if (client.State != WebSocketState.Open)
                 Connected = false;
             return "Error while disconnecting";
@@ -80,16 +149,10 @@ public static class ServerClient
     /// </summary>
     /// <param name="request">json of the request</param>
     /// <returns>json of the response</returns>
-    public async static Task<string> Request(string request)
+    public static async Task<string> Request(string request,bool ignoreConnected = false)
     {
-        if (!Connected)
-        {
-            // try to restore connection
-            (bool success,string _) = await Connect();
-            if(!success)
-                // if failed - don't try again.
-                return "Not connected";
-        }
+        if (!ignoreConnected && !Connected)
+            return "Not connected";
 
         // another request is being handled - wait.
         while (busy)
@@ -135,5 +198,13 @@ public static class ServerClient
 
     }
 
+    private async void OnApplicationQuit()
+    {
+        await Disconnect();
+    }
 
+    private void OnDisable()
+    {
+        ServerAddress.onAddressChange -= OnAddressChange;
+    }
 }

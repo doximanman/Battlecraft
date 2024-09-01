@@ -483,7 +483,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1727509412126963823}
   - component: {fileID: -7130188057761936188}
-  - component: {fileID: 4809176552730126466}
   m_Layer: 0
   m_Name: SceneLoader
   m_TagString: Untagged
@@ -521,18 +520,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 8930394316515424701}
   loadingBar: {fileID: 8393700794806636395}
---- !u!114 &4809176552730126466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3383808573699856231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de398c69c9a1d204e959129c0de96d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3757788698354560147
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 public class ConnectionKeeper : MonoBehaviour
 {
-    [SerializeField] private TMP_Text connectionText;
+    /*[SerializeField] private TMP_Text connectionText;
 
     async void Start()
     {
         LoginStatus.onLogin += OnLogin;
         ServerClient.onConnect += OnConnect;
 
-        if (!ServerClient.Connected)
+        if (!ServerClient.current.Connected)
         {
             // Connect to server
             connectionText.text = "Offline";
 
             // first, connect to server
-            ServerClient.SyncAddressWithLocal();
-            await ServerClient.Connect();
+            ServerClient.current.SyncAddressWithLocal();
+            await ServerClient.current.Connect();
         }
         else if(!LoginStatus.Current.loggedIn)
         {
@@ -54,5 +54,5 @@ public class ConnectionKeeper : MonoBehaviour
     {
         LoginStatus.onLogin -= OnLogin;
         ServerClient.onConnect -= OnConnect;
-    }
+    }*/
 }

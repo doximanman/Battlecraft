@@ -20,6 +20,11 @@ public class StatLogic : MonoBehaviour
         statUpdateInterval = 1.0f / statUpdateRate;
     }
 
+    private void OnEnable()
+    {
+        statUpdateInterval = 1.0f / statUpdateRate;
+    }
+
     float timer = 0;
     private void Update()
     {
@@ -32,6 +37,11 @@ public class StatLogic : MonoBehaviour
         timer += Time.deltaTime;
         if(timer > statUpdateInterval)
         {
+            Debug.Log("Max Food: " + food.MaxValue);
+            Debug.Log("Lose Rate: " + loseFoodRate);
+            Debug.Log("Update interval: " + statUpdateInterval);
+            Debug.Log("timer value: "+timer);
+            timer = 0;
             // lose the food, and if there is enough food left,
             // regenerate health.
             food.Value -= loseFoodRate / statUpdateRate;
@@ -47,7 +57,6 @@ public class StatLogic : MonoBehaviour
                 }
 
             }
-            timer = 0;
         }
     }
 

@@ -26,8 +26,8 @@ public class Entities : MonoBehaviour
 
     private void Start()
     {
-        DataManager.instance.onSave += Save;
-        DataManager.instance.onLoad += Load;
+        //DataManager.instance.onSave += Save;
+        //DataManager.instance.onLoad += Load;
     }
 
     private GameObject GetPrefab(EntityType type)
@@ -49,7 +49,25 @@ public class Entities : MonoBehaviour
         entities = new();
     }
 
-    [ContextMenu("Load From File")]
+    public EntityData[] GetData()
+    {
+        return entities.Select(entity => new EntityData(entity)).ToArray();
+    }
+
+    public void LoadData(EntityData[] data)
+    {
+        Clear();
+
+        foreach (EntityData entityData in data)
+        {
+            GameObject typePrefab = GetPrefab(entityData.type);
+            Entity entity = Instantiate(typePrefab, transform).GetComponent<Entity>();
+            entity.name = typePrefab.name;
+            entityData.LoadInto(entity);
+        }
+    }
+
+    /*[ContextMenu("Load From File")]
     public void Load()
     {
         Clear();
@@ -97,5 +115,5 @@ public class Entities : MonoBehaviour
         EntityData[] data = entities.Select(entity => new EntityData(entity)).ToArray();
 
         EntitySaver.SaveEntities(data,true);
-    }
+    }*/
 }

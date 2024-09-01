@@ -1,33 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Net;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
 
 public class ServerAddress : MonoBehaviour
 {
+    public delegate void OnAddressChange(string newIP, int newPort);
+
     [SerializeField] private TMP_InputField addressInput;
     [SerializeField] private Feedback feedback;
 
+
+    public static OnAddressChange onAddressChange;
+    public static (string ip, int port) Address
+    {
+        get
+        {
+            if (!HasAddress())
+                return (string.Empty, -1);
+            return (PlayerPrefs.GetString("IP"), PlayerPrefs.GetInt("Port"));
+        }
+        set
+        {
+            if (Address == value)
+                return;
+            PlayerPrefs.SetString("IP", value.ip);
+            PlayerPrefs.SetInt("Port", value.port);
+            onAddressChange?.Invoke(value.ip, value.port);
+        }
+    }
+
     private void OnEnable()
     {
+        feedback.Clear();
         if (HasAddress())
         {
-            (string ip, int port) = GetAddress();
+            (string ip, int port) = Address;
             addressInput.text = ip+":"+port;
         }
         else
         {
             addressInput.text = string.Empty;
         }
+
+        ServerClient.onConnect += OnConnect;
     }
 
-    private void SetAddress(string ip,int port)
+    public void OnConnect(bool _)
     {
-        PlayerPrefs.SetString("IP", ip);
-        PlayerPrefs.SetInt("Port", port);
+        feedback.Clear();
     }
 
     public static bool HasAddress()
@@ -35,71 +55,42 @@ public class ServerAddress : MonoBehaviour
         return PlayerPrefs.HasKey("IP") && PlayerPrefs.HasKey("Port");
     }
 
-    /// <summary>
-    /// Returns the saved ip and port. <br/>
-    /// Assumes it already exists!
-    /// Use HasAddress to check existance.
-    /// </summary>
-    public static (string ip,int port) GetAddress()
+    public void ChangeAddress()
     {
-        return (PlayerPrefs.GetString("IP"), PlayerPrefs.GetInt("Port"));
-    }
+        (string oldIP, int oldPort) = Address;
 
-    public async void Connect()
-    {
-        (string ip, int port) = GetAddress();
-        SetAddress(ip, port);
-
-        // check validity of ip format locally
-        // (if invalid, why involve server?)
-        feedback.StartLoading();
-
-
+        // try to extract ip and port from text
         string address = addressInput.text;
-
         string[] ipPort = address.Split(':');
-        if(ipPort.Length != 2)
-        {
+        IPAddress newIP = null;
+        int newPort = -1;
+        if (ipPort.Length != 2)
+            // no colon in the text
             feedback.SetFeedback("Invalid ip address and port");
-            return;
-        }
-
-        if (!IPAddress.TryParse(ipPort[0],out IPAddress _))
-        {
+        else if (!IPAddress.TryParse(ipPort[0], out newIP))
+            // ip part isn't an ip
             feedback.SetFeedback("Invalid ip address");
-            return;
-        }
-
-        if (!int.TryParse(ipPort[1],out int tryPort))
-        {
+        else if (!int.TryParse(ipPort[1], out newPort))
+            // port part isn't a number
             feedback.SetFeedback("Invalid port");
-            return;
-        }
-
-        if(tryPort < IPEndPoint.MinPort || tryPort > IPEndPoint.MaxPort)
-        {
+        else if (newPort < IPEndPoint.MinPort || newPort > IPEndPoint.MaxPort)
+            // port is outside of valid range
             feedback.SetFeedback("Port out of range");
-            return;
-        }
+        else
+            feedback.SetFeedback("Address changed");
 
-
-        ServerClient.SyncAddressWithLocal();
-        (bool success, string error) = await ServerClient.Connect();
-        if (!success)
-        {
-            feedback.SetFeedback(error);
-            return;
-        }
-            
-        success = await ServerAPI.VerifyServer();
-        if (success)
-        {
-            SetAddress(ipPort[0], tryPort);
-            feedback.SetFeedback("Connected");
-        }
+        string newIPString = newIP == null ? string.Empty : newIP.ToString();
+        if (newIPString == oldIP && newPort == oldPort)
+            feedback.SetFeedback("Address didn't change");
         else
         {
-            feedback.SetFeedback("Couldn't connect");
+            feedback.SetFeedback("Address changed");
+            Address = (newIPString, newPort);
         }
+    }
+
+    private void OnDisable()
+    {
+        ServerClient.onConnect -= OnConnect;
     }
 }

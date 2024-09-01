@@ -13,20 +13,17 @@ async def user(websocket,request):
         await user_controller.default(websocket,request)
 
 
-import controller.player as player_controller
-async def player(websocket,request):
-    subtype = request['subtype']
-    if subtype == 'get_data':
-        await player_controller.get_data(websocket,request)
-    if subtype == 'save_data':
-        await player_controller.save_data(websocket,request)
-    else:
-        await player_controller.default(websocket,request)
-    return
-
-
+import controller.world as world_controller
 async def world(websocket,request):
+    subtype = request['subtype']
+    if subtype == 'get':
+        await world_controller.get_data(websocket,request)
+    if subtype == 'save':
+        await world_controller.save_data(websocket,request)
+    else:
+        await world_controller.default(websocket,request)
     return
+
 
 async def default(websocket,request):
     return

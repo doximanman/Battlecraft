@@ -7,27 +7,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-/// <summary>
-/// class with an instance so that unity can
-/// use the 
-/// </summary>
+
 public class ServerSyncer : MonoBehaviour
 {
     /// <summary>
     /// compare saves on the server
-    /// to the current saves
+    /// to the current local saves
     /// </summary>
-    /// <returns></returns>
     public async Task CompareSaves()
     {
         // get local save
-        string localDataWithTime = await PlayerSaver.LoadPlayerDataPlainAsync();
+        string localDataWithTime = await WorldSaver.LoadWorldDataPlainAsync();
         JObject localSave = JObject.Parse(localDataWithTime);
         // save to server function
-        async void Save() => await PlayerAPI.SavePlayerData(localDataWithTime);
+        async void Save() => await WorldAPI.SaveWorldData(localDataWithTime);
 
         // try to get server save
-        (bool exists,bool hasData, string serverDataWithTime) = await PlayerAPI.GetPlayerData();
+        (bool exists,bool hasData, string serverDataWithTime) = await WorldAPI.GetWorldData();
         if (!exists)
         {
             Debug.Log(serverDataWithTime);
@@ -41,7 +37,7 @@ public class ServerSyncer : MonoBehaviour
         }
         JObject serverSave = JObject.Parse(serverDataWithTime);
         // save to local function
-        async void Import() => await PlayerSaver.SavePlayerDataPlainAsync(serverDataWithTime);
+        async void Import() => await WorldSaver.SaveWorldDataPlainAsync(serverDataWithTime);
 
         DateTime serverTimestamp = DateTime.Parse(serverSave["timestamp"].ToString());
         DateTime localTimestamp = DateTime.Parse(localSave["timestamp"].ToString());
@@ -84,15 +80,22 @@ public class ServerSyncer : MonoBehaviour
 
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        LoginStatus.onLogin += async (bool login, string username) =>
+        Login.onLogin += OnLogin;
+    }
+
+    public async void OnLogin(bool login, string username)
+    {
+        if (login)
         {
-            if (login)
-            {
-                // logged in - now compare to server
-                await CompareSaves();
-            }
-        };
+            // logged in - now compare to server
+            await CompareSaves();
+        }
+    }
+
+    private void OnDisable()
+    {
+        Login.onLogin -= OnLogin;
     }
 }

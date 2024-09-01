@@ -58,17 +58,18 @@ python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>
       * success: false
       * message: <i>error message</i>
 
-### Player -
-* Retrieve Player Inventory
+
+### World -
+* Retrieve World Data
   * request:
-    * type: "player"
-    * subtype: "get_data"
+    * type: "world"
+    * subtype: "get"
     * token: <i>authentication token</i>
   * response:
-    * if user exists and has data:
+    * if user exists and has world data:
       * success: true
-      * data: <i>player data</i>
-    * if user exists but has no data:
+      * data: <i>world data</i>
+    * if user exists but has no world data:
       * success: true
       * data: "" (empty string)
     * if user doesn't exist:
@@ -76,11 +77,11 @@ python3 server.py <i>ip</i> <i>port</i> [<i>mongodb ip</i>] [<i>mongodb port</i>
       * message: <i>error message</i>
 
 
-* Save Player Inventory
+* Save World Data
   * request:
-    * type: "player"
-    * subtype: "save_data"
-    * data: <i>player data</i>
+    * type: "world"
+    * subtype: "save"
+    * data: <i>world data</i>
     * token: <i>authentication token</i>
   * response:
     * on success:
