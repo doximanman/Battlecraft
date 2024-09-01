@@ -22,22 +22,6 @@ public abstract class Interactable : MonoBehaviour
         Interactables.current.interactables.Add(this);
     }
 
-    // gives the ability to an interactable to save internal data
-    /// <summary>
-    /// save internal data of the interactable
-    /// </summary>
-    /// <returns>serialization of the internal data</returns>
-    public virtual string SaveInternal()
-    {
-        return "";
-    }
-
-    /// <summary>
-    /// restore internal state from serialized internal data
-    /// </summary>
-    /// <param name="data">the serialized data</param>
-    public virtual void LoadInternal(string data) { }
-
     public bool CloseEnough()
     {
         var playerPosition = Player.current.transform.position;
@@ -63,6 +47,9 @@ public abstract class Interactable : MonoBehaviour
             return false;
         return selected.Type == requiredTool;
     }
+
+    public virtual string SaveInternal() { return ""; }
+    public virtual void LoadInternal(string data) { }
 
     /// <summary>
     /// click without holding

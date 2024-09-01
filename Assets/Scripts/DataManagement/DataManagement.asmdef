@@ -1,10 +1,9 @@
 {
-    "name": "DataSync",
+    "name": "DataManagement",
     "rootNamespace": "",
     "references": [
         "GUID:0460708729b174e489c030235113438a",
-        "GUID:f6a79bcfd4b5d5842b122cc743275436",
-        "GUID:f6ff584bf5e8cad4a89885f72ec5d4d3",
+        "GUID:b6b95a983b7523242932a6fde6db8c53",
         "GUID:6b02eec3259cc4540abf3fcaee59e782"
     ],
     "includePlatforms": [],

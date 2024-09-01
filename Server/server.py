@@ -74,8 +74,6 @@ async def sendToRouter(websocket: websockets.asyncio.server.ServerConnection):
             requestType = messageObject['type']
             if requestType == 'user':
                 await router.user(websocket,messageObject)
-            elif requestType == 'player':
-                await router.player(websocket,messageObject)
             elif requestType == 'world':
                 await router.world(websocket,messageObject)
             else:
