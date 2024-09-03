@@ -37,10 +37,6 @@ public class StatLogic : MonoBehaviour
         timer += Time.deltaTime;
         if(timer > statUpdateInterval)
         {
-            Debug.Log("Max Food: " + food.MaxValue);
-            Debug.Log("Lose Rate: " + loseFoodRate);
-            Debug.Log("Update interval: " + statUpdateInterval);
-            Debug.Log("timer value: "+timer);
             timer = 0;
             // lose the food, and if there is enough food left,
             // regenerate health.
