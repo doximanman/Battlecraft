@@ -107,7 +107,10 @@ public class Entity : IHitListener
             if(distanceToPlayer < attackRange && currentAttackDelay == 0)
             {
                 Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
-                Player.current.HitFrom(attackDamage, attackKnockback, hitFrom);
+                float difficultyMultiplier = Settings.current.Difficulty.GetMultiplier();
+                Player.current.HitFrom(attackDamage * difficultyMultiplier,
+                    attackKnockback * difficultyMultiplier,
+                    hitFrom);
                 currentAttackDelay = attackDelay;
             }
         }
