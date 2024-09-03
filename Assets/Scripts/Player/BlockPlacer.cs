@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BlockPlacer : MonoBehaviour
 {
+
     [SerializeField] private Transform interactables;
     [SerializeField] private Hotbar hotbar;
 
