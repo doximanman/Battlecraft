@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.Graphs;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 
 [CreateAssetMenu(menuName = "Scriptable object/Crafting Recipe")]

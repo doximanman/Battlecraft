@@ -6,21 +6,28 @@ using UnityEngine.UI;
 
 public class MetaLogic : MonoBehaviour
 {
+    [SerializeField] private SceneLoader sceneLoader;
+
     public delegate void ToggleListener(bool on);
 
     public static GameObject darkenBackground;
     public static GameObject pauseMenu;
 
-    public static double doubleClickDelay = 0.2f;
+    public static double doubleClickDelay;
 
-    public static bool paused=false;
+    public static bool paused;
 
-    public static bool pauseMenuEnabled = false;
+    public static bool pauseMenuEnabled;
 
-    public static bool mouseDownOnBlock = false;
+    public static bool mouseDownOnBlock;
 
     private void Start()
     {
+        doubleClickDelay = 0.2f;
+        paused = false;
+        pauseMenuEnabled = false;
+        mouseDownOnBlock = false;
+
         darkenBackground = GameObject.FindGameObjectWithTag("DarkBackground");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
 
@@ -32,6 +39,7 @@ public class MetaLogic : MonoBehaviour
                 else OpenPauseMenu();
             }
         };
+
 
     }
 
@@ -83,8 +91,10 @@ public class MetaLogic : MonoBehaviour
         pauseMenuEnabled = false;
     }
 
-    public static void QuitGame()
+    public void SaveAndQuit()
     {
-        Application.Quit();
+        ClosePauseMenu();
+        DataManager.instance.Save();
+        sceneLoader.LoadMainMenu();
     }
 }

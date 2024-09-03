@@ -2,7 +2,8 @@
     "name": "Audio",
     "rootNamespace": "",
     "references": [
-        "GUID:faaf2e79aa6703e4cae2686508e229cb"
+        "GUID:faaf2e79aa6703e4cae2686508e229cb",
+        "GUID:87e2b9cd66233434b8d8449c2296ec96"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

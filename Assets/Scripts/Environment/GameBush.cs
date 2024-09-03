@@ -24,10 +24,10 @@ public class GameBush : Interactable
 
     public override void OnFinishChopping()
     {
-        // add sticks to inventory
+        // drop sticks.
         // proportional to size of bush
-        InventoryLogic.personalInventory.AddItems(InteractableConstants.sticks,
-            Mathf.CeilToInt(InteractableConstants.lengthToSticks*length));
+        StackData toDrop = new(InteractableConstants.sticks, Mathf.CeilToInt(InteractableConstants.lengthToSticks * length));
+        DroppedStacksManager.instance.Drop(toDrop, transform.position);
 
         // delete the bush world object
         Destroy(gameObject);

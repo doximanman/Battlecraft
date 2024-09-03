@@ -9,6 +9,8 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class Sound
 {
+    public Settings settings;
+
     public string name;
 
     public AudioClip audioClip;
@@ -21,7 +23,7 @@ public class Sound
     [HideInInspector]
     public AudioSource audioSource;
 
-    public float Volume => volume * Settings.current.Volume;
+    public float Volume => volume * settings.Volume;
 
     public float PlayTime => audioClip.length;
 

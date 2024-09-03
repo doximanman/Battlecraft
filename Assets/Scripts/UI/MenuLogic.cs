@@ -7,67 +7,51 @@ public class MenuLogic : MonoBehaviour
 {
     public delegate void ToggleListener(bool toggle);
 
-    [InspectorName("Settings Tab")]
-    [SerializeField] private GameObject _settingsTab;
-    [InspectorName("Back To Game Button")]
-    [SerializeField] private Button _backToGame;
-    [InspectorName("Settings Button")]
-    [SerializeField] private Button _settingsButton;
-    [InspectorName("Quit Button")]
-    [SerializeField] private Button _quitButton;
+    [SerializeField] private Settings settingsTab;
+    [SerializeField] private Button backToGame;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button quitButton;
 
-    public static GameObject settingsTab;
-    private static Button backToGame;
-    private static Button settingsButton;
-    private static Button quitButton;
+    private bool settingsTabEnabled;
 
     private void Start()
     {
-        settingsTab=_settingsTab;
-        backToGame = _backToGame;
-        settingsButton = _settingsButton;
-        quitButton = _quitButton;
-
-        settingsButton.onClick.AddListener(EnableSettingsTab);
+        settingsTabEnabled = true;
 
         MetaLogic.pauseMenuListeners += (on) =>
         {
             if (on) return;
-            if (!on) DisableSettingsTab();
+            if (!on && settingsTabEnabled) DisableSettingsTab();
         };
     }
 
-    public static void DisableButtons()
+    public void DisableButtons()
     {
         backToGame.gameObject.SetActive(false);
         settingsButton.gameObject.SetActive(false);
         quitButton.gameObject.SetActive(false);
     }
 
-    public static void EnableButtons()
+    public void EnableButtons()
     {
         backToGame.gameObject.SetActive(true);
         settingsButton.gameObject.SetActive(true);
         quitButton.gameObject.SetActive(true);
     }
 
-    public static ToggleListener onSettingsTabBefore;
-    public static ToggleListener onSettingsTabAfter;
-
-    public static void EnableSettingsTab()
+    public void EnableSettingsTab()
     {
-        onSettingsTabBefore?.Invoke(true);
+        settingsTab.gameObject.SetActive(true);
         DisableButtons();
-        settingsTab.SetActive(true);
-        onSettingsTabAfter?.Invoke(true);
+        settingsTabEnabled = true;
     }
 
-    public static void DisableSettingsTab()
+
+    public void DisableSettingsTab()
     {
-        onSettingsTabBefore?.Invoke(false);
-        settingsTab.SetActive(false);
+        settingsTab.gameObject.SetActive(false);
         EnableButtons();
-        onSettingsTabAfter?.Invoke(false);
+        settingsTabEnabled = false;
     }
 
 }

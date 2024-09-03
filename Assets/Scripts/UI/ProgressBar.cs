@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class ProgressBar : MonoBehaviour
 {
@@ -80,6 +79,7 @@ public class ProgressBar : MonoBehaviour
 
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(ProgressBar))]
 public class ProgressBarEditor : Editor
 {
@@ -123,3 +123,4 @@ public class ProgressBarEditor : Editor
         }
     }
 }
+#endif

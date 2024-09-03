@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Threading;
-using UnityEditor.Graphs;
 using UnityEngine;
 
-public class FurnaceBlock : MonoBehaviour
+public class FurnaceBlock : Interactable
 {
     /// <summary>
     /// properties defining the furnace: <br />
@@ -19,20 +15,12 @@ public class FurnaceBlock : MonoBehaviour
     /// </summary>
     public FurnaceState state;
 
-    // for debugging
-    //public static int id = 0;
-    //private int thisId;
-
-    private Transform player;
-
     [SerializeField] private ItemType furnaceType;
-    [SerializeField] private float openRange;
-    [SerializeField] private float holdDownTime;
 
     private ItemType cooking = null;
-    private void Start()
+    public override void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        base.Start();
 
         // initialize with default values
         properties = new(FurnaceLogic.defaultProperties);
@@ -160,29 +148,36 @@ public class FurnaceBlock : MonoBehaviour
         }
     }
 
-    private bool mouseDown = false;
-    private void OnMouseDown()
+    /*private void OnMouseDown()
     {
         mouseDown = true;
         // notify others so that they don't execute their mousedown
         // function (for example a sword swing).
         MetaLogic.mouseDownOnBlock = true;
-    }
+    }*/
 
-    private void OnMouseUp()
+    /*private void OnMouseUp()
     {
         mouseDown = false;
-        MetaLogic.mouseDownOnBlock = false;
+        //MetaLogic.mouseDownOnBlock = false;
 
         // if paused ignore
         if (MetaLogic.paused || InventoryLogic.inventoryIsOpen) return;
 
         if (Vector2.Distance(transform.position, player.position) < openRange)
         {
+
             FurnaceLogic.EnableFurnace();
             FurnaceLogic.furnaceListeners += OnFurnace;
             InventoryLogic.OpenInventory(false);
         }
+    }*/
+
+    public override void OnInteract()
+    {
+        FurnaceLogic.EnableFurnace();
+        FurnaceLogic.furnaceListeners += OnFurnace;
+        InventoryLogic.OpenInventory(false);
     }
 
     public void OnFurnace(bool open)
@@ -200,15 +195,31 @@ public class FurnaceBlock : MonoBehaviour
         }
     }
 
+    public override void OnFinishChopping()
+    {
+        // drop all items
+        DroppedStacksManager.instance.Drop(new List<StackData>(){state.FuelSlot.stack,
+                                                            state.InSlot.stack,
+                                                            state.OutSlot.stack }, transform.position);
+
+        // create itemtype to be dropped when destroyed
+        ItemType furnace = Instantiate(furnaceType);
+        furnace.name = furnaceType.name;
+        // drop the furnace
+        DroppedStacksManager.instance.Drop(new StackData(furnace, 1), transform.position);
+
+        // remove chest block from the scene.
+        Destroy(gameObject);
+    }
+
     private float cookSpeed;
 
     private float fuelTimer = 0;
     private float cookTimer = 0;
-    private float holdDownTimer = 0;
     private void Update()
     {
         // holddown to get the furnace
-        if (mouseDown) holdDownTimer += Time.deltaTime;
+        /*if (mouseDown) holdDownTimer += Time.deltaTime;
         else holdDownTimer = 0;
 
         if (holdDownTimer >= holdDownTime)
@@ -236,7 +247,7 @@ public class FurnaceBlock : MonoBehaviour
             // remove chest block from the scene.
             Destroy(gameObject);
             return;
-        }
+        }*/
 
         // otherwise - fuel check and cook progress
         fuelTimer += Time.deltaTime;

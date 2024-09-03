@@ -1,8 +1,10 @@
 using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 [Serializable]
 public class Stat : MonoBehaviour
@@ -76,6 +78,7 @@ public class Stat : MonoBehaviour
     #endregion
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Stat))]
 public class StatEditor : Editor
 {
@@ -142,3 +145,4 @@ public class StatEditor : Editor
         }
     }
 }
+#endif

@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEngine.UI.Image;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
@@ -385,6 +383,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
 }
 
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(InventorySlot))]
 public class SlotEditor : Editor
 {
@@ -420,3 +420,4 @@ public class SlotEditor : Editor
         }
     }
 }
+#endif

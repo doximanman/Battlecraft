@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 /// </summary>
 public class Border : MonoBehaviour
 {
-    private Collider2D border;
+    [SerializeField] private Collider2D border;
     public Biome leftBiome;
     public Biome rightBiome;
 
