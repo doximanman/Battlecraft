@@ -148,31 +148,6 @@ public class FurnaceBlock : Interactable
         }
     }
 
-    /*private void OnMouseDown()
-    {
-        mouseDown = true;
-        // notify others so that they don't execute their mousedown
-        // function (for example a sword swing).
-        MetaLogic.mouseDownOnBlock = true;
-    }*/
-
-    /*private void OnMouseUp()
-    {
-        mouseDown = false;
-        //MetaLogic.mouseDownOnBlock = false;
-
-        // if paused ignore
-        if (MetaLogic.paused || InventoryLogic.inventoryIsOpen) return;
-
-        if (Vector2.Distance(transform.position, player.position) < openRange)
-        {
-
-            FurnaceLogic.EnableFurnace();
-            FurnaceLogic.furnaceListeners += OnFurnace;
-            InventoryLogic.OpenInventory(false);
-        }
-    }*/
-
     public override void OnInteract()
     {
         FurnaceLogic.EnableFurnace();
