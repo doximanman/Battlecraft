@@ -1,12 +1,7 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Video;
-using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
 {
@@ -15,6 +10,11 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     public void SetSlots(IEnumerable<InventorySlot> slots)
     {
         this.slots = new(slots);
+    }
+
+    public int Capacity()
+    {
+        return this.slots.Count;
     }
 
     // returns the slot item was added in3
@@ -237,9 +237,9 @@ public class Inventory : MonoBehaviour, IEnumerable<InventorySlot>
     }
 
     #region Inspector
-    public InventorySlot slot;
-    public int addCount;
-    public ItemType itemToAdd;
+    [SerializeField] private InventorySlot slot;
+    [SerializeField] private int addCount;
+    [SerializeField] private ItemType itemToAdd;
     [ContextMenu("Add Item")]
     public void AddCurrentItem()
     {

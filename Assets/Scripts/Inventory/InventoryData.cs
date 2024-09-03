@@ -19,6 +19,11 @@ public class InventoryData
         }
     }
 
+    public InventoryData(Inventory inventory) : this(inventory.slots.Count)
+    {
+        LoadFrom(inventory);
+    }
+
     public IEnumerable<StackData> GetItems()
     {
         return items;
@@ -28,6 +33,7 @@ public class InventoryData
     {
         // unity inserts empty stacks to the list instead of
         // null. replace them.
+        // (note: probably not relevant anymore)
         for(int i = 0;i < items.Count;i++)
         {
             if (items[i] != null && (items[i].type == null || items[i].count == 0))

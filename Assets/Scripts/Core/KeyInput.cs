@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -17,6 +15,7 @@ public class KeyInput : MonoBehaviour
     public readonly List<KeyCode> moveLeft = new() { KeyCode.A, KeyCode.LeftArrow };
     public readonly List<KeyCode> jump = new() { KeyCode.Space };
     public readonly List<KeyCode> inventory = new() { KeyCode.E };
+    public readonly List<KeyCode> save = new() { KeyCode.F5 };
     public readonly KeyCode[] slotKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     // every handler has a (bool,bool,bool) variable
@@ -27,13 +26,14 @@ public class KeyInput : MonoBehaviour
     public KeyDownHandler onInventory;
     public KeyNumHandler onNum;
     public KeyDownHandler onEscape;
+    public KeyDownHandler onSave;
 
 
     public const KeyCode escape = KeyCode.Escape;
 
     private bool keysDisabled = false;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
     }

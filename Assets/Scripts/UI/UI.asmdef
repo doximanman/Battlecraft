@@ -1,8 +1,9 @@
 {
-    "name": "Settings",
+    "name": "UI",
     "rootNamespace": "",
     "references": [
-        "GUID:b6b95a983b7523242932a6fde6db8c53"
+        "GUID:b6b95a983b7523242932a6fde6db8c53",
+        "GUID:87e2b9cd66233434b8d8449c2296ec96"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

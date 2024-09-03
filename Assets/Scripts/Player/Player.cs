@@ -44,6 +44,7 @@ public class Player : IHitListener
             else if (stack.Type.food)
                 Consume(stack);
         };
+
     }
 
     public float swingDelay;
@@ -64,6 +65,7 @@ public class Player : IHitListener
     {
         AudioManager.instance.Play("Player",name);
     }
+
 
     public void StopSound(string name)
     {
