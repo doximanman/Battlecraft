@@ -25,6 +25,8 @@ public class StatLogic : MonoBehaviour
         statUpdateInterval = 1.0f / statUpdateRate;
     }
 
+    bool healthIsLow = false;
+    bool foodIsLow = false;
     float timer = 0;
     private void Update()
     {
@@ -33,6 +35,29 @@ public class StatLogic : MonoBehaviour
             health = GetComponent<StatManager>().GetStat(StatManager.Health);
             food = GetComponent<StatManager>().GetStat(StatManager.Food);
         }
+
+        // "low" is considered 20% above minimum value
+        if (healthIsLow && health.Value > (health.MinValue + 0.2f * health.Range))
+            // if health is above 20% above minimum value, health is not low
+            healthIsLow = false;
+        if (!healthIsLow && health.Value < (health.MinValue + 0.2f * health.Range))
+        {
+            // if health is below 20% above minimum value, health is low
+            healthIsLow = true;
+            // notify that the player might be having a bad time
+            // logic: if the player goes below 20% hp frequently, perhaps they would like
+            // to change the difficulty.
+            DifficultyLearner.current.GameIsDifficult();
+        }
+        // same for food
+        if (foodIsLow && food.Value > (food.MinValue + 0.2f * food.Range))
+            foodIsLow = false;
+        if (!foodIsLow && food.Value < (food.MinValue + 0.2f * food.Range))
+        {
+            foodIsLow = true;
+            DifficultyLearner.current.GameIsDifficult();
+        }
+
 
         timer += Time.deltaTime;
         if(timer > statUpdateInterval)

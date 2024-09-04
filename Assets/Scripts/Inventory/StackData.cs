@@ -1,3 +1,4 @@
+using log4net.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +44,45 @@ public class StackData
         type = stack.Type;
         count = stack.ItemCount;
     }
+
+    // ItemType cannot be serialized.
+    // Therefore, save the name of it instead when serializing,
+    // and restore it by the global dictionary.
+    #region Serialization
+    [Serializable]
+    private class SavableStackData
+    {
+        public string typeName;
+        public int count;
+    }
+
+    public static string Serialize(StackData stack)
+    {
+        SavableStackData data;
+        // a null stack is serialized the same as a stack with null type and 0 count.
+        if (stack != null) data = new(){
+                typeName = stack.type == null ? "None" : stack.type.name,
+                count = stack.count
+            };
+        else data = new(){
+                typeName = "None",
+                count = 0
+            };
+
+        return JsonUtility.ToJson(data);
+    }
+
+    public static StackData Deserialize(string serialized)
+    {
+        SavableStackData data = JsonUtility.FromJson<SavableStackData>(serialized);
+        StackData result = new()
+        {
+            type = ItemTypes.GetByName(data.typeName),
+            count = data.count
+        };
+        return result;
+    }
+    #endregion
 
     // unity's serializable object
     // initializes everything as type=null,count=0,

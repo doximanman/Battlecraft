@@ -21,16 +21,16 @@ public class InteractableSaver : SavableObject
         interactables = GetComponent<Interactables>();
     }
 
-    public override string SavableObjectName => "Interactables";
+    public override string SavableName => "Interactables";
 
-    public override string SerializeObject()
+    public override string Save()
     {
         InteractableData[] dataArray = interactables.GetData();
         InteractableDataList data = new() { list = dataArray };
         return JsonUtility.ToJson(data);
     }
 
-    public override void DeserializeObject(string serializedObject)
+    public override void Load(string serializedObject)
     {
         InteractableDataList preData = JsonUtility.FromJson<InteractableDataList>(serializedObject);
         InteractableData[] data = preData.list;
