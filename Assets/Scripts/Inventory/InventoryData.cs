@@ -49,6 +49,39 @@ public class InventoryData
         }
     }
 
+    #region Serialization
+    // cannot save an itemstack 
+
+    [Serializable]
+    private class StringList {
+        public string[] list;
+    }
+
+    public static string Serialize(InventoryData data)
+    {
+        // serialize every item in the items array
+        string[] serializedArray = data.items.Select(stack => StackData.Serialize(stack)).ToArray();
+        // save it in a serializable object (a list/array by itself is not serializable,
+        // it requires a wrapper class).
+        StringList list = new() { list = serializedArray };
+        // serialize using jsonutility.
+        return JsonUtility.ToJson(list);
+    }
+
+    public static InventoryData Deserialize(string serialized)
+    {
+        // deserialize into array of serialized stacks
+        string[] serializedArray = JsonUtility.FromJson<StringList>(serialized).list;
+        // create the inventory data with its items being the deserialized stacks
+        InventoryData data = new(serializedArray.Length)
+        {
+            // deserialize every stack
+            items = new(serializedArray.Select(stack => StackData.Deserialize(stack)).ToArray())
+        };
+        return data;
+    }
+    #endregion
+
     public void LoadFrom(Inventory inventory)
     {
         Clear();

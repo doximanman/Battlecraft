@@ -8,7 +8,7 @@ public class PlayerData
 {
     public Vector3 position;
     public Quaternion rotation;
-    public InventoryData inventory;
+    public string inventorySerialized;
     public Vector2 velocity;
     public float health;
     public float food;
@@ -17,7 +17,8 @@ public class PlayerData
     {
         position = player.transform.position;
         rotation = player.transform.rotation;
-        inventory = new InventoryData(InventoryLogic.personalInventory);
+        // convert current inventory into inventory data and serialize it
+        inventorySerialized = InventoryData.Serialize(new InventoryData(InventoryLogic.personalInventory));
         velocity = player.GetComponent<Rigidbody2D>().velocity;
         StatManager playerStats = player.GetComponent<StatManager>();
         health = playerStats.GetStat(StatManager.Health).Value;
@@ -27,7 +28,9 @@ public class PlayerData
     public void LoadInto(Player player)
     {
         player.transform.SetPositionAndRotation(position, rotation);
-        inventory.LoadTo(InventoryLogic.personalInventory);
+        // convert serialized string to inventorydata and load it into the current inventory.
+        InventoryData deserializedData = InventoryData.Deserialize(inventorySerialized);
+        deserializedData.LoadTo(InventoryLogic.personalInventory);
         player.GetComponent<Rigidbody2D>().velocity = velocity;
         StatManager playerStats = player.GetComponent <StatManager>();
         playerStats.GetStat(StatManager.Health ).Value = health;

@@ -1,0 +1,18 @@
+{
+    "name": "Learner",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6b02eec3259cc4540abf3fcaee59e782",
+        "GUID:87e2b9cd66233434b8d8449c2296ec96",
+        "GUID:b6b95a983b7523242932a6fde6db8c53"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

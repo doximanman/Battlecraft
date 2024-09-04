@@ -19,16 +19,16 @@ public class EntitySaver : SavableObject
         public EntityData[] list;
     }
 
-    public override string SavableObjectName => "Entities";
+    public override string SavableName => "Entities";
 
-    public override string SerializeObject()
+    public override string Save()
     {
         EntityData[] preData = entities.GetData();
         EntityDataList data = new() { list = preData };
         return JsonUtility.ToJson(data);
     }
 
-    public override void DeserializeObject(string serializedObject)
+    public override void Load(string serializedObject)
     {
         EntityDataList preData = JsonUtility.FromJson<EntityDataList>(serializedObject);
         EntityData[] data = preData.list;
