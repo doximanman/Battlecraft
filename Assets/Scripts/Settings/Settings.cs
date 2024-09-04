@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,13 @@ public static class DifficultyMethods
             _ => 1.0f,
         };
     }
+
+    public static float MinType(this Type enumType)
+    {
+        return (int)DifficultyType.EASY;
+    }
+
+
 }
 
 public class Settings : MonoBehaviour

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WorldSync : MonoBehaviour
 {
+
     /// <summary>
     /// savable objects. all must have unique names.
     /// </summary>
@@ -15,6 +16,11 @@ public class WorldSync : MonoBehaviour
         DataManager.instance.onLoad += Load;
     }
 
+    private void OnDisable()
+    {
+        DataManager.instance.onSave -= Save;
+        DataManager.instance.onLoad -= Load;
+    }
 
     [ContextMenu("Save As Default")]
     public void SaveDefault()

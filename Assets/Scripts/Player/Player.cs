@@ -192,6 +192,8 @@ public class Player : IHitListener
         inventory.DropInventory(false);
         transform.position = spawnPoint;
         GetComponent<StatManager>().ResetStats();
+        // the player might have a difficult time
+        DifficultyLearner.current.GameIsDifficult();
     }
 
     // makes swing hitbox bigger

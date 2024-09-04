@@ -19,15 +19,15 @@ public class PlayerSaver : SavableObject
         player = GetComponent<Player>();
     }
 
-    public override string SavableObjectName => "Player";
+    public override string SavableName => "Player";
 
-    public override string SerializeObject()
+    public override string Save()
     {
         PlayerData data = new(player);
         return JsonUtility.ToJson(data);
     }
 
-    public override void DeserializeObject(string serializedObject)
+    public override void Load(string serializedObject)
     {
         PlayerData data = JsonUtility.FromJson<PlayerData>(serializedObject);
         data.LoadInto(player);
