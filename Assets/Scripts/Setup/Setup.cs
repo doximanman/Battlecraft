@@ -11,6 +11,7 @@ public class Setup : MonoBehaviour
     [SerializeField] private GameObject mainInventory;
     [SerializeField] private GameObject chestInventory;
 
+
     void Start()
     {
         //MenuLogic.settingsTab.gameObject.SetActive(false);
