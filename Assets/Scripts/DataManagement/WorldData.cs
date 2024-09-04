@@ -31,14 +31,14 @@ public class WorldData
     {
         this.savableObjects = new();
         foreach(var obj in savableObjects)
-            this.savableObjects.Add(new Entry(obj.SavableObjectName, obj.SerializeObject()));
+            this.savableObjects.Add(new Entry(obj.SavableName, obj.Save()));
     }
 
     public void LoadInto(IEnumerable<SavableObject> savableObjects)
     {
         foreach(var obj in savableObjects)
         {
-            obj.DeserializeObject(GetDataOf(obj.SavableObjectName));
+            obj.Load(GetDataOf(obj.SavableName));
         }
     }
 }

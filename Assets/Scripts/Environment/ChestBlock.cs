@@ -57,12 +57,12 @@ public class ChestBlock : Interactable
 
     public override string SaveInternal()
     {
-        return JsonUtility.ToJson(chestItems);
+        return InventoryData.Serialize(chestItems);
     }
 
     public override void LoadInternal(string data)
     {
         if (data != "")
-            chestItems = JsonUtility.FromJson<InventoryData>(data);
+            chestItems = InventoryData.Deserialize(data);
     }
 }
