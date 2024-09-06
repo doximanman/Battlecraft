@@ -89,8 +89,8 @@ public static class WorldSaver
     public static WorldData DeserializeWorldData(string data)
     {
         JObject jsonWithTime = JObject.Parse(data);
-        string dataJson = jsonWithTime["data"].ToString();
-        return JsonUtility.FromJson<WorldData>(dataJson);
+        JObject dataJson = jsonWithTime["data"] as JObject;
+        return WorldData.Load(dataJson);
     }
 
     /// <summary>
@@ -98,11 +98,11 @@ public static class WorldSaver
     /// </summary>
     public static string SerializeWorldData(WorldData data)
     {
-        string jsonText = JsonUtility.ToJson(data);
+        JObject serializedData = WorldData.Save(data);
         // add timestamp to object
         JObject json = new()
         {
-            ["data"] = jsonText,
+            ["data"] = serializedData,
             ["timestamp"] = DateTime.UtcNow.ToString("o")
         };
         return json.ToString();

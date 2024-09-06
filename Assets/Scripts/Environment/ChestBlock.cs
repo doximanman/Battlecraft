@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using MoreLinq;
 using UnityEngine.EventSystems;
+using Newtonsoft.Json.Linq;
 
 public class ChestBlock : Interactable
 {
@@ -13,12 +15,38 @@ public class ChestBlock : Interactable
 
     [SerializeField] private InventoryData chestItems;
     [SerializeField] private ItemType chestType;
+    
+    // used to generate loot only once
+    [SerializeField] private bool generated;
+    [Tooltip("Ignored if \"generated\" is true")]
+    [SerializeField] private LootTable lootTable;
+
+    private void Awake()
+    {
+        if (generated) return;
+        generated = true;
+        GenerateLoot();
+    }
+
+    /// <summary>
+    /// generate loot according to the current loottable
+    /// </summary>
+    public void GenerateLoot()
+    {
+        chestItems.Clear();
+        foreach(var entry in lootTable.loot)
+        {
+            ItemType type = entry.type;
+            int count = UnityEngine.Random.Range(entry.minCount, entry.maxCount+1);
+        }
+    }
 
     public override void Start()
     {
         base.Start();
         inventoryInteract = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryInteract>();
     }
+
 
     public override void OnInteract()
     {
@@ -55,14 +83,32 @@ public class ChestBlock : Interactable
         Destroy(gameObject);
     }
 
-    public override string SaveInternal()
+    [Serializable]
+    private class ChestData
     {
-        return InventoryData.Serialize(chestItems);
+        public string serializedInventory;
+        public bool generated;
+        public string serializedLootTable;
     }
 
-    public override void LoadInternal(string data)
+    public override JObject SaveInternal()
     {
-        if (data != "")
-            chestItems = InventoryData.Deserialize(data);
+        return new()
+        {
+            ["inventory"] = InventoryData.Serialize(chestItems),
+            ["generated"] = generated,
+            ["lootTable"] = LootTable.Serialize(lootTable)
+        };
+    }
+
+    public override void LoadInternal(JObject serializedData)
+    {
+        JObject serializedInventory = serializedData["inventory"] as JObject;
+        bool generated = serializedData["generated"].Value<bool>();
+        JObject serializedLootTable = serializedData["lootTable"] as JObject;
+
+        chestItems = InventoryData.Deserialize(serializedInventory);
+        this.generated = generated;
+        lootTable = LootTable.Deserialize(serializedLootTable);
     }
 }

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ public class InventoryData
         }
     }
 
-    private void Clear()
+    public void Clear()
     {
         for (int i = 0; i < items.Count; i++)
         {
@@ -52,33 +53,34 @@ public class InventoryData
     #region Serialization
     // cannot save an itemstack 
 
-    [Serializable]
-    private class StringList {
-        public string[] list;
+    public static JObject Serialize(InventoryData data)
+    {
+        // convert every stack in the inventorydata to a json
+        // and create an array of those jsons
+        JArray stackDatas = JArray.FromObject(
+            data.items.Select(stack => StackData.Serialize(stack)));
+        return new()
+        {
+            ["stacks"] = stackDatas
+        };
     }
 
-    public static string Serialize(InventoryData data)
+    public static InventoryData Deserialize(JObject serialized)
     {
-        // serialize every item in the items array
-        string[] serializedArray = data.items.Select(stack => StackData.Serialize(stack)).ToArray();
-        // save it in a serializable object (a list/array by itself is not serializable,
-        // it requires a wrapper class).
-        StringList list = new() { list = serializedArray };
-        // serialize using jsonutility.
-        return JsonUtility.ToJson(list);
+        // get the array of jsons from the serialized object
+        // and convert each json to its stackdata
+        JArray stackDatas = serialized["stacks"] as JArray;
+        List<StackData> itemsList = new(stackDatas.Select(stackData => StackData.Deserialize(stackData as JObject)));
+        InventoryData invData = new(itemsList.Count)
+        {
+            items = itemsList
+        };
+        return invData;
     }
 
     public static InventoryData Deserialize(string serialized)
     {
-        // deserialize into array of serialized stacks
-        string[] serializedArray = JsonUtility.FromJson<StringList>(serialized).list;
-        // create the inventory data with its items being the deserialized stacks
-        InventoryData data = new(serializedArray.Length)
-        {
-            // deserialize every stack
-            items = new(serializedArray.Select(stack => StackData.Deserialize(stack)).ToArray())
-        };
-        return data;
+        return Deserialize(JObject.Parse(serialized));
     }
     #endregion
 

@@ -12,14 +12,14 @@ public class WorldSync : MonoBehaviour
 
     private void OnEnable()
     {
-        DataManager.instance.onSave += Save;
-        DataManager.instance.onLoad += Load;
+        //DataManager.instance.onSave += Save;
+        //DataManager.instance.onLoad += Load;
     }
 
     private void OnDisable()
     {
-        DataManager.instance.onSave -= Save;
-        DataManager.instance.onLoad -= Load;
+        //DataManager.instance.onSave -= Save;
+        //DataManager.instance.onLoad -= Load;
     }
 
     [ContextMenu("Save As Default")]

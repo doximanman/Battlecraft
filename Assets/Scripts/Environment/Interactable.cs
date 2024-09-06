@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using UnityEngine;
 
@@ -48,8 +49,8 @@ public abstract class Interactable : MonoBehaviour
         return selected.Type == requiredTool;
     }
 
-    public virtual string SaveInternal() { return ""; }
-    public virtual void LoadInternal(string data) { }
+    public virtual JObject SaveInternal() { return new(); }
+    public virtual void LoadInternal(JObject data) { }
 
     /// <summary>
     /// click without holding

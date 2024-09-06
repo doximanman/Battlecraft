@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,6 @@ using UnityEngine;
 public abstract class SavableObject : MonoBehaviour
 {
     public abstract string SavableName { get; }
-    public abstract string Save();
-    public abstract void Load(string serializedObject);
+    public abstract JObject Save();
+    public abstract void Load(JObject serializedObject);
 }

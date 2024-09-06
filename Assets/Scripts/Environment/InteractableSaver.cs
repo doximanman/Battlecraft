@@ -5,15 +5,10 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 public class InteractableSaver : SavableObject
 {
-    [Serializable]
-    private class InteractableDataList
-    {
-        public InteractableData[] list;
-    }
-
     private Interactables interactables;
 
     private void Awake()
@@ -23,17 +18,27 @@ public class InteractableSaver : SavableObject
 
     public override string SavableName => "Interactables";
 
-    public override string Save()
+    public override JObject Save()
     {
-        InteractableData[] dataArray = interactables.GetData();
-        InteractableDataList data = new() { list = dataArray };
-        return JsonUtility.ToJson(data);
+        // convert each interactable into an interactabledata
+        // and then convert each interactabledata into a json
+        IEnumerable<JObject> arr = interactables.interactables.Select(
+            interactable => InteractableData.Save(new InteractableData(interactable)));
+        // and then store the array
+        JArray serializedArray = JArray.FromObject(arr);
+        return new()
+        {
+            ["interactables"] = serializedArray
+        };
     }
 
-    public override void Load(string serializedObject)
+    public override void Load(JObject serializedObject)
     {
-        InteractableDataList preData = JsonUtility.FromJson<InteractableDataList>(serializedObject);
-        InteractableData[] data = preData.list;
+        // get jobject array from serialized object
+        IEnumerable<JObject> arr = serializedObject["interactables"].ToObject<IEnumerable<JObject>>();
+        // convert all the jobjects in the array into interactabledata
+        InteractableData[] data = arr.Select(serialized => InteractableData.Load(serialized)).ToArray();
+        // load the data
         interactables.LoadData(data);
     }
 }
