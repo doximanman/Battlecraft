@@ -127,9 +127,9 @@ public class ItemType : ScriptableObject
     public override int GetHashCode()
     {
 
-        if (icon == null) return maxStack;
+        if (icon == null) return name.GetHashCode();
 
-        else return icon.GetHashCode() ^ maxStack;
+        else return name.GetHashCode() ^ icon.GetHashCode() ^ maxStack;
     }
 
 }
