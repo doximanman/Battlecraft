@@ -21,15 +21,15 @@ public class PlayerSaver : SavableObject
 
     public override string SavableName => "Player";
 
-    public override string Save()
+    public override JObject Save()
     {
         PlayerData data = new(player);
-        return JsonUtility.ToJson(data);
+        return PlayerData.Save(data);
     }
 
-    public override void Load(string serializedObject)
+    public override void Load(JObject serializedObject)
     {
-        PlayerData data = JsonUtility.FromJson<PlayerData>(serializedObject);
+        PlayerData data = PlayerData.Load(serializedObject);
         data.LoadInto(player);
     }
 }

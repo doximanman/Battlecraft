@@ -1,7 +1,10 @@
 
 
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class EntitySaver : SavableObject
@@ -13,25 +16,28 @@ public class EntitySaver : SavableObject
         entities = GetComponent<Entities>();
     }
 
-    [Serializable]
-    public class EntityDataList
-    {
-        public EntityData[] list;
-    }
-
     public override string SavableName => "Entities";
 
-    public override string Save()
+    public override JObject Save()
     {
-        EntityData[] preData = entities.GetData();
-        EntityDataList data = new() { list = preData };
-        return JsonUtility.ToJson(data);
+        // serialize every entity.
+        // entity -> entitydata -> JObject
+        IEnumerable<JObject> serializedEntities = entities.entities.Select(
+            entity => EntityData.Save(new EntityData(entity)));
+        JArray entityArray = JArray.FromObject(serializedEntities);
+        return new()
+        {
+            ["entities"] = entityArray
+        };
     }
 
-    public override void Load(string serializedObject)
+    public override void Load(JObject serializedObject)
     {
-        EntityDataList preData = JsonUtility.FromJson<EntityDataList>(serializedObject);
-        EntityData[] data = preData.list;
-        entities.LoadData(data);
+        // get jobject array
+        IEnumerable<JObject> serializedEntities = serializedObject["entities"].ToObject<IEnumerable<JObject>>();
+        // convert each jobject to entitydata
+        EntityData[] entityDatas = serializedEntities.Select(serialized => EntityData.Load(serialized)).ToArray();
+        // load
+        entities.LoadData(entityDatas);
     }
 }
