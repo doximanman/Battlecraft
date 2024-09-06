@@ -10,16 +10,18 @@ public class WorldSync : MonoBehaviour
     /// </summary>
     [SerializeField] private List<SavableObject> savableObjects = new();
 
+    // comment "onenable" and "ondisable" to make changes to default world,
+    // and then do "save as default" from the inspector
     private void OnEnable()
     {
-        //DataManager.instance.onSave += Save;
-        //DataManager.instance.onLoad += Load;
+        DataManager.instance.onSave += Save;
+        DataManager.instance.onLoad += Load;
     }
 
     private void OnDisable()
     {
-        //DataManager.instance.onSave -= Save;
-        //DataManager.instance.onLoad -= Load;
+        DataManager.instance.onSave -= Save;
+        DataManager.instance.onLoad -= Load;
     }
 
     [ContextMenu("Save As Default")]

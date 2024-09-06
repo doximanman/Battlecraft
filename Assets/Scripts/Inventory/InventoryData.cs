@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public class InventoryData
 {
-    [SerializeField] private List<StackData> items;
+    public List<StackData> items;
 
     // default number of items
     public InventoryData(int capacity)
@@ -30,23 +30,11 @@ public class InventoryData
         return items;
     }
 
-    public void Fix()
-    {
-        // unity inserts empty stacks to the list instead of
-        // null. replace them.
-        // (note: probably not relevant anymore)
-        for(int i = 0;i < items.Count;i++)
-        {
-            if (items[i] != null && (items[i].type == null || items[i].count == 0))
-                items[i] = null;
-        }
-    }
-
     public void Clear()
     {
         for (int i = 0; i < items.Count; i++)
         {
-            items[i] = null;
+            items[i] = new();
         }
     }
 
