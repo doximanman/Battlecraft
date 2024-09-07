@@ -7,6 +7,7 @@ using UnityEngine;
 public class Entities : MonoBehaviour
 {
     public static Entities current;
+    public static Action onFirstGenerate;
 
     [Serializable]
     public class EntityTypePrefab
@@ -17,7 +18,9 @@ public class Entities : MonoBehaviour
 
     [SerializeField] private List<EntityTypePrefab> typePrefabs;
 
+    public bool generated;
     public List<Entity> entities;
+
 
     private void Awake()
     {
@@ -26,8 +29,9 @@ public class Entities : MonoBehaviour
 
     private void Start()
     {
-        //DataManager.instance.onSave += Save;
-        //DataManager.instance.onLoad += Load;
+        if (generated) return;
+        generated = true;
+        onFirstGenerate?.Invoke();
     }
 
     private GameObject GetPrefab(EntityType type)
@@ -49,6 +53,31 @@ public class Entities : MonoBehaviour
         entities = new();
     }
 
+    [SerializeField] private float summonYOffset;
+    /// <summary>
+    /// summon entity at position x
+    /// </summary>
+    /// <param name="type">type to summon</param>
+    public void SummonEntity(EntityType type, float x)
+    {
+        float? groundHeightMaybe = Logic.GetGroundHeightAt(x);
+        // do not spawn if no ground!
+        if(!groundHeightMaybe.HasValue) return;
+        float groundHeight = groundHeightMaybe.Value;
+        Vector3 summonPosition = new(x, groundHeight + summonYOffset,0);
+        GameObject newEntity = Instantiate(GetPrefab(type),transform);
+        newEntity.name = GetPrefab(type).name;
+        newEntity.transform.position = summonPosition;
+    }
+    [SerializeField] private EntityType typeToSummon;
+    [SerializeField] private float locationToSummonAt;
+    [SerializeField]
+    [ContextMenu("Summon Entity")]
+    private void SummonEntityInspector()
+    {
+        SummonEntity(typeToSummon, locationToSummonAt);
+    }
+
     public EntityData[] GetData()
     {
         return entities.Select(entity => new EntityData(entity)).ToArray();
@@ -66,54 +95,4 @@ public class Entities : MonoBehaviour
             entityData.LoadInto(entity);
         }
     }
-
-    /*[ContextMenu("Load From File")]
-    public void Load()
-    {
-        Clear();
-
-        EntityData[] data = EntitySaver.LoadEntities();
-
-        foreach (EntityData entityData in data)
-        {
-            GameObject typePrefab = GetPrefab(entityData.type);
-            Entity entity = Instantiate(typePrefab, transform).GetComponent<Entity>();
-            entity.name = typePrefab.name;
-            entityData.LoadInto(entity);
-        }
-    }
-
-    [ContextMenu("Save To File")]
-    public void Save()
-    {
-        // create EntityData for every Entity
-        EntityData[] data = entities.Select(entity => new EntityData(entity)).ToArray();
-
-        EntitySaver.SaveEntities(data);
-    }
-
-    [ContextMenu("Load Default Entities")]
-    public void LoadDefault()
-    {
-        Clear();
-
-        EntityData[] data = EntitySaver.LoadEntities(true);
-
-        foreach (EntityData entityData in data)
-        {
-            GameObject typePrefab = GetPrefab(entityData.type);
-            Entity entity = Instantiate(typePrefab, transform).GetComponent<Entity>();
-            entity.name = typePrefab.name;
-            entityData.LoadInto(entity);
-        }
-    }
-
-    [ContextMenu("Save Default Entities")]
-    public void SaveDefault()
-    {
-        // create EntityData for every Entity
-        EntityData[] data = entities.Select(entity => new EntityData(entity)).ToArray();
-
-        EntitySaver.SaveEntities(data,true);
-    }*/
 }

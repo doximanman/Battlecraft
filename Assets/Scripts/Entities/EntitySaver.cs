@@ -27,7 +27,8 @@ public class EntitySaver : SavableObject
         JArray entityArray = JArray.FromObject(serializedEntities);
         return new()
         {
-            ["entities"] = entityArray
+            ["entities"] = entityArray,
+            ["generated"] = entities.generated,
         };
     }
 
@@ -38,6 +39,7 @@ public class EntitySaver : SavableObject
         // convert each jobject to entitydata
         EntityData[] entityDatas = serializedEntities.Select(serialized => EntityData.Load(serialized)).ToArray();
         // load
+        entities.generated = serializedObject["generated"].Value<bool>();
         entities.LoadData(entityDatas);
     }
 }

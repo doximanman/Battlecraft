@@ -13,11 +13,7 @@ using System.Threading.Tasks;
 /// </summary>
 public class PlayerSaver : SavableObject
 {
-    private Player player;
-    private void Awake()
-    {
-        player = GetComponent<Player>();
-    }
+    [SerializeField] private Player player;
 
     public override string SavableName => "Player";
 

@@ -51,7 +51,7 @@ public class Logic : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         canJumpFrom.Add("Ground");
         canJumpFrom.Add("Obsticles");
@@ -190,6 +190,15 @@ public class Logic : MonoBehaviour
     }
 
     /// <summary>
+    /// get the ground height at x position
+    /// </summary>
+    /// <returns>null if no ground at that x, otherwise the height of the first ground from above</returns>
+    public static float? GetGroundHeightAt(float x)
+    {
+        return GetGroundHeightBelow(new Vector2(x, maxY));
+    }
+
+    /// <summary>
     /// Checks the angle between a gameobject and the ground.
     /// The game object should be grounded.
     /// </summary>
@@ -210,5 +219,41 @@ public class Logic : MonoBehaviour
                 return Vector2.Angle(hit.normal, Vector2.up) < maximumWallAngle;
         }
         return false;
+    }
+
+
+
+    /// <summary>
+    /// generates an out of camera x position, between minX and maxX, uniformly.
+    /// </summary>
+    public static float GeneratePosition(float minX, float maxX)
+    {
+        // (0,0) viewport point to world point gives the left most x value at the x coordinate.
+        float leftCameraPosition = Camera.main.ViewportToWorldPoint(new(0,0,Camera.main.nearClipPlane)).x;
+        // (1,1) viewport point to world point gives the right most x value at the x coordinate.
+        float rightCameraPosition = Camera.main.ViewportToWorldPoint(new(1,1,Camera.main.nearClipPlane)).x;
+
+        // if the minX is to the right of, or if maxX is to the left of the camera,
+        // simply generate the number normally (the camera is not relevant).
+        if(minX > rightCameraPosition || maxX < leftCameraPosition)
+            return Random.Range(minX,maxX);
+
+        // determine which side to choose the point on, in a uniform manner.
+        float leftExtents = leftCameraPosition - minX; // how much space is on the left
+        float rightExtents = maxX - rightCameraPosition; // how much space is on the right
+        // probability to be on the left is theshold = leftExtent / (leftExtents + rightExtents). Similar for right.
+        // so, generate from 0 to 1, if below threshold go left, otherwise go right.
+        float threshold = leftExtents / (leftExtents + rightExtents);
+        float result = Random.Range(0f, 1f);
+        if (result < threshold)
+        {
+            // choose left
+            return Random.Range(minX, leftCameraPosition);
+        }
+        else
+        {
+            // choose right
+            return Random.Range(rightCameraPosition, maxX);
+        }
     }
 }

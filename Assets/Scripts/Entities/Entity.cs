@@ -51,17 +51,23 @@ public class Entity : IHitListener
     [SerializeField] private float maxSize=1.5f;
 
     private EntityMovement movement;
-    private void Start()
+
+    private void Awake()
     {
         Health = maxHealth;
-        Player.current.RegisterSwingListener(this);
-        movement=GetComponent<EntityMovement>();
+        movement = GetComponent<EntityMovement>();
         body = GetComponent<Rigidbody2D>();
 
         // random scale (= random size)
         System.Random rand = new();
         Vector3 originalScale = transform.lossyScale;
-        transform.localScale = originalScale * RandomFloat(rand,minSize,maxSize);
+        transform.localScale = originalScale * RandomFloat(rand, minSize, maxSize);
+    }
+
+    private void Start()
+    {
+        Player.current.RegisterSwingListener(this);
+
         // move up a bit so the entity doesn't phase through the ground
         transform.position += Vector3.up * 0.1f;
 

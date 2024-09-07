@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -145,6 +146,33 @@ public class SlotData
         // slot is not empty - types match and
         // count is below max.
         return stack.type == type && stack.count < stack.type.maxStack;
+    }
+
+    public static JObject Serialize(SlotData slotData)
+    {
+        return new()
+        {
+            ["stack"] = StackData.Serialize(slotData.stack),
+            ["canAcceptItems"] = slotData.canAcceptItems,
+            ["filterType"] = Enum.GetName(typeof(FilterType), slotData.filterType),
+            ["filter"] = JArray.FromObject(slotData.filter.Select(type => type.name)),
+        };
+    }
+
+    public static SlotData Deserialize(JObject serialized)
+    {
+        StackData slotStack = StackData.Deserialize(serialized["stack"] as JObject);
+        bool slotCanAcceptItems = serialized["canAcceptItems"].Value<bool>();
+        FilterType slotFilterType = (FilterType) Enum.Parse(typeof(FilterType), serialized["filterType"].ToString());
+        string[] typeNames = serialized["filter"].ToObject<string[]>();
+        List<ItemType> slotFilter = typeNames.Select(typeName => ItemTypes.GetByName(typeName)).ToList();
+        return new()
+        {
+            stack = slotStack,
+            canAcceptItems = slotCanAcceptItems,
+            filterType = slotFilterType,
+            filter = slotFilter,
+        };
     }
 
     // can compare null with an object and object with null

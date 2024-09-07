@@ -13,7 +13,7 @@ public class Biomes : MonoBehaviour
 
     public static Border[] borders;
 
-    private void Start()
+    private void Awake()
     {
         borders = _borders;
         biomeDetection = _biomeDetection;
@@ -31,6 +31,26 @@ public class Biomes : MonoBehaviour
     }
 
     private static readonly float epsilon = 0.1f;
+
+    /// <summary>
+    /// minimum and maximum x values of the biome
+    /// </summary>
+    public static (float minX, float maxX) GetBiomeBorders(Biome biome)
+    {
+        float minX = Logic.minX, maxX = Logic.maxX;
+        foreach(Border border in borders)
+        {
+            // if the biome to the left of the border is the requested biome - 
+            // that means the biome ends at that border.
+            if (biome == border.leftBiome)
+                maxX = border.transform.position.x;
+            // and the same is true with right instead of left.
+            // (right of border -> starts at that border)
+            if(biome == border.rightBiome)
+                minX = border.transform.position.x;
+        }
+        return (minX, maxX);
+    }
 
     /// <summary>
     /// Custom comparator for the cache dictionary.

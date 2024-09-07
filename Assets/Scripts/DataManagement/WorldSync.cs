@@ -25,16 +25,16 @@ public class WorldSync : MonoBehaviour
     }
 
     [ContextMenu("Save As Default")]
-    public void SaveDefault()
+    public async void SaveDefault()
     {
         WorldData worldData = new(savableObjects);
-        WorldSaver.SaveWorldDataObject(worldData, true);
+        await WorldSaver.SaveWorldDataObjectAsync(worldData, true);
     }
 
     [ContextMenu("Load From Default")]
-    public void LoadDefault()
+    public async void LoadDefault()
     {
-        WorldData data = WorldSaver.LoadWorldDataObject(true);
+        WorldData data = await WorldSaver.LoadWorldDataObjectAsync(true);
         data.LoadInto(savableObjects);
     }
 
@@ -45,15 +45,15 @@ public class WorldSync : MonoBehaviour
     public async void Save()
     {
         WorldData data = new(savableObjects);
-        WorldSaver.SaveWorldDataObject(data);
+        await WorldSaver.SaveWorldDataObjectAsync(data);
         // try to save to server
         await WorldAPI.SaveWorldDataObject(data);
     }
 
     [ContextMenu("Load From File")]
-    public void Load()
+    public async void Load()
     {
-        WorldData data = WorldSaver.LoadWorldDataObject();
+        WorldData data = await WorldSaver.LoadWorldDataObjectAsync();
         data.LoadInto(savableObjects);
     }
 }
