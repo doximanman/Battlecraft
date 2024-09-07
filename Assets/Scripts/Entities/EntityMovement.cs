@@ -22,22 +22,27 @@ public class EntityMovement : MonoBehaviour
     public bool stayInBiome;
 
     private IEnumerator randomMovementCoroutine;
-    // Start is called before the first frame update
-    void Start()
+
+
+    private void Awake()
     {
         prevXPosition = transform.position.x;
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
         originalGravityScale = body.gravityScale;
 
+
+        rightRotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        leftRotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+    }
+
+    void Start()
+    {
         if (randomMovement)
         {
             randomMovementCoroutine = MoveRandomly();
             StartCoroutine(MoveRandomly());
         }
-
-        rightRotation= new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
-        leftRotation= new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
 
         waitUntilGrounded = new WaitUntil(() => grounded);
         waitForJumpTime = new WaitForSeconds(jumpTime);

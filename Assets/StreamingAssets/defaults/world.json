@@ -124,7 +124,7 @@
             0.0
           ],
           "health": 20.0,
-          "food": 9.974999
+          "food": 9.649992
         }
       },
       {
@@ -134,8 +134,8 @@
             {
               "type": "CHEST",
               "position": [
-                327.501984,
-                -1.60101521,
+                -378.459,
+                2.40798473,
                 0.05
               ],
               "scale": [
@@ -153,6 +153,14 @@
                 "inventory": {
                   "stacks": [
                     {
+                      "type": "Sword",
+                      "count": 1
+                    },
+                    {
+                      "type": "Gold",
+                      "count": 6
+                    },
+                    {
                       "type": "None",
                       "count": 0
                     },
@@ -161,28 +169,8 @@
                       "count": 0
                     },
                     {
-                      "type": "Diamond",
-                      "count": 1
-                    },
-                    {
-                      "type": "Diamond",
-                      "count": 1
-                    },
-                    {
                       "type": "None",
                       "count": 0
-                    },
-                    {
-                      "type": "CopperSword",
-                      "count": 1
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Diamond",
-                      "count": 1
                     },
                     {
                       "type": "None",
@@ -198,144 +186,6 @@
                     },
                     {
                       "type": "Copper",
-                      "count": 13
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "count": 7
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    }
-                  ]
-                },
-                "generated": false,
-                "lootTable": {
-                  "lootTable": [
-                    {
-                      "type": "CopperSword",
-                      "minCount": 1,
-                      "maxCount": 1
-                    },
-                    {
-                      "type": "Copper",
-                      "minCount": 15,
-                      "maxCount": 21
-                    },
-                    {
-                      "type": "Gold",
-                      "minCount": 9,
-                      "maxCount": 13
-                    },
-                    {
-                      "type": "Diamond",
-                      "minCount": 2,
-                      "maxCount": 4
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "type": "CHEST",
-              "position": [
-                -78.38904,
-                -3.59501553,
-                0.05
-              ],
-              "scale": [
-                1.0,
-                1.0,
-                1.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "internal": {
-                "inventory": {
-                  "stacks": [
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Diamond",
-                      "count": 1
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Gold",
-                      "count": 2
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Iron",
-                      "count": 7
-                    },
-                    {
-                      "type": "Wood",
-                      "count": 4
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Iron",
                       "count": 5
                     },
                     {
@@ -343,154 +193,44 @@
                       "count": 0
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "count": 9
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    }
-                  ]
-                },
-                "generated": false,
-                "lootTable": {
-                  "lootTable": [
-                    {
-                      "type": "Iron",
-                      "minCount": 5,
-                      "maxCount": 11
-                    },
-                    {
-                      "type": "Wood",
-                      "minCount": 6,
-                      "maxCount": 10
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "minCount": 3,
-                      "maxCount": 6
-                    },
-                    {
-                      "type": "Sticks",
-                      "minCount": 7,
-                      "maxCount": 9
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "type": "CHEST",
-              "position": [
-                67.62496,
-                -0.595015168,
-                0.05
-              ],
-              "scale": [
-                1.0,
-                1.0,
-                1.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "internal": {
-                "inventory": {
-                  "stacks": [
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Knife",
-                      "count": 1
-                    },
-                    {
-                      "type": "Iron",
-                      "count": 3
-                    },
-                    {
-                      "type": "Sticks",
-                      "count": 3
-                    },
-                    {
-                      "type": "GoldNugget",
+                      "type": "Copper",
                       "count": 2
                     },
                     {
-                      "type": "None",
-                      "count": 0
+                      "type": "Diamond",
+                      "count": 3
                     },
                     {
                       "type": "None",
                       "count": 0
                     },
                     {
-                      "type": "Iron",
-                      "count": 2
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
+                      "type": "Gold",
                       "count": 1
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Wood",
+                      "type": "Copper",
                       "count": 4
                     },
                     {
-                      "type": "Wood",
-                      "count": 2
+                      "type": "Axe",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     }
                   ]
                 },
@@ -498,27 +238,27 @@
                 "lootTable": {
                   "lootTable": [
                     {
-                      "type": "Iron",
-                      "minCount": 3,
-                      "maxCount": 8
-                    },
-                    {
-                      "type": "GoldNugget",
+                      "type": "Diamond",
                       "minCount": 1,
-                      "maxCount": 4
+                      "maxCount": 3
                     },
                     {
-                      "type": "Wood",
+                      "type": "Sword",
+                      "minCount": 1,
+                      "maxCount": 1
+                    },
+                    {
+                      "type": "Gold",
                       "minCount": 5,
-                      "maxCount": 9
+                      "maxCount": 12
                     },
                     {
-                      "type": "Sticks",
-                      "minCount": 3,
-                      "maxCount": 6
+                      "type": "Copper",
+                      "minCount": 11,
+                      "maxCount": 17
                     },
                     {
-                      "type": "Knife",
+                      "type": "Axe",
                       "minCount": 1,
                       "maxCount": 1
                     }
@@ -552,8 +292,28 @@
                       "count": 0
                     },
                     {
-                      "type": "Diamond",
-                      "count": 3
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 7
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 21
                     },
                     {
                       "type": "None",
@@ -569,27 +329,15 @@
                     },
                     {
                       "type": "Diamond",
-                      "count": 2
+                      "count": 5
                     },
                     {
                       "type": "None",
                       "count": 0
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "count": 11
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
+                      "type": "CopperSword",
+                      "count": 1
                     },
                     {
                       "type": "None",
@@ -597,18 +345,14 @@
                     },
                     {
                       "type": "Gold",
-                      "count": 7
+                      "count": 1
                     },
                     {
-                      "type": "None",
-                      "count": 0
+                      "type": "Sticks",
+                      "count": 4
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Wood",
+                      "type": "Gold",
                       "count": 4
                     },
                     {
@@ -616,12 +360,8 @@
                       "count": 0
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Sticks",
-                      "count": 7
+                      "type": "Gold",
+                      "count": 6
                     },
                     {
                       "type": "None",
@@ -664,6 +404,141 @@
             {
               "type": "CHEST",
               "position": [
+                67.62496,
+                -0.595015168,
+                0.05
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "internal": {
+                "inventory": {
+                  "stacks": [
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Sticks",
+                      "count": 5
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 3
+                    },
+                    {
+                      "type": "Knife",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Sticks",
+                      "count": 1
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 3
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 5
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "count": 2
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    }
+                  ]
+                },
+                "generated": false,
+                "lootTable": {
+                  "lootTable": [
+                    {
+                      "type": "Iron",
+                      "minCount": 3,
+                      "maxCount": 8
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "minCount": 1,
+                      "maxCount": 4
+                    },
+                    {
+                      "type": "Wood",
+                      "minCount": 5,
+                      "maxCount": 9
+                    },
+                    {
+                      "type": "Sticks",
+                      "minCount": 3,
+                      "maxCount": 6
+                    },
+                    {
+                      "type": "Knife",
+                      "minCount": 1,
+                      "maxCount": 1
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "CHEST",
+              "position": [
                 258.498,
                 0.4049848,
                 0.05
@@ -687,16 +562,16 @@
                       "count": 0
                     },
                     {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
                       "type": "Gold",
-                      "count": 5
+                      "count": 4
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
+                      "type": "Gold",
+                      "count": 4
                     },
                     {
                       "type": "None",
@@ -711,20 +586,20 @@
                       "count": 0
                     },
                     {
-                      "type": "Gold",
-                      "count": 2
-                    },
-                    {
-                      "type": "Copper",
-                      "count": 10
-                    },
-                    {
                       "type": "None",
                       "count": 0
                     },
                     {
                       "type": "None",
                       "count": 0
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 7
+                    },
+                    {
+                      "type": "Axe",
+                      "count": 1
                     },
                     {
                       "type": "None",
@@ -735,8 +610,8 @@
                       "count": 1
                     },
                     {
-                      "type": "None",
-                      "count": 0
+                      "type": "Copper",
+                      "count": 6
                     },
                     {
                       "type": "None",
@@ -751,12 +626,12 @@
                       "count": 0
                     },
                     {
-                      "type": "None",
-                      "count": 0
+                      "type": "Iron",
+                      "count": 5
                     },
                     {
-                      "type": "Axe",
-                      "count": 1
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -791,6 +666,266 @@
                       "type": "Iron",
                       "minCount": 7,
                       "maxCount": 15
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "CHEST",
+              "position": [
+                -78.38904,
+                -3.59501553,
+                0.05
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "internal": {
+                "inventory": {
+                  "stacks": [
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Sticks",
+                      "count": 7
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 5
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "count": 5
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 4
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 4
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 2
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 4
+                    }
+                  ]
+                },
+                "generated": false,
+                "lootTable": {
+                  "lootTable": [
+                    {
+                      "type": "Iron",
+                      "minCount": 5,
+                      "maxCount": 11
+                    },
+                    {
+                      "type": "Wood",
+                      "minCount": 6,
+                      "maxCount": 10
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "minCount": 3,
+                      "maxCount": 6
+                    },
+                    {
+                      "type": "Sticks",
+                      "minCount": 7,
+                      "maxCount": 9
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "CHEST",
+              "position": [
+                327.501984,
+                -1.60101521,
+                0.05
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "internal": {
+                "inventory": {
+                  "stacks": [
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Gold",
+                      "count": 3
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Gold",
+                      "count": 8
+                    },
+                    {
+                      "type": "Diamond",
+                      "count": 3
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 7
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "CopperSword",
+                      "count": 1
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 10
+                    }
+                  ]
+                },
+                "generated": false,
+                "lootTable": {
+                  "lootTable": [
+                    {
+                      "type": "CopperSword",
+                      "minCount": 1,
+                      "maxCount": 1
+                    },
+                    {
+                      "type": "Copper",
+                      "minCount": 15,
+                      "maxCount": 21
+                    },
+                    {
+                      "type": "Gold",
+                      "minCount": 9,
+                      "maxCount": 13
+                    },
+                    {
+                      "type": "Diamond",
+                      "minCount": 2,
+                      "maxCount": 4
                     }
                   ]
                 }
@@ -1764,25 +1899,30 @@
         "data": {
           "entities": [
             {
-              "type": "SLIME",
+              "type": "CHICKEN",
               "position": [
-                134.4104,
-                1.107666,
+                -12.8118763,
+                -0.834465861,
                 0.0
               ],
               "rotation": [
                 0.0,
+                0.999984562,
                 0.0,
-                0.0,
-                1.0
+                0.00555547
               ],
-              "health": 8.0
+              "scale": [
+                3.22583532,
+                3.22583532,
+                3.22583532
+              ],
+              "health": 2.0
             },
             {
-              "type": "ICE_SLIME",
+              "type": "CHICKEN",
               "position": [
-                -163.724487,
-                -0.8612671,
+                -11.9166231,
+                -0.8444998,
                 0.0
               ],
               "rotation": [
@@ -1791,13 +1931,198 @@
                 0.0,
                 1.0
               ],
-              "health": 8.0
+              "scale": [
+                3.07283878,
+                3.07283878,
+                3.07283878
+              ],
+              "health": 2.0
+            },
+            {
+              "type": "CHICKEN",
+              "position": [
+                -98.3562241,
+                3.14643359,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.9346168,
+                2.9346168,
+                2.9346168
+              ],
+              "health": 2.0
+            },
+            {
+              "type": "CHICKEN",
+              "position": [
+                -97.39774,
+                -0.8438098,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.083019,
+                3.083019,
+                3.083019
+              ],
+              "health": 2.0
+            },
+            {
+              "type": "CHICKEN",
+              "position": [
+                -104.094139,
+                0.256471157,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.727036,
+                2.727036,
+                2.727036
+              ],
+              "health": 2.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                102.620804,
+                -0.7156132,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.134974,
+                2.134974,
+                2.134974
+              ],
+              "health": 4.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                105.436958,
+                -0.753545165,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.88985384,
+                1.88985384,
+                1.88985384
+              ],
+              "health": 4.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                107.128235,
+                -0.7229103,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.08783078,
+                2.08783078,
+                2.08783078
+              ],
+              "health": 4.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                53.3877831,
+                -0.720542,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.10336113,
+                2.10336113,
+                2.10336113
+              ],
+              "health": 4.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                54.9586372,
+                -0.721043944,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.100083,
+                2.100083,
+                2.100083
+              ],
+              "health": 4.0
+            },
+            {
+              "type": "SHEEP",
+              "position": [
+                54.9272537,
+                -0.746358633,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                1.93649244,
+                1.93649244,
+                1.93649244
+              ],
+              "health": 4.0
             },
             {
               "type": "COW",
               "position": [
-                -98.41272,
-                -0.637268066,
+                90.52941,
+                -0.6617237,
                 0.0
               ],
               "rotation": [
@@ -1805,14 +2130,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                0.47873202,
+                0.47873202,
+                0.47873202
               ],
               "health": 5.0
             },
             {
-              "type": "ICE_SLIME",
+              "type": "COW",
               "position": [
-                -279.689941,
-                -0.8701172,
+                91.5437,
+                -0.661723733,
                 0.0
               ],
               "rotation": [
@@ -1821,778 +2151,18 @@
                 0.0,
                 1.0
               ],
-              "health": 8.0
-            },
-            {
-              "type": "WOLF",
-              "position": [
-                -85.53638,
-                -0.62713623,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                215.535034,
-                -2.85705566,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -147.328247,
-                -0.494567871,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                -73.5828857,
-                -2.89837646,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                131.693359,
-                -0.887573242,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SHEEP",
-              "position": [
-                52.06006,
-                -0.746521,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 4.0
-            },
-            {
-              "type": "WOLF",
-              "position": [
-                -86.80774,
-                -0.658569336,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                259.734863,
-                -0.845397949,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -278.8158,
-                -0.8633423,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "WOLF",
-              "position": [
-                -29.54895,
-                -0.642456055,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DESERT_WOLF",
-              "position": [
-                380.5603,
-                -0.6911011,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SHEEP",
-              "position": [
-                108.5553,
-                -0.748291,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 4.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                -101.338135,
-                -0.860168457,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -280.606323,
-                -0.8744507,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DESERT_WOLF",
-              "position": [
-                164.0271,
-                -0.7182617,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -384.633179,
-                -8.425232,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                -40.0910645,
-                1.09820557,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -136.839966,
-                -0.509460449,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -412.808472,
-                3.15478516,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -380.7649,
-                -0.5192871,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -431.4828,
-                6.16021729,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -426.309937,
-                6.145874,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -430.500854,
-                6.145874,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "CHICKEN",
-              "position": [
-                -13.2211914,
-                -0.855102539,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 2.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                21.6971436,
-                -0.8756714,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -381.5443,
-                2.13983154,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                36.7268066,
-                -0.9036865,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                165.547241,
-                -0.807739258,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                319.289185,
-                -0.8208008,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                -73.73755,
-                0.129394531,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -422.89,
-                6.145691,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DESERT_WOLF",
-              "position": [
-                386.3828,
-                1.29321289,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -157.4928,
-                -0.876464844,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SHEEP",
-              "position": [
-                110.350464,
-                -0.759643555,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 4.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -319.4933,
-                0.5206299,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SHEEP",
-              "position": [
-                105.881226,
-                -0.717590332,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 4.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -419.049927,
-                6.12896729,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -232.133545,
-                -0.869018555,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -187.547852,
-                -0.459411621,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -336.7068,
-                -0.864135742,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "CHICKEN",
-              "position": [
-                -34.9105225,
-                -0.83026123,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 2.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -272.2323,
-                -0.430175781,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                72.6264648,
-                3.12902832,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                216.539673,
-                -2.82574463,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "CHICKEN",
-              "position": [
-                -130.183472,
-                -0.8475952,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 2.0
-            },
-            {
-              "type": "DEER",
-              "position": [
-                -233.04126,
-                -0.5064697,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "WOLF",
-              "position": [
-                41.69458,
-                -0.7020874,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                330.207336,
-                -0.8475952,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "CHICKEN",
-              "position": [
-                -129.0614,
-                -0.8530884,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 2.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                308.431335,
-                -1.85308838,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                144.4519,
-                -0.8085327,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
+              "scale": [
+                0.4711688,
+                0.4711688,
+                0.4711688
+              ],
+              "health": 5.0
             },
             {
               "type": "COW",
               "position": [
-                -22.93335,
-                3.36151123,
+                92.1387558,
+                -0.6917471,
                 0.0
               ],
               "rotation": [
@@ -2600,14 +2170,39 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                0.44200927,
+                0.44200927,
+                0.44200927
+              ],
+              "health": 5.0
+            },
+            {
+              "type": "COW",
+              "position": [
+                -98.53826,
+                3.33825135,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                0.4779049,
+                0.4779049,
+                0.4779049
               ],
               "health": 5.0
             },
             {
               "type": "SLIME",
               "position": [
-                -12.5213623,
-                -0.894897461,
+                -26.6548462,
+                0.07291364,
                 0.0
               ],
               "rotation": [
@@ -2615,14 +2210,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                2.74227571,
+                2.74227571,
+                2.74227571
               ],
               "health": 8.0
             },
             {
-              "type": "CHICKEN",
+              "type": "SLIME",
               "position": [
-                -127.752441,
-                -0.8522339,
+                -24.2756157,
+                2.10584378,
                 0.0
               ],
               "rotation": [
@@ -2631,13 +2231,58 @@
                 0.0,
                 1.0
               ],
-              "health": 2.0
+              "scale": [
+                2.88907313,
+                2.88907313,
+                2.88907313
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SLIME",
+              "position": [
+                38.3960533,
+                -0.00757294241,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.20148969,
+                3.20148969,
+                3.20148969
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SLIME",
+              "position": [
+                42.3855476,
+                -0.8917286,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.93517852,
+                2.93517852,
+                2.93517852
+              ],
+              "health": 8.0
             },
             {
               "type": "WOLF",
               "position": [
-                -104.650024,
-                -0.676818848,
+                -52.7034264,
+                -0.7077522,
                 0.0
               ],
               "rotation": [
@@ -2645,14 +2290,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                2.73447227,
+                2.73447227,
+                2.73447227
               ],
               "health": 8.0
             },
             {
-              "type": "DESERT_WOLF",
+              "type": "WOLF",
               "position": [
-                304.597,
-                -0.692443848,
+                -308.946564,
+                -0.661738932,
                 0.0
               ],
               "rotation": [
@@ -2660,14 +2310,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                2.909843,
+                2.909843,
+                2.909843
               ],
               "health": 8.0
             },
             {
-              "type": "SNAKE",
+              "type": "WOLF",
               "position": [
-                381.662476,
-                -0.8312378,
+                -248.369019,
+                -0.656483531,
                 0.0
               ],
               "rotation": [
@@ -2675,14 +2330,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                3.14889669,
+                3.14889669,
+                3.14889669
               ],
               "health": 8.0
             },
             {
-              "type": "SNAKE",
+              "type": "WOLF",
               "position": [
-                317.461853,
-                -1.83807373,
+                -145.55014,
+                -0.699869752,
                 0.0
               ],
               "rotation": [
@@ -2691,73 +2351,18 @@
                 0.0,
                 1.0
               ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                132.793091,
-                0.09716797,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                -126.371948,
-                -0.9024048,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "SLIME",
-              "position": [
-                59.7041,
-                -0.891601563,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 8.0
-            },
-            {
-              "type": "ICE_SLIME",
-              "position": [
-                -205.006836,
-                -0.880126953,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
+              "scale": [
+                2.79806519,
+                2.79806519,
+                2.79806519
               ],
               "health": 8.0
             },
             {
               "type": "DEER",
               "position": [
-                -415.77002,
-                -0.4387207,
+                -446.1412,
+                -21.4027634,
                 0.0
               ],
               "rotation": [
@@ -2765,14 +2370,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                3.843321,
+                3.843321,
+                3.843321
               ],
               "health": 8.0
             },
             {
-              "type": "CHICKEN",
+              "type": "DEER",
               "position": [
-                -17.6268311,
-                -0.8441162,
+                -160.8978,
+                2.72949886,
                 0.0
               ],
               "rotation": [
@@ -2781,28 +2391,18 @@
                 0.0,
                 1.0
               ],
-              "health": 2.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                315.6117,
-                -0.810180664,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
+              "scale": [
+                3.56178212,
+                3.56178212,
+                3.56178212
               ],
               "health": 8.0
             },
             {
-              "type": "DESERT_WOLF",
+              "type": "DEER",
               "position": [
-                239.838257,
-                -0.6712036,
+                -161.299362,
+                3.10493875,
                 0.0
               ],
               "rotation": [
@@ -2810,14 +2410,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                3.4550066,
+                3.4550066,
+                3.4550066
               ],
               "health": 8.0
             },
             {
-              "type": "SLIME",
+              "type": "ICE_SLIME",
               "position": [
-                -77.34033,
-                -0.875610352,
+                -233.044952,
+                -0.8695408,
                 0.0
               ],
               "rotation": [
@@ -2825,14 +2430,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                1.97823727,
+                1.97823727,
+                1.97823727
               ],
               "health": 8.0
             },
             {
-              "type": "COW",
+              "type": "ICE_SLIME",
               "position": [
-                -99.703,
-                -0.6413574,
+                -232.6755,
+                -0.8680277,
                 0.0
               ],
               "rotation": [
@@ -2841,43 +2451,18 @@
                 0.0,
                 1.0
               ],
-              "health": 5.0
-            },
-            {
-              "type": "SHEEP",
-              "position": [
-                111.883911,
-                -0.7307739,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-              ],
-              "health": 4.0
-            },
-            {
-              "type": "SNAKE",
-              "position": [
-                382.474,
-                -0.857727051,
-                0.0
-              ],
-              "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
+              "scale": [
+                1.99519992,
+                1.99519992,
+                1.99519992
               ],
               "health": 8.0
             },
             {
-              "type": "WOLF",
+              "type": "ICE_SLIME",
               "position": [
-                98.56995,
-                -0.667785645,
+                -426.9079,
+                6.11977434,
                 0.0
               ],
               "rotation": [
@@ -2885,14 +2470,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                1.85834789,
+                1.85834789,
+                1.85834789
               ],
               "health": 8.0
             },
             {
-              "type": "COW",
+              "type": "ICE_SLIME",
               "position": [
-                25.17688,
-                -0.648498535,
+                -425.6648,
+                6.14110661,
                 0.0
               ],
               "rotation": [
@@ -2901,13 +2491,18 @@
                 0.0,
                 1.0
               ],
-              "health": 5.0
+              "scale": [
+                2.09749746,
+                2.09749746,
+                2.09749746
+              ],
+              "health": 8.0
             },
             {
-              "type": "SNAKE",
+              "type": "ICE_SLIME",
               "position": [
-                314.629517,
-                -0.8115845,
+                -364.2647,
+                0.6029513,
                 0.0
               ],
               "rotation": [
@@ -2915,14 +2510,19 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                1.8099426,
+                1.8099426,
+                1.8099426
               ],
               "health": 8.0
             },
             {
               "type": "DESERT_WOLF",
               "position": [
-                384.419434,
-                0.282531738,
+                164.662125,
+                -0.716854751,
                 0.0
               ],
               "rotation": [
@@ -2930,13 +2530,179 @@
                 0.0,
                 0.0,
                 1.0
+              ],
+              "scale": [
+                2.85389924,
+                2.85389924,
+                2.85389924
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                166.158279,
+                0.0146356272,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.26378131,
+                3.26378131,
+                3.26378131
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                384.21167,
+                0.338247538,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.26108837,
+                3.26108837,
+                3.26108837
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                385.6038,
+                1.27019536,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.74168444,
+                2.74168444,
+                2.74168444
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                271.195,
+                -0.6908955,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.07879639,
+                3.07879639,
+                3.07879639
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                251.4345,
+                -0.8486743,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.87767363,
+                2.87767363,
+                2.87767363
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                251.192368,
+                -0.8388536,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.02089047,
+                3.02089047,
+                3.02089047
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                235.055344,
+                -0.832514644,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.113381,
+                3.113381,
+                3.113381
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                234.816528,
+                -0.8324378,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.11450148,
+                3.11450148,
+                3.11450148
               ],
               "health": 8.0
             }
-          ]
+          ],
+          "generated": false
         }
       }
     ]
   },
-  "timestamp": "2024-09-06T18:35:05.8030382Z"
+  "timestamp": "2024-09-07T17:56:42.9139905Z"
 }

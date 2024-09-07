@@ -69,15 +69,15 @@ public static class WorldSaver
         return await File.ReadAllTextAsync(path);
     }
 
-    public static void SaveWorldDataObject(WorldData data, bool defaultWorld = false)
+    public static async Task SaveWorldDataObjectAsync(WorldData data, bool defaultWorld = false)
     {
         string dataString = SerializeWorldData(data);
-        SaveWorldDataPlain(dataString, defaultWorld);
+        await SaveWorldDataPlainAsync(dataString, defaultWorld);
     }
 
-    public static WorldData LoadWorldDataObject(bool defaultWorld = false)
+    public static async Task<WorldData> LoadWorldDataObjectAsync(bool defaultWorld = false)
     {
-        string jsonText = LoadWorldDataPlain(defaultWorld);
+        string jsonText = await LoadWorldDataPlainAsync(defaultWorld);
         // remove timestamp from object
         return DeserializeWorldData(jsonText);
     }
