@@ -50,6 +50,17 @@ public class Logic : MonoBehaviour
         }
     }
 
+    private void OnValidate()
+    {
+        canJumpFrom.Add("Ground");
+        canJumpFrom.Add("Obsticles");
+
+        ground = _ground;
+        collisionDetection = _collisionDetection;
+        wallCloseDistance = _wallCloseDistance;
+        maximumWallAngle = _maximumWallAngle;
+    }
+
     // Start is called before the first frame update
     void Awake()
     {

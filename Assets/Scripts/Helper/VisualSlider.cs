@@ -28,6 +28,12 @@ public class VisualSlider : MonoBehaviour
         originalDimension = transform.parent.GetComponent<GridLayoutGroup>().cellSize;
     }
 
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        originalDimension = transform.parent.GetComponent<GridLayoutGroup>().cellSize;
+    }
+
     // set/get limits of dimensions
     // 
     public ((float,float),(float,float)) ValueLimits

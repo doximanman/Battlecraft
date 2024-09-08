@@ -135,6 +135,7 @@ MonoBehaviour:
     count: 3
   knockback: {x: 2, y: 2}
   hostile: 1
+  projectile: 1
   attackDamage: 1
   attackKnockback: 2
   attackDelay: 3
