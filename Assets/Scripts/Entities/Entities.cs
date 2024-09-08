@@ -18,7 +18,17 @@ public class Entities : MonoBehaviour
 
     [SerializeField] private List<EntityTypePrefab> typePrefabs;
 
-    public bool generated;
+    [SerializeField] private bool generated;
+    public bool Generated
+    {
+        get => generated;
+        set
+        {
+            if (value == false)
+                onFirstGenerate?.Invoke();
+            generated = true;
+        }
+    }
     public List<Entity> entities;
 
 
@@ -29,8 +39,8 @@ public class Entities : MonoBehaviour
 
     private void Start()
     {
-        if (generated) return;
-        generated = true;
+        if (Generated) return;
+        Generated = true;
         onFirstGenerate?.Invoke();
     }
 
@@ -39,6 +49,7 @@ public class Entities : MonoBehaviour
         return typePrefabs.Find(x => x.type == type).prefab;
     }
 
+    [ContextMenu("Clear")]
     /// <summary>
     /// destroy all entities in the game
     /// </summary>
@@ -65,9 +76,8 @@ public class Entities : MonoBehaviour
         if(!groundHeightMaybe.HasValue) return;
         float groundHeight = groundHeightMaybe.Value;
         Vector3 summonPosition = new(x, groundHeight + summonYOffset,0);
-        GameObject newEntity = Instantiate(GetPrefab(type),transform);
+        GameObject newEntity = Instantiate(GetPrefab(type),summonPosition, Quaternion.identity,transform);
         newEntity.name = GetPrefab(type).name;
-        newEntity.transform.position = summonPosition;
     }
     [SerializeField] private EntityType typeToSummon;
     [SerializeField] private float locationToSummonAt;

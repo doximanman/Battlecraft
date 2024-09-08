@@ -32,7 +32,7 @@ public class ChestBlock : Interactable
         foreach(var entry in lootTable.loot)
         {
             ItemType type = entry.type;
-            int count = UnityEngine.Random.Range(entry.minCount, entry.maxCount+1);
+            int count = Logic.Random(entry.minCount, entry.maxCount+1);
             // minimum number of stacks to split the stack to
             int minStack = 1;
             int maxStack;
@@ -46,7 +46,7 @@ public class ChestBlock : Interactable
             else
                 maxStack = 4;
             // number of stacks to split to
-            int stackCount = UnityEngine.Random.Range(minStack, maxStack+1);
+            int stackCount = Logic.Random(minStack, maxStack+1);
             // choose the slots for the stacks
             StackData[] chosenSlots = availableSlots.RandomSubset(stackCount).ToArray();
             // determine the count of each sub-stack - 
@@ -65,7 +65,7 @@ public class ChestBlock : Interactable
             for (int i = 0; i < chosenSlots.Length-1; i++)
             {
                 int maxCount = count + 1 - stackCount;
-                counts[i] = UnityEngine.Random.Range(1, maxCount + 1);
+                counts[i] = Logic.Random(1, maxCount + 1);
                 count -= counts[i];
                 stackCount--;
             }

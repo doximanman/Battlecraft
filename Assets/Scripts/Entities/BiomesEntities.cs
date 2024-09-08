@@ -45,10 +45,10 @@ public class BiomesEntities : MonoBehaviour
             foreach (var entity in biomeEntities.biomeEntities)
             {
                 EntityType type = entity.type;
-                int count = UnityEngine.Random.Range(entity.minCount, entity.maxCount + 1);
+                int count = Logic.Random(entity.minCount, entity.maxCount + 1);
                 do
                 {
-                    int cluster = UnityEngine.Random.Range(entity.minCluster, entity.maxCluster + 1);
+                    int cluster = Logic.Random(entity.minCluster, entity.maxCluster + 1);
                     if (cluster > count)
                         cluster = count;
                     // generate a random x position inside the biome, that is also outside of the camera view.
@@ -56,7 +56,7 @@ public class BiomesEntities : MonoBehaviour
                     for (int i = 0; i < cluster; i++)
                     {
                         // the expected value of the position moves right with i, but it still varies somewhat
-                        float offset = xOffset * i + UnityEngine.Random.Range(-xOffset, xOffset);
+                        float offset = xOffset * i + Logic.Random(-xOffset, xOffset);
                         Entities.current.SummonEntity(type, position + offset);
                     }
                     count -= cluster;

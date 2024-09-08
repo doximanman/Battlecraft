@@ -62,6 +62,8 @@ public class Logic : MonoBehaviour
         maximumWallAngle = _maximumWallAngle;
     }
 
+    private static System.Random rand = new();
+
     public static void RegisterBiomeListener(IBiomeListener listener)
     {
         biomeListeners.Add(listener);
@@ -229,31 +231,24 @@ public class Logic : MonoBehaviour
     public static float GeneratePosition(float minX, float maxX)
     {
         // (0,0) viewport point to world point gives the left most x value at the x coordinate.
-        float leftCameraPosition = Camera.main.ViewportToWorldPoint(new(0,0,Camera.main.nearClipPlane)).x;
+        float leftCameraPosition = Camera.main.ViewportToWorldPoint(new(0,0,Camera.main.nearClipPlane)).x - 5f;
         // (1,1) viewport point to world point gives the right most x value at the x coordinate.
-        float rightCameraPosition = Camera.main.ViewportToWorldPoint(new(1,1,Camera.main.nearClipPlane)).x;
+        float rightCameraPosition = Camera.main.ViewportToWorldPoint(new(1,1,Camera.main.nearClipPlane)).x + 5f;
 
-        // if the minX is to the right of, or if maxX is to the left of the camera,
-        // simply generate the number normally (the camera is not relevant).
-        if(minX > rightCameraPosition || maxX < leftCameraPosition)
-            return Random.Range(minX,maxX);
+        // generate an x value until it is outside of the camera's bounds
+        float x = Random(minX, maxX);
+        while( x > leftCameraPosition && x < rightCameraPosition )
+            x = Random(minX, maxX);
+        return x;
+    }
 
-        // determine which side to choose the point on, in a uniform manner.
-        float leftExtents = leftCameraPosition - minX; // how much space is on the left
-        float rightExtents = maxX - rightCameraPosition; // how much space is on the right
-        // probability to be on the left is theshold = leftExtent / (leftExtents + rightExtents). Similar for right.
-        // so, generate from 0 to 1, if below threshold go left, otherwise go right.
-        float threshold = leftExtents / (leftExtents + rightExtents);
-        float result = Random.Range(0f, 1f);
-        if (result < threshold)
-        {
-            // choose left
-            return Random.Range(minX, leftCameraPosition);
-        }
-        else
-        {
-            // choose right
-            return Random.Range(rightCameraPosition, maxX);
-        }
+    public static float Random(float min, float max)
+    {
+        return min + (max - min) * ((float)rand.NextDouble());
+    }
+
+    public static int Random(int min, int max)
+    {
+        return rand.Next(min, max);
     }
 }

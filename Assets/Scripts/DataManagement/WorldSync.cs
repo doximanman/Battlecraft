@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class WorldSync : MonoBehaviour
@@ -24,15 +26,43 @@ public class WorldSync : MonoBehaviour
         DataManager.instance.onLoad -= Load;
     }
 
+    [ContextMenu("Reset World")]
+    public void ResetWorld()
+    {
+        if (!MetaLogic.paused)
+            MetaLogic.Pause();
+        KeyInput.instance.DisableKeys();
+
+        static void Exit()
+        {
+            KeyInput.instance.EnableKeys();
+            if (MetaLogic.pauseMenuEnabled)
+                MetaLogic.ClosePauseMenu();
+            else if (MetaLogic.paused)
+                MetaLogic.Unpause();
+        }
+        Modal.Ask("Reset World",
+            "Are you sure you want to reset the world?<br>Your current save will be lost!",
+            "Reset",
+            "Cancel",
+            async () => {
+                await LoadDefault();
+                Exit();
+            },
+            () => {
+                Exit();
+            });
+    }
+
     [ContextMenu("Save As Default")]
-    public async void SaveDefault()
+    public async Task SaveDefault()
     {
         WorldData worldData = new(savableObjects);
         await WorldSaver.SaveWorldDataObjectAsync(worldData, true);
     }
 
     [ContextMenu("Load From Default")]
-    public async void LoadDefault()
+    public async Task LoadDefault()
     {
         WorldData data = await WorldSaver.LoadWorldDataObjectAsync(true);
         data.LoadInto(savableObjects);
