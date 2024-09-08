@@ -37,7 +37,7 @@ public class BiomesEntities : MonoBehaviour
     [SerializeField] float spaceBetweenEntities;
     public void GenerateEntities()
     {
-        Entities.current.Clear();
+        //Entities.current.Clear();
         float xOffset = spaceBetweenEntities;
         foreach (var biomeEntities in biomesEntities)
         {

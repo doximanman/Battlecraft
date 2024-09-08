@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
-using PlasticGui.Configuration.CloudEdition.Welcome;
 
 
 #if UNITY_EDITOR
@@ -23,6 +19,7 @@ public class Entity : IHitListener
     public StackData[] droppedItems;
     public Vector2 knockback;
     public bool hostile;
+    public bool projectile;
     public float attackDamage;
     public float attackKnockback;
     public float attackDelay;
@@ -53,12 +50,13 @@ public class Entity : IHitListener
     [SerializeField] private float maxSize=1.5f;
 
     private EntityMovement movement;
-
+    private Animator animator;
     private void Awake()
     {
         Health = maxHealth;
         movement = GetComponent<EntityMovement>();
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         // random scale (= random size)
         Vector3 originalScale = transform.lossyScale;
@@ -110,16 +108,49 @@ public class Entity : IHitListener
 
             float attackRange = chaseUntilCloserThan * 1.5f;
 
-            if(distanceToPlayer < attackRange && currentAttackDelay == 0)
+            if (distanceToPlayer < attackRange && currentAttackDelay == 0)
             {
-                Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
-                float difficultyMultiplier = Settings.current.Difficulty.GetMultiplier();
-                Player.current.HitFrom(attackDamage * difficultyMultiplier,
-                    attackKnockback * difficultyMultiplier,
-                    hitFrom);
-                currentAttackDelay = attackDelay;
+                // attack!
+                if (!attacking)
+                {
+                    if (!projectile || LineOfSight())
+                    {
+                        attacking = true;
+                        animator.SetTrigger("Attack");
+                    }
+                }
             }
+            else
+                attacking = false;
         }
+    }
+
+    bool attacking = false;
+
+    public void Attack()
+    {
+        Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
+        float difficultyMultiplier = Settings.current.Difficulty.GetMultiplier();
+        Player.current.HitFrom(attackDamage * difficultyMultiplier,
+            attackKnockback * difficultyMultiplier,
+            hitFrom);
+        currentAttackDelay = attackDelay;
+        attacking = false;
+    }
+
+    /// <summary>
+    /// whether the entity has light of sight to the player
+    /// </summary>
+    public bool LineOfSight()
+    {
+        Vector3 playerPosition = Player.current.transform.position;
+        Vector3 thisPosition = transform.position;
+        float distance = Vector3.Distance(thisPosition, playerPosition);
+        Vector3 direction = (playerPosition - thisPosition).normalized;
+        // game layer is ground
+        var result = Physics2D.RaycastAll(thisPosition, direction, distance,LayerMask.GetMask("Game"));
+        // no ground in line of sight
+        return result.Length == 0;
     }
 
     public void PlaySound(string soundName)
@@ -206,6 +237,7 @@ public class EntityEditor : Editor
     SerializedProperty droppedItems;
     SerializedProperty knockback;
     SerializedProperty hostile;
+    SerializedProperty projectile;
     SerializedProperty attackDamage;
     SerializedProperty attackKnockback;
     SerializedProperty attackDelay;
@@ -228,6 +260,7 @@ public class EntityEditor : Editor
         droppedItems = serializedObject.FindProperty("droppedItems");
         knockback = serializedObject.FindProperty("knockback");
         hostile = serializedObject.FindProperty("hostile");
+        projectile = serializedObject.FindProperty("projectile");
         attackDamage = serializedObject.FindProperty("attackDamage");
         attackKnockback = serializedObject.FindProperty("attackKnockback");
         attackDelay = serializedObject.FindProperty("attackDelay");
@@ -266,6 +299,7 @@ public class EntityEditor : Editor
 
         if (hostile.boolValue)
         {
+            EditorGUILayout.PropertyField(projectile);
             EditorGUILayout.PropertyField(attackDamage);
             EditorGUILayout.PropertyField(attackDelay);
             EditorGUILayout.PropertyField(attackKnockback);

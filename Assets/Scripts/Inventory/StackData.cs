@@ -1,10 +1,5 @@
-using log4net.Core;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 [Serializable]
 public class StackData

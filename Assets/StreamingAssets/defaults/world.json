@@ -6,7 +6,7 @@
         "data": {
           "position": [
             0.0,
-            -0.5339803,
+            -0.5339452,
             0.0
           ],
           "rotation": [
@@ -153,32 +153,36 @@
                 "inventory": {
                   "stacks": [
                     {
+                      "type": "GoldNugget",
+                      "count": 3
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
                       "type": "Iron",
-                      "count": 7
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Sticks",
                       "count": 4
+                    },
+                    {
+                      "type": "Knife",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -194,19 +198,7 @@
                     },
                     {
                       "type": "Wood",
-                      "count": 6
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "count": 1
+                      "count": 8
                     },
                     {
                       "type": "None",
@@ -221,8 +213,16 @@
                       "count": 0
                     },
                     {
-                      "type": "Knife",
-                      "count": 1
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 4
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -230,7 +230,7 @@
                     },
                     {
                       "type": "Sticks",
-                      "count": 1
+                      "count": 3
                     }
                   ]
                 },
@@ -292,8 +292,16 @@
                       "count": 0
                     },
                     {
-                      "type": "Gold",
-                      "count": 1
+                      "type": "Sticks",
+                      "count": 3
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "CopperSword",
@@ -304,8 +312,12 @@
                       "count": 0
                     },
                     {
-                      "type": "Sticks",
-                      "count": 4
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Gold",
+                      "count": 12
                     },
                     {
                       "type": "None",
@@ -313,7 +325,7 @@
                     },
                     {
                       "type": "Copper",
-                      "count": 6
+                      "count": 11
                     },
                     {
                       "type": "None",
@@ -324,24 +336,8 @@
                       "count": 0
                     },
                     {
-                      "type": "Copper",
-                      "count": 21
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
+                      "type": "Gold",
+                      "count": 1
                     },
                     {
                       "type": "None",
@@ -352,20 +348,24 @@
                       "count": 4
                     },
                     {
+                      "type": "Copper",
+                      "count": 17
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
                       "type": "None",
                       "count": 0
                     },
                     {
                       "type": "Gold",
-                      "count": 4
-                    },
-                    {
-                      "type": "Gold",
-                      "count": 11
-                    },
-                    {
-                      "type": "Copper",
-                      "count": 3
+                      "count": 6
                     }
                   ]
                 },
@@ -427,8 +427,44 @@
                       "count": 0
                     },
                     {
-                      "type": "Copper",
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Knife",
                       "count": 1
+                    },
+                    {
+                      "type": "Axe",
+                      "count": 1
+                    },
+                    {
+                      "type": "Gold",
+                      "count": 9
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -452,30 +488,6 @@
                     },
                     {
                       "type": "Iron",
-                      "count": 1
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Gold",
-                      "count": 3
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Gold",
-                      "count": 2
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Copper",
                       "count": 8
                     },
                     {
@@ -483,24 +495,12 @@
                       "count": 0
                     },
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Axe",
-                      "count": 1
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Iron",
+                      "type": "Copper",
                       "count": 7
                     },
                     {
-                      "type": "Knife",
-                      "count": 1
+                      "type": "None",
+                      "count": 0
                     }
                   ]
                 },
@@ -562,40 +562,12 @@
                       "count": 0
                     },
                     {
-                      "type": "Sticks",
-                      "count": 8
-                    },
-                    {
-                      "type": "Sticks",
-                      "count": 1
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Iron",
-                      "count": 4
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "GoldNugget",
-                      "count": 5
-                    },
-                    {
                       "type": "None",
                       "count": 0
                     },
                     {
                       "type": "None",
                       "count": 0
-                    },
-                    {
-                      "type": "Iron",
-                      "count": 4
                     },
                     {
                       "type": "None",
@@ -603,11 +575,39 @@
                     },
                     {
                       "type": "Wood",
-                      "count": 10
+                      "count": 9
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "count": 4
+                    },
+                    {
+                      "type": "Sticks",
+                      "count": 9
                     },
                     {
                       "type": "None",
                       "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 9
                     },
                     {
                       "type": "None",
@@ -688,44 +688,24 @@
                 "inventory": {
                   "stacks": [
                     {
-                      "type": "Copper",
-                      "count": 3
+                      "type": "CopperSword",
+                      "count": 1
                     },
                     {
                       "type": "None",
                       "count": 0
-                    },
-                    {
-                      "type": "Copper",
-                      "count": 2
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Copper",
-                      "count": 12
-                    },
-                    {
-                      "type": "Copper",
-                      "count": 4
                     },
                     {
                       "type": "Gold",
                       "count": 4
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 13
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -748,8 +728,24 @@
                       "count": 0
                     },
                     {
-                      "type": "Gold",
-                      "count": 6
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 4
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -757,11 +753,15 @@
                     },
                     {
                       "type": "Gold",
-                      "count": 1
+                      "count": 7
                     },
                     {
-                      "type": "CopperSword",
-                      "count": 1
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -818,20 +818,28 @@
                 "inventory": {
                   "stacks": [
                     {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
                       "type": "Gold",
-                      "count": 11
+                      "count": 7
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Diamond",
+                      "count": 2
+                    },
+                    {
+                      "type": "Copper",
+                      "count": 15
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
                     },
                     {
                       "type": "None",
@@ -870,24 +878,16 @@
                       "count": 0
                     },
                     {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
                       "type": "Sword",
                       "count": 1
                     },
                     {
-                      "type": "Copper",
-                      "count": 16
-                    },
-                    {
                       "type": "None",
                       "count": 0
-                    },
-                    {
-                      "type": "None",
-                      "count": 0
-                    },
-                    {
-                      "type": "Diamond",
-                      "count": 2
                     },
                     {
                       "type": "None",
@@ -1706,8 +1706,8 @@
               "rotation": [
                 0.0,
                 0.0,
-                0.0,
-                1.0
+                0.381782085,
+                0.92425245
               ],
               "internal": {}
             },
@@ -1866,8 +1866,8 @@
               "rotation": [
                 0.0,
                 0.0,
-                0.0,
-                1.0
+                -0.408229858,
+                0.912879169
               ],
               "internal": {}
             },
@@ -1890,6 +1890,136 @@
                 1.0
               ],
               "internal": {}
+            },
+            {
+              "type": "CHEST",
+              "position": [
+                -101.456039,
+                -0.5960152,
+                0.05
+              ],
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "internal": {
+                "inventory": {
+                  "stacks": [
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Iron",
+                      "count": 6
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Axe",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 4
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "Wood",
+                      "count": 5
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "count": 1
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    },
+                    {
+                      "type": "None",
+                      "count": 0
+                    }
+                  ]
+                },
+                "generated": true,
+                "lootTable": {
+                  "lootTable": [
+                    {
+                      "type": "Iron",
+                      "minCount": 5,
+                      "maxCount": 8
+                    },
+                    {
+                      "type": "Wood",
+                      "minCount": 6,
+                      "maxCount": 10
+                    },
+                    {
+                      "type": "GoldNugget",
+                      "minCount": 1,
+                      "maxCount": 3
+                    },
+                    {
+                      "type": "Axe",
+                      "minCount": 1,
+                      "maxCount": 1
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
@@ -1897,11 +2027,572 @@
       {
         "name": "Entities",
         "data": {
-          "entities": [],
+          "entities": [
+            {
+              "type": "DEER",
+              "position": [
+                -382.31,
+                -8.422183,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.82922769,
+                3.82922769,
+                3.82922769
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DEER",
+              "position": [
+                -407.88,
+                -8.432528,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.63753533,
+                3.63753533,
+                3.63753533
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DEER",
+              "position": [
+                -417.88,
+                -0.494662344,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.38448739,
+                3.38448739,
+                3.38448739
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -385.12,
+                -8.854764,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.14371634,
+                2.14371634,
+                2.14371634
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -374.599976,
+                -0.8747875,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                1.91935027,
+                1.91935027,
+                1.91935027
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -375.43,
+                -0.8597572,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.08784246,
+                2.08784246,
+                2.08784246
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -372.11,
+                -0.869743943,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                1.91273928,
+                1.91273928,
+                1.91273928
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "WOLF",
+              "position": [
+                -397.11,
+                -8.68529,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.91582966,
+                2.91582966,
+                2.91582966
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "WOLF",
+              "position": [
+                -375.12,
+                -8.693159,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.740141,
+                2.740141,
+                2.740141
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -422.199982,
+                6.131872,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                1.99399257,
+                1.99399257,
+                1.99399257
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -420.72,
+                6.127317,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                1.94293547,
+                1.94293547,
+                1.94293547
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -422.46,
+                6.15836,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.17627931,
+                2.17627931,
+                2.17627931
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -421.3,
+                6.14071035,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                2.09307933,
+                2.09307933,
+                2.09307933
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "ICE_SLIME",
+              "position": [
+                -419.949982,
+                6.11743546,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                1.83216488,
+                1.83216488,
+                1.83216488
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DEER",
+              "position": [
+                -429.449982,
+                6.523195,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.493947,
+                3.493947,
+                3.493947
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DEER",
+              "position": [
+                -430.289978,
+                6.50044727,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.3543098,
+                3.3543098,
+                3.3543098
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DEER",
+              "position": [
+                -431.12,
+                6.48634,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.999984562,
+                0.0,
+                0.00555547
+              ],
+              "scale": [
+                3.26771,
+                3.26771,
+                3.26771
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                374.112,
+                -0.68316,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.94128013,
+                2.94128013,
+                2.94128013
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                382.412,
+                -0.702144,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.94539642,
+                2.94539642,
+                2.94539642
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                388.7879,
+                3.49222064,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.71020365,
+                2.71020365,
+                2.71020365
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                384.362,
+                0.317472,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.07618284,
+                3.07618284,
+                3.07618284
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "DESERT_WOLF",
+              "position": [
+                386.352,
+                1.31759834,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.15264487,
+                3.15264487,
+                3.15264487
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                376.080017,
+                -0.819744,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.21943521,
+                3.21943521,
+                3.21943521
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                378.04,
+                -0.836544335,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.05450034,
+                3.05450034,
+                3.05450034
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                378.76,
+                -0.83164,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.03760529,
+                3.03760529,
+                3.03760529
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                379.97,
+                -0.85822463,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.73834872,
+                2.73834872,
+                2.73834872
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                379.35,
+                -0.849131,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                2.87096024,
+                2.87096024,
+                2.87096024
+              ],
+              "health": 8.0
+            },
+            {
+              "type": "SNAKE",
+              "position": [
+                380.7,
+                -0.833865464,
+                0.0
+              ],
+              "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "scale": [
+                3.09359169,
+                3.09359169,
+                3.09359169
+              ],
+              "health": 8.0
+            }
+          ],
           "generated": false
         }
       }
     ]
   },
-  "timestamp": "2024-09-08T10:57:01.1704763Z"
+  "timestamp": "2024-09-08T19:23:38.7648636Z"
 }
