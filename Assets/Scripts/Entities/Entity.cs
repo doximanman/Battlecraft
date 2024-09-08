@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using PlasticGui.Configuration.CloudEdition.Welcome;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -59,9 +61,8 @@ public class Entity : IHitListener
         body = GetComponent<Rigidbody2D>();
 
         // random scale (= random size)
-        System.Random rand = new();
         Vector3 originalScale = transform.lossyScale;
-        transform.localScale = originalScale * RandomFloat(rand, minSize, maxSize);
+        transform.localScale = originalScale * Logic.Random(minSize, maxSize);
     }
 
     private void Start()
@@ -76,7 +77,6 @@ public class Entity : IHitListener
         Entities.current.entities.Add(this);
     }
 
-    private float RandomFloat(System.Random rand, float min, float max) => (float) rand.NextDouble() * (max - min) + min;
 
     [SerializeField] float distanceToPlayer;
     [SerializeField] float currentAttackDelay;
