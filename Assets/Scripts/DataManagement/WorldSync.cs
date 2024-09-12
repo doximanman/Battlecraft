@@ -46,6 +46,7 @@ public class WorldSync : MonoBehaviour
             "Reset",
             "Cancel",
             async () => {
+                DroppedStacksManager.instance.Clear();
                 await LoadDefault();
                 Exit();
             },

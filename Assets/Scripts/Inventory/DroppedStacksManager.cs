@@ -105,4 +105,13 @@ public class DroppedStacksManager : MonoBehaviour
     {
         closeListeners.Add((listener, actuationDistance, onCloseTo));
     }
+
+    public void Clear()
+    {
+        while(transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
+    }
 }
