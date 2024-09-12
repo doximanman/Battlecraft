@@ -135,6 +135,7 @@ MonoBehaviour:
     count: 4
   knockback: {x: 2, y: 2}
   hostile: 0
+  projectile: 0
   attackDamage: 0
   attackKnockback: 0
   attackDelay: 0
@@ -149,6 +150,9 @@ MonoBehaviour:
   distanceToPlayer: 0
   currentAttackDelay: 0
   chasing: 0
+  hurtDuration: 0.1
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  hurtMaterial: {fileID: 2100000, guid: c76b7fdc00be7f3428a773538d70d86a, type: 2}
 --- !u!114 &8379696114543419996
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -111,7 +111,7 @@ public class FurnaceBlock : Interactable
                     cookSpeed = 1.0f / itemStack.type.cookTime;
                     state.CookProgress = 0;
                 }
-                else
+                else if(cooking != null)
                 {
                     // outslot can't accept - stop cooking.
                     cooking = null;
@@ -205,7 +205,8 @@ public class FurnaceBlock : Interactable
         properties = FurnaceProperties.Deserialize(data["props"] as JObject);
         state = FurnaceState.Deserialize(data["state"] as JObject);
         cooking = ItemTypes.GetByName(data["cooking"].ToString());
-        cookSpeed = 1.0f / cooking.cookTime;
+        if(cooking != null)
+            cookSpeed = 1.0f / cooking.cookTime;
     }
 
     private float cookSpeed;

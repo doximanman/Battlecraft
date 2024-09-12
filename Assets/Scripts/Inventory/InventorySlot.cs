@@ -318,7 +318,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         // notify EndDrag that the dragging operation was handled (by this function)
         ItemStack.stopDrag = true;
 
-        // left click
 
         // if no item here - set it to be the stack.
         if (GetStack() == null)

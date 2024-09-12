@@ -31,7 +31,9 @@ public class Entity : IHitListener
     public int maxHealth;
     private float health=1;
 
+
     Rigidbody2D body;
+    SpriteRenderer spriteRenderer;
     public float Health
     {
         get { return health; }
@@ -57,6 +59,7 @@ public class Entity : IHitListener
         movement = GetComponent<EntityMovement>();
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         // random scale (= random size)
         Vector3 originalScale = transform.lossyScale;
@@ -120,8 +123,11 @@ public class Entity : IHitListener
                     }
                 }
             }
-            else
+            else if(attacking)
+            {
                 attacking = false;
+                animator.SetTrigger("ResetAnimation");
+            }
         }
     }
 
@@ -158,6 +164,9 @@ public class Entity : IHitListener
         AudioManager.instance.PlayFrom(gameObject,entityName, soundName);
     }
 
+    [SerializeField] private float hurtDuration;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material hurtMaterial;
     public override void OnHit(ItemType hitWith)
     {
         // entity was hit
@@ -169,7 +178,8 @@ public class Entity : IHitListener
         // hurt animation
         if(gameObject.TryGetComponent<Animator>(out var animator))
         {
-            animator.SetTrigger("Hurt");
+            spriteRenderer.material = hurtMaterial;
+            Invoke(nameof(EndHurt), hurtDuration);
         }
         // knockback
         if(body!=null)
@@ -187,6 +197,11 @@ public class Entity : IHitListener
         }
         // reduce health by weapon damage
         Health -= hitWith.stats.damage;
+    }
+
+    private void EndHurt()
+    {
+        spriteRenderer.material = defaultMaterial;
     }
 
     private void Drop(IEnumerable<StackData> stacks)
@@ -251,6 +266,9 @@ public class EntityEditor : Editor
     SerializedProperty chaseUntilCloserThan;
     SerializedProperty minSize;
     SerializedProperty maxSize;
+    SerializedProperty hurtDuration;
+    SerializedProperty defaultMaterial;
+    SerializedProperty hurtMaterial;
 
     public override VisualElement CreateInspectorGUI()
     {
@@ -274,6 +292,9 @@ public class EntityEditor : Editor
         chaseUntilCloserThan = serializedObject.FindProperty("chaseUntilCloserThan");
         minSize = serializedObject.FindProperty("minSize");
         maxSize = serializedObject.FindProperty("maxSize");
+        hurtDuration = serializedObject.FindProperty("hurtDuration");
+        defaultMaterial = serializedObject.FindProperty("defaultMaterial");
+        hurtMaterial = serializedObject.FindProperty("hurtMaterial");
         return returnValue;
     }
 
@@ -284,6 +305,9 @@ public class EntityEditor : Editor
 
         EditorGUILayout.PropertyField(entityType);
         EditorGUILayout.PropertyField(entityName);
+        EditorGUILayout.PropertyField(hurtDuration);
+        EditorGUILayout.PropertyField(defaultMaterial);
+        EditorGUILayout.PropertyField(hurtMaterial);
         EditorGUILayout.PropertyField(droppedItems);
         EditorGUILayout.PropertyField(knockback);
         EditorGUILayout.PropertyField(minSize);
