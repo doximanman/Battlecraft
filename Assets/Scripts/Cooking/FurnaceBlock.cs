@@ -216,7 +216,7 @@ public class FurnaceBlock : Interactable
     private void Update()
     {
         // otherwise - fuel check and cook progress
-        fuelTimer += Time.deltaTime;
+        fuelTimer += Time.unscaledDeltaTime;
         // if fuel update rate is x,
         // then every 1/x seconds an update should be done.
         if(fuelTimer >= 1.0f / FurnaceLogic.fuelUpdateRate)
@@ -232,7 +232,7 @@ public class FurnaceBlock : Interactable
             return;
         }
 
-        cookTimer+= Time.deltaTime;
+        cookTimer+= Time.unscaledDeltaTime;
         if(cookTimer >= 1.0f / FurnaceLogic.fuelUpdateRate)
         {
             // increase cook progress

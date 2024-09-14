@@ -11,8 +11,8 @@ public class ConnectionStatus : MonoBehaviour
     private float timer;
     private void Update()
     {
-        timer += Time.deltaTime;
-        if(timer > updateInterval)
+        timer += Time.unscaledDeltaTime;
+        if(timer > updateInterval)  
         {
             timer = 0;
             UpdateUI();
