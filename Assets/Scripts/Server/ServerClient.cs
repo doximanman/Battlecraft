@@ -35,7 +35,7 @@ public class ServerClient : MonoBehaviour
     private static float downTime = 0;
     private void Update()
     {
-        downTime += Time.deltaTime;
+        downTime += Time.unscaledDeltaTime;
         if (downTime > pingInterval)
         {
             downTime = 0;
