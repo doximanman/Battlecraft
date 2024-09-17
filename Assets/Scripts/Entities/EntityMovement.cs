@@ -22,22 +22,27 @@ public class EntityMovement : MonoBehaviour
     public bool stayInBiome;
 
     private IEnumerator randomMovementCoroutine;
-    // Start is called before the first frame update
-    void Start()
+
+
+    private void Awake()
     {
         prevXPosition = transform.position.x;
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
         originalGravityScale = body.gravityScale;
 
+
+        rightRotation = new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        leftRotation = new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+    }
+
+    void Start()
+    {
         if (randomMovement)
         {
             randomMovementCoroutine = MoveRandomly();
             StartCoroutine(MoveRandomly());
         }
-
-        rightRotation= new(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
-        leftRotation= new(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
 
         waitUntilGrounded = new WaitUntil(() => grounded);
         waitForJumpTime = new WaitForSeconds(jumpTime);
@@ -97,13 +102,13 @@ public class EntityMovement : MonoBehaviour
     {
         while (true)
         {
-            // wait for random time
-            float waitTime = UnityEngine.Random.Range(movementSettings.minWaitTime, movementSettings.maxWaitTime);
+            // wait for random time 
+            float waitTime = Logic.Random(movementSettings.minWaitTime, movementSettings.maxWaitTime);
             yield return new WaitForSeconds(waitTime);
 
             // move for random time, in a random direction
-            float moveTime = UnityEngine.Random.Range(movementSettings.minMoveTime, movementSettings.maxMoveTime);
-            float randomNumber = UnityEngine.Random.Range(0f, 1f);
+            float moveTime = Logic.Random(movementSettings.minMoveTime, movementSettings.maxMoveTime);
+            float randomNumber = Logic.Random(0f, 1f);
             bool right = randomNumber < movementSettings.chanceToGoRight;
             IEnumerator moveRoutine = right ? Move(Direction.RIGHT, moveTime, stayInBiome: true) : Move(Direction.LEFT, moveTime, stayInBiome: true);
             yield return StartCoroutine(moveRoutine);

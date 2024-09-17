@@ -50,8 +50,7 @@ public class Logic : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnValidate()
     {
         canJumpFrom.Add("Ground");
         canJumpFrom.Add("Obsticles");
@@ -61,6 +60,20 @@ public class Logic : MonoBehaviour
         wallCloseDistance = _wallCloseDistance;
         maximumWallAngle = _maximumWallAngle;
     }
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        canJumpFrom.Add("Ground");
+        canJumpFrom.Add("Obsticles");
+
+        ground = _ground;
+        collisionDetection = _collisionDetection;
+        wallCloseDistance = _wallCloseDistance;
+        maximumWallAngle = _maximumWallAngle;
+    }
+
+    private static System.Random rand = new();
 
     public static void RegisterBiomeListener(IBiomeListener listener)
     {
@@ -190,6 +203,15 @@ public class Logic : MonoBehaviour
     }
 
     /// <summary>
+    /// get the ground height at x position
+    /// </summary>
+    /// <returns>null if no ground at that x, otherwise the height of the first ground from above</returns>
+    public static float? GetGroundHeightAt(float x)
+    {
+        return GetGroundHeightBelow(new Vector2(x, maxY));
+    }
+
+    /// <summary>
     /// Checks the angle between a gameobject and the ground.
     /// The game object should be grounded.
     /// </summary>
@@ -210,5 +232,34 @@ public class Logic : MonoBehaviour
                 return Vector2.Angle(hit.normal, Vector2.up) < maximumWallAngle;
         }
         return false;
+    }
+
+
+
+    /// <summary>
+    /// generates an out of camera x position, between minX and maxX, uniformly.
+    /// </summary>
+    public static float GeneratePosition(float minX, float maxX)
+    {
+        // (0,0) viewport point to world point gives the left most x value at the x coordinate.
+        float leftCameraPosition = Camera.main.ViewportToWorldPoint(new(0,0,Camera.main.nearClipPlane)).x - 5f;
+        // (1,1) viewport point to world point gives the right most x value at the x coordinate.
+        float rightCameraPosition = Camera.main.ViewportToWorldPoint(new(1,1,Camera.main.nearClipPlane)).x + 5f;
+
+        // generate an x value until it is outside of the camera's bounds
+        float x = Random(minX, maxX);
+        while( x > leftCameraPosition && x < rightCameraPosition )
+            x = Random(minX, maxX);
+        return x;
+    }
+
+    public static float Random(float min, float max)
+    {
+        return min + (max - min) * ((float)rand.NextDouble());
+    }
+
+    public static int Random(int min, int max)
+    {
+        return rand.Next(min, max);
     }
 }

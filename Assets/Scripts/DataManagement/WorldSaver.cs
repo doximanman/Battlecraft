@@ -69,15 +69,15 @@ public static class WorldSaver
         return await File.ReadAllTextAsync(path);
     }
 
-    public static void SaveWorldDataObject(WorldData data, bool defaultWorld = false)
+    public static async Task SaveWorldDataObjectAsync(WorldData data, bool defaultWorld = false)
     {
         string dataString = SerializeWorldData(data);
-        SaveWorldDataPlain(dataString, defaultWorld);
+        await SaveWorldDataPlainAsync(dataString, defaultWorld);
     }
 
-    public static WorldData LoadWorldDataObject(bool defaultWorld = false)
+    public static async Task<WorldData> LoadWorldDataObjectAsync(bool defaultWorld = false)
     {
-        string jsonText = LoadWorldDataPlain(defaultWorld);
+        string jsonText = await LoadWorldDataPlainAsync(defaultWorld);
         // remove timestamp from object
         return DeserializeWorldData(jsonText);
     }
@@ -89,8 +89,8 @@ public static class WorldSaver
     public static WorldData DeserializeWorldData(string data)
     {
         JObject jsonWithTime = JObject.Parse(data);
-        string dataJson = jsonWithTime["data"].ToString();
-        return JsonUtility.FromJson<WorldData>(dataJson);
+        JObject dataJson = jsonWithTime["data"] as JObject;
+        return WorldData.Load(dataJson);
     }
 
     /// <summary>
@@ -98,11 +98,11 @@ public static class WorldSaver
     /// </summary>
     public static string SerializeWorldData(WorldData data)
     {
-        string jsonText = JsonUtility.ToJson(data);
+        JObject serializedData = WorldData.Save(data);
         // add timestamp to object
         JObject json = new()
         {
-            ["data"] = jsonText,
+            ["data"] = serializedData,
             ["timestamp"] = DateTime.UtcNow.ToString("o")
         };
         return json.ToString();

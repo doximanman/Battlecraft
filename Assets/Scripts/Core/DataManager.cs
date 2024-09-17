@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public delegate void OnData();
-
-    public OnData onSave;
-    public OnData onLoad;
+    public Action onSave;
+    public Action onLoad;
 
     private void Awake()
     {

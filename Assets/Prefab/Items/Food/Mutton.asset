@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3811a6653fb187644832a651b5620abf, type: 3}
   m_Name: Mutton
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a35edf805bd37ca49906b7e19185213f, type: 3}
   maxStack: 99
   swingable: 0
   stats:

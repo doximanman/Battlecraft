@@ -1,9 +1,5 @@
-using log4net.Core;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 [Serializable]
 public class StackData
@@ -49,38 +45,42 @@ public class StackData
     // Therefore, save the name of it instead when serializing,
     // and restore it by the global dictionary.
     #region Serialization
-    [Serializable]
-    private class SavableStackData
-    {
-        public string typeName;
-        public int count;
-    }
 
-    public static string Serialize(StackData stack)
+    public static JObject Serialize(StackData stack)
     {
-        SavableStackData data;
-        // a null stack is serialized the same as a stack with null type and 0 count.
-        if (stack != null) data = new(){
-                typeName = stack.type == null ? "None" : stack.type.name,
-                count = stack.count
-            };
-        else data = new(){
-                typeName = "None",
-                count = 0
-            };
-
-        return JsonUtility.ToJson(data);
-    }
-
-    public static StackData Deserialize(string serialized)
-    {
-        SavableStackData data = JsonUtility.FromJson<SavableStackData>(serialized);
-        StackData result = new()
+        // serialize into a json of { type: type, count: count }
+        string type;
+        int count;
+        if(stack == null)
         {
-            type = ItemTypes.GetByName(data.typeName),
-            count = data.count
+            // null stack is treated as none type with count 0
+            type = "None";
+            count = 0;
+        }
+        else
+        {
+            type = stack.type == null ? "None" : stack.type.name;
+            count = stack.count;
+        }
+        return new()
+        {
+            ["type"] = type,
+            ["count"] = count
         };
-        return result;
+    }
+
+    public static StackData Deserialize(JObject serialized)
+    {
+        // get values from the json and put them into a new stackdata
+        string typeName = serialized["type"].ToString();
+        int count = serialized["count"].Value<int>();
+        StackData stack = new()
+        {
+            type = ItemTypes.GetByName(typeName),
+            count = count
+        };
+        return stack;
+
     }
     #endregion
 

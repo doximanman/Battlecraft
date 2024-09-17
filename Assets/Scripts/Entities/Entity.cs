@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -21,6 +19,7 @@ public class Entity : IHitListener
     public StackData[] droppedItems;
     public Vector2 knockback;
     public bool hostile;
+    public bool projectile;
     public float attackDamage;
     public float attackKnockback;
     public float attackDelay;
@@ -32,7 +31,9 @@ public class Entity : IHitListener
     public int maxHealth;
     private float health=1;
 
+
     Rigidbody2D body;
+    SpriteRenderer spriteRenderer;
     public float Health
     {
         get { return health; }
@@ -51,17 +52,24 @@ public class Entity : IHitListener
     [SerializeField] private float maxSize=1.5f;
 
     private EntityMovement movement;
-    private void Start()
+    private Animator animator;
+    private void Awake()
     {
         Health = maxHealth;
-        Player.current.RegisterSwingListener(this);
-        movement=GetComponent<EntityMovement>();
+        movement = GetComponent<EntityMovement>();
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         // random scale (= random size)
-        System.Random rand = new();
         Vector3 originalScale = transform.lossyScale;
-        transform.localScale = originalScale * RandomFloat(rand,minSize,maxSize);
+        transform.localScale = originalScale * Logic.Random(minSize, maxSize);
+    }
+
+    private void Start()
+    {
+        Player.current.RegisterSwingListener(this);
+
         // move up a bit so the entity doesn't phase through the ground
         transform.position += Vector3.up * 0.1f;
 
@@ -70,7 +78,6 @@ public class Entity : IHitListener
         Entities.current.entities.Add(this);
     }
 
-    private float RandomFloat(System.Random rand, float min, float max) => (float) rand.NextDouble() * (max - min) + min;
 
     [SerializeField] float distanceToPlayer;
     [SerializeField] float currentAttackDelay;
@@ -104,16 +111,52 @@ public class Entity : IHitListener
 
             float attackRange = chaseUntilCloserThan * 1.5f;
 
-            if(distanceToPlayer < attackRange && currentAttackDelay == 0)
+            if (distanceToPlayer < attackRange && currentAttackDelay == 0)
             {
-                Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
-                float difficultyMultiplier = Settings.current.Difficulty.GetMultiplier();
-                Player.current.HitFrom(attackDamage * difficultyMultiplier,
-                    attackKnockback * difficultyMultiplier,
-                    hitFrom);
-                currentAttackDelay = attackDelay;
+                // attack!
+                if (!attacking)
+                {
+                    if (!projectile || LineOfSight())
+                    {
+                        attacking = true;
+                        animator.SetTrigger("Attack");
+                    }
+                }
+            }
+            else if(attacking)
+            {
+                attacking = false;
+                animator.SetTrigger("ResetAnimation");
             }
         }
+    }
+
+    bool attacking = false;
+
+    public void Attack()
+    {
+        Direction hitFrom = Player.current.transform.position.x - transform.position.x < 0 ? Direction.RIGHT : Direction.LEFT;
+        float difficultyMultiplier = Settings.current.Difficulty.GetMultiplier();
+        Player.current.HitFrom(attackDamage * difficultyMultiplier,
+            attackKnockback * difficultyMultiplier,
+            hitFrom);
+        currentAttackDelay = attackDelay;
+        attacking = false;
+    }
+
+    /// <summary>
+    /// whether the entity has light of sight to the player
+    /// </summary>
+    public bool LineOfSight()
+    {
+        Vector3 playerPosition = Player.current.transform.position;
+        Vector3 thisPosition = transform.position;
+        float distance = Vector3.Distance(thisPosition, playerPosition);
+        Vector3 direction = (playerPosition - thisPosition).normalized;
+        // game layer is ground
+        var result = Physics2D.RaycastAll(thisPosition, direction, distance,LayerMask.GetMask("Game"));
+        // no ground in line of sight
+        return result.Length == 0;
     }
 
     public void PlaySound(string soundName)
@@ -121,6 +164,9 @@ public class Entity : IHitListener
         AudioManager.instance.PlayFrom(gameObject,entityName, soundName);
     }
 
+    [SerializeField] private float hurtDuration;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material hurtMaterial;
     public override void OnHit(ItemType hitWith)
     {
         // entity was hit
@@ -132,7 +178,8 @@ public class Entity : IHitListener
         // hurt animation
         if(gameObject.TryGetComponent<Animator>(out var animator))
         {
-            animator.SetTrigger("Hurt");
+            spriteRenderer.material = hurtMaterial;
+            Invoke(nameof(EndHurt), hurtDuration);
         }
         // knockback
         if(body!=null)
@@ -150,6 +197,11 @@ public class Entity : IHitListener
         }
         // reduce health by weapon damage
         Health -= hitWith.stats.damage;
+    }
+
+    private void EndHurt()
+    {
+        spriteRenderer.material = defaultMaterial;
     }
 
     private void Drop(IEnumerable<StackData> stacks)
@@ -200,6 +252,7 @@ public class EntityEditor : Editor
     SerializedProperty droppedItems;
     SerializedProperty knockback;
     SerializedProperty hostile;
+    SerializedProperty projectile;
     SerializedProperty attackDamage;
     SerializedProperty attackKnockback;
     SerializedProperty attackDelay;
@@ -213,6 +266,9 @@ public class EntityEditor : Editor
     SerializedProperty chaseUntilCloserThan;
     SerializedProperty minSize;
     SerializedProperty maxSize;
+    SerializedProperty hurtDuration;
+    SerializedProperty defaultMaterial;
+    SerializedProperty hurtMaterial;
 
     public override VisualElement CreateInspectorGUI()
     {
@@ -222,6 +278,7 @@ public class EntityEditor : Editor
         droppedItems = serializedObject.FindProperty("droppedItems");
         knockback = serializedObject.FindProperty("knockback");
         hostile = serializedObject.FindProperty("hostile");
+        projectile = serializedObject.FindProperty("projectile");
         attackDamage = serializedObject.FindProperty("attackDamage");
         attackKnockback = serializedObject.FindProperty("attackKnockback");
         attackDelay = serializedObject.FindProperty("attackDelay");
@@ -235,6 +292,9 @@ public class EntityEditor : Editor
         chaseUntilCloserThan = serializedObject.FindProperty("chaseUntilCloserThan");
         minSize = serializedObject.FindProperty("minSize");
         maxSize = serializedObject.FindProperty("maxSize");
+        hurtDuration = serializedObject.FindProperty("hurtDuration");
+        defaultMaterial = serializedObject.FindProperty("defaultMaterial");
+        hurtMaterial = serializedObject.FindProperty("hurtMaterial");
         return returnValue;
     }
 
@@ -245,6 +305,9 @@ public class EntityEditor : Editor
 
         EditorGUILayout.PropertyField(entityType);
         EditorGUILayout.PropertyField(entityName);
+        EditorGUILayout.PropertyField(hurtDuration);
+        EditorGUILayout.PropertyField(defaultMaterial);
+        EditorGUILayout.PropertyField(hurtMaterial);
         EditorGUILayout.PropertyField(droppedItems);
         EditorGUILayout.PropertyField(knockback);
         EditorGUILayout.PropertyField(minSize);
@@ -260,6 +323,7 @@ public class EntityEditor : Editor
 
         if (hostile.boolValue)
         {
+            EditorGUILayout.PropertyField(projectile);
             EditorGUILayout.PropertyField(attackDamage);
             EditorGUILayout.PropertyField(attackDelay);
             EditorGUILayout.PropertyField(attackKnockback);

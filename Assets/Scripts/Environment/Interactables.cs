@@ -25,12 +25,6 @@ public class Interactables : MonoBehaviour
         current = this;
     }
 
-    private void Start()
-    {
-        //DataManager.instance.onSave += Save;
-        //DataManager.instance.onLoad += Load;
-    }
-
     private GameObject GetPrefab(InteractableType type)
     {
         return typePrefabs.Find(x => x.type == type).prefab;
@@ -67,55 +61,4 @@ public class Interactables : MonoBehaviour
             interactableData.LoadInto(interactable);
         }
     }
-
-
-    /*[ContextMenu("Load From File")]
-    public void Load()
-    {
-        Clear();
-
-        InteractableData[] data = InteractableSaver.LoadWorld();
-
-        foreach(InteractableData interactableData in data)
-        {
-            GameObject typePrefab = GetPrefab(interactableData.type);
-            Interactable interactable = Instantiate(typePrefab,transform).GetComponent<Interactable>();
-            interactable.name = typePrefab.name;
-            interactableData.LoadInto(interactable);
-        }
-    }
-
-    [ContextMenu("Save To File")]
-    public void Save()
-    {
-        // create InteractableData for every Interactable
-        InteractableData[] data = interactables.Select(interactable => new InteractableData(interactable)).ToArray();
-
-        InteractableSaver.SaveWorld(data);
-    }
-
-    [ContextMenu("Load Default World")]
-    public void LoadDefault()
-    {
-        Clear();
-
-        InteractableData[] data = InteractableSaver.LoadWorld(true);
-
-        foreach (InteractableData interactableData in data)
-        {
-            GameObject typePrefab = GetPrefab(interactableData.type);
-            Interactable interactable = Instantiate(typePrefab, transform).GetComponent<Interactable>();
-            interactable.name = typePrefab.name;
-            interactableData.LoadInto(interactable);
-        }
-    }
-
-    [ContextMenu("Save Default World")]
-    public void SaveDefault()
-    {
-        // create InteractableData for every Interactable
-        InteractableData[] data = interactables.Select(interactable => new InteractableData(interactable)).ToArray();
-
-        InteractableSaver.SaveWorld(data,true);
-    }*/
 }

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,21 @@ public class FurnaceProperties
     {
         this.minFuel = minFuel;
         this.maxFuel = maxFuel;
+    }
+
+    public static JObject Serialize(FurnaceProperties props)
+    {
+        return new()
+        {
+            ["minFuel"] = props.minFuel,
+            ["maxFuel"] = props.maxFuel,
+        };
+    }
+
+    public static FurnaceProperties Deserialize(JObject serialized)
+    {
+        return new(serialized["minFuel"].Value<float>(),
+            serialized["maxFuel"].Value<float>());
     }
 }
 
@@ -149,6 +165,30 @@ public class FurnaceState
             stateChangeListenerHighPriority?.Invoke(StateChangeType.OUT_SLOT);
             stateChangeListener?.Invoke(StateChangeType.OUT_SLOT);
         }
+    }
+
+    public static JObject Serialize(FurnaceState state)
+    {
+        return new()
+        {
+            ["properties"] = FurnaceProperties.Serialize(state.props),
+            ["fuel"] = state.fuel,
+            ["cookProgress"] = state.cookProgress,
+            ["fuelSlot"] = SlotData.Serialize(state.fuelSlot),
+            ["inSlot"] = SlotData.Serialize(state.inSlot),
+            ["outSlot"] = SlotData.Serialize(state.outSlot),
+        };
+    }
+
+    public static FurnaceState Deserialize(JObject serialized)
+    {
+        FurnaceProperties stateProps = FurnaceProperties.Deserialize(serialized["properties"] as JObject);
+        float stateFuel = serialized["fuel"].Value<float>();
+        float stateCookProgress = serialized["cookProgress"].Value<float>();
+        SlotData stateFuelSlot = SlotData.Deserialize(serialized["fuelSlot"] as JObject);
+        SlotData stateInSlot = SlotData.Deserialize(serialized["inSlot"] as JObject);
+        SlotData stateOutSlot = SlotData.Deserialize(serialized["outSlot"] as JObject);
+        return new(stateProps, stateFuel, stateCookProgress, stateFuelSlot, stateInSlot, stateOutSlot);
     }
 
     public override string ToString()

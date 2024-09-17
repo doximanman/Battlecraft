@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +8,13 @@ public class FurnaceBlock : Interactable
     /// properties defining the furnace: <br />
     /// (minFuel, maxFuel)
     /// </summary>
-    public FurnaceProperties properties;
+    public FurnaceProperties properties = null;
 
     /// <summary>
     /// State of the furnace: <br />
     /// (fuel, inItem, outItem)
     /// </summary>
-    public FurnaceState state;
+    public FurnaceState state = null;
 
     [SerializeField] private ItemType furnaceType;
 
@@ -22,10 +23,12 @@ public class FurnaceBlock : Interactable
     {
         base.Start();
 
-        // initialize with default values
-        properties = new(FurnaceLogic.defaultProperties);
-        state = new(FurnaceLogic.defaultState);
-        //thisId = id++;
+        if (state == null || properties == null)
+        {
+            // uninitialized - initialize with default values
+            properties = new(FurnaceLogic.defaultProperties);
+            state = new(FurnaceLogic.defaultState);
+        }
 
         state.stateChangeListener += (FurnaceState.StateChangeType type) =>
         {
@@ -108,7 +111,7 @@ public class FurnaceBlock : Interactable
                     cookSpeed = 1.0f / itemStack.type.cookTime;
                     state.CookProgress = 0;
                 }
-                else
+                else if(cooking != null)
                 {
                     // outslot can't accept - stop cooking.
                     cooking = null;
@@ -187,45 +190,33 @@ public class FurnaceBlock : Interactable
         Destroy(gameObject);
     }
 
+    public override JObject SaveInternal()
+    {
+        return new()
+        {
+            ["props"] = FurnaceProperties.Serialize(properties),
+            ["state"] = FurnaceState.Serialize(state),
+            ["cooking"] = cooking == null ? "None" : cooking.name,
+        };
+    }
+
+    public override void LoadInternal(JObject data)
+    {
+        properties = FurnaceProperties.Deserialize(data["props"] as JObject);
+        state = FurnaceState.Deserialize(data["state"] as JObject);
+        cooking = ItemTypes.GetByName(data["cooking"].ToString());
+        if(cooking != null)
+            cookSpeed = 1.0f / cooking.cookTime;
+    }
+
     private float cookSpeed;
 
     private float fuelTimer = 0;
     private float cookTimer = 0;
     private void Update()
     {
-        // holddown to get the furnace
-        /*if (mouseDown) holdDownTimer += Time.deltaTime;
-        else holdDownTimer = 0;
-
-        if (holdDownTimer >= holdDownTime)
-        {
-            if (Vector2.Distance(transform.position, player.position) > openRange)
-            {
-                holdDownTimer = 0;
-                return;
-            }
-
-            MetaLogic.mouseDownOnBlock = false;
-            // mouse held down for holdDownTime seconds
-
-            // drop all items
-            DroppedStacksManager.instance.Drop(new List<StackData>(){state.FuelSlot.stack,
-                                                            state.InSlot.stack,
-                                                            state.OutSlot.stack },transform.position);
-
-            // create itemtype to be dropped when destroyed
-            ItemType furnace = Instantiate(furnaceType);
-            furnace.name = furnaceType.name;
-            // drop the furnace
-            DroppedStacksManager.instance.Drop(new StackData(furnace, 1), transform.position);
-
-            // remove chest block from the scene.
-            Destroy(gameObject);
-            return;
-        }*/
-
         // otherwise - fuel check and cook progress
-        fuelTimer += Time.deltaTime;
+        fuelTimer += Time.unscaledDeltaTime;
         // if fuel update rate is x,
         // then every 1/x seconds an update should be done.
         if(fuelTimer >= 1.0f / FurnaceLogic.fuelUpdateRate)
@@ -241,7 +232,7 @@ public class FurnaceBlock : Interactable
             return;
         }
 
-        cookTimer+= Time.deltaTime;
+        cookTimer+= Time.unscaledDeltaTime;
         if(cookTimer >= 1.0f / FurnaceLogic.fuelUpdateRate)
         {
             // increase cook progress

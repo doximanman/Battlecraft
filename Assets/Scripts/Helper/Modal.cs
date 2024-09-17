@@ -68,15 +68,18 @@ public class Modal : MonoBehaviour
         this.body.text = body;
         leftButtonText.text = leftOption;
         rightButtonText.text = rightOption;
-        leftButton.onClick.AddListener(()=>{
+        // remove listeners from button
+        leftButton.onClick.RemoveAllListeners();
+        rightButton.onClick.RemoveAllListeners();
+        leftButton.onClick.AddListener(()=> {
+            background.SetActive(false);
+            modalBody.SetActive(false);
             leftClick();
-            background.SetActive(false);
-            modalBody.SetActive(false);
         });
-        rightButton.onClick.AddListener(()=>{
-            rightClick();
+        rightButton.onClick.AddListener(()=> {
             background.SetActive(false);
             modalBody.SetActive(false);
+            rightClick();
         });
     }
 
