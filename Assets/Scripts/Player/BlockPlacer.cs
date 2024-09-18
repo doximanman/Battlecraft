@@ -6,6 +6,7 @@ public class BlockPlacer : MonoBehaviour
     [SerializeField] private Transform interactables;
     [SerializeField] private Hotbar hotbar;
 
+
     private void Start()
     {
         hotbar.OnItemUse += (ItemStack stack)=>
