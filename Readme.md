@@ -8,6 +8,7 @@ Note: Crafting recipes are not provided. You need to find them out yourself! Her
 - a furnace is 8 iron and one wood<br>
 
 Good luck!<br>
-## For developers:
+## How to run:
 This is a Unity project. Simply create a new unity project and pull this repository to start developing the game.<br>
-In the server folder you can find, well, the server, which is coded in Python 3. It defines a websocket general API request-response communication style, allowing the server to be used with theoretically any client that can handle the API!
+If you want to play the game, you can play it from the preview in Unity or you can build the game in Unity and run the resulting .exe file.<br>
+In the server folder you can find, well, the server, which is coded in Python 3. It defines a websocket general API request-response communication style, allowing the server to be used with theoretically any client that can handle the API!<br>
